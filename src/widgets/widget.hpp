@@ -18,8 +18,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-#include "../graphics/spriteanimation.hpp"
 #include "../types.hpp"
+#include "../widgets/spriteanimation.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <map>

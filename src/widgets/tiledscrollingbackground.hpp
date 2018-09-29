@@ -19,7 +19,7 @@
  ****************************************************************************/
 #pragma once
 #include "../widgets/widget.hpp"
-#include "autotexture.hpp"
+#include "../graphics/autotexture.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <string>

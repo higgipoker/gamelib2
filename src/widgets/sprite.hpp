@@ -2,8 +2,7 @@
 #define GAMELIB2_SPRITE_HPP__
 
 #include "../widgets/widget.hpp"
-#include "autotexture.hpp"
-#include "renderable.hpp"
+#include "../graphics/autotexture.hpp"
 #include "spriteanimation.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <set>
