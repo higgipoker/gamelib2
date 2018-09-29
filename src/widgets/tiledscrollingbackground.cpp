@@ -81,6 +81,6 @@ void TiledScrollingBackground::move(int dx, int dy) {
 }
 
 sf::Vector2f TiledScrollingBackground::position() {
-    return sf::Vector2f(boundsrect.left, boundsrect.top);
+    return {boundsrect.left, boundsrect.top};
 }
 } // namespace gamelib2

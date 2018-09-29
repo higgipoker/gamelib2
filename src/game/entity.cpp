@@ -26,13 +26,13 @@ namespace gamelib2 {
 // Entity
 // -----------------------------------------------------------------------------
 Entity::Entity(const std::string in_name)
-  : name(in_name) {
+  : name(std::move(in_name)) {
 }
 
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(WidgetPtr in_widget) {
+void Entity::connectWidget(WidgetPtr &in_widget) {
     widget = in_widget;
 }
 
@@ -47,35 +47,10 @@ void Entity::connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard) {
 // update
 // -----------------------------------------------------------------------------
 void Entity::update(float dt) {
+    // differnt types of enteties can override this to do movement physics or
+    // whatever
 
-    // has the sprite been manually moved
-    Vector3 wpos(widget->position().x, widget->position().y);
-    if (!wpos.equals(position)) {
-        position.x = widget->position().x;
-        position.y = widget->position().y;
-    }
-
-    // handle inputs
     handle_input();
-
-    // normalises to units
-    velocity.normalise();
-
-    // normalizes for diagonals
-    if (velocity.magnitude() > running_speed) {
-        velocity *= running_speed;
-    }
-
-    // basic euler motion
-    velocity += acceleration * dt;
-    position += velocity * dt * running_speed;
-    acceleration.reset();
-
-    // associated widget
-    if (widget.get()) {
-        widget->setPosition(position.x, position.y);
-    }
-    widget->animate();
 }
 
 // -----------------------------------------------------------------------------
@@ -102,5 +77,11 @@ void Entity::handle_input() {
     if (keyboard->event_states[LEFT]) {
         velocity.x = -1;
     }
+}
+
+// -----------------------------------------------------------------------------
+// activate
+// -----------------------------------------------------------------------------
+void Entity::activate() {
 }
 } // namespace gamelib2

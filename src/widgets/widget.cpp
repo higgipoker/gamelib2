@@ -50,7 +50,7 @@ std::string Widget::getName() {
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(EntityPtr in_entity) {
+void Widget::connectEntity(EntityPtr &in_entity) {
     entity = in_entity;
 }
 
@@ -70,7 +70,7 @@ void Widget::render(sf::RenderTarget &target) {
 // addChild
 // -----------------------------------------------------------------------------
 void Widget::addChild(WidgetPtr &in_widget) {
-    children.push_back(in_widget);
+    children.emplace_back(in_widget);
 }
 
 // -----------------------------------------------------------------------------
@@ -106,7 +106,7 @@ sf::Vector2f Widget::position() {
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Widget::addAnimation(SpriteAnimation a_sprite_anim) {
+void Widget::addAnimation(SpriteAnimation &a_sprite_anim) {
 }
 
 // -----------------------------------------------------------------------------
@@ -120,11 +120,11 @@ void Widget::addAnimation(const std::string &animname, unsigned int frametime,
 // startAnimation
 // -----------------------------------------------------------------------------
 void Widget::startAnimation(const std::string &a_name) {
-    if (current_animation) {
-        if (current_animation->name == a_name) {
-            return;
-        }
-    }
+    //    if (current_animation) {
+    //        if (current_animation->name == a_name) {
+    //            return;
+    //        }
+    //    }
 
     if (animations.find(a_name) != animations.end()) {
         current_animation = &(animations.find(a_name)->second);
@@ -145,7 +145,7 @@ void Widget::stopAnimation() {
 // -----------------------------------------------------------------------------
 // stopAnimation
 // -----------------------------------------------------------------------------
-SpriteAnimation *Widget::active_animation() {
+SpriteAnimation *Widget::currentAnimation() {
     return current_animation;
 }
 
@@ -166,7 +166,7 @@ float Widget::scale() {
 // getBounds
 // -----------------------------------------------------------------------------
 sf::FloatRect Widget::bounds() {
-    return sf::FloatRect();
+    return {};
 }
 
 // -----------------------------------------------------------------------------
@@ -189,39 +189,39 @@ void Widget::draw_bounds(sf::RenderTarget &target) {
     sf::FloatRect rect = bounds();
 
     // line 1
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top),
                  grabbed ? sf::Color::White
                          : grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
     // line 2
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
     // line 3
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
     // kline 4
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.push_back(
+    vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 

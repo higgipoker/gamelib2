@@ -1,6 +1,6 @@
 #include "sprite.hpp"
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 
 #include "../math/vector.hpp"
@@ -16,7 +16,7 @@ Sprite::Sprite() {
 // -----------------------------------------------------------------------------
 // Sprite
 // -----------------------------------------------------------------------------
-Sprite::Sprite(std::string a_filename, int a_rows, int a_cols) {
+Sprite::Sprite(const std::string &a_filename, int a_rows, int a_cols) {
     init(a_filename, a_rows, a_cols);
 }
 
@@ -72,7 +72,7 @@ void Sprite::setFrame(unsigned int a_frame) {
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Sprite::addAnimation(SpriteAnimation a_sprite_anim) {
+void Sprite::addAnimation(SpriteAnimation &a_sprite_anim) {
     animations.insert(
       std::make_pair(a_sprite_anim.name, std::move(a_sprite_anim)));
 }
@@ -82,7 +82,8 @@ void Sprite::addAnimation(SpriteAnimation a_sprite_anim) {
 // ----------------------------------------------------------------------------------
 void Sprite::addAnimation(const std::string &animname, unsigned int frametime,
                           bool loopanim, std::vector<unsigned int> framelist) {
-    addAnimation(SpriteAnimation(animname, frametime, loopanim, framelist));
+    SpriteAnimation anim(animname, frametime, loopanim, std::move(framelist));
+    addAnimation(anim);
 }
 
 // -----------------------------------------------------------------------------

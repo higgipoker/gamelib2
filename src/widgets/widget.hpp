@@ -28,12 +28,12 @@ namespace gamelib2 {
 
 class Entity;
 class Widget {
-  public:
+public:
     Widget();
     virtual ~Widget();
 
     // a widget is associated with an entity
-    virtual void connectEntity(EntityPtr in_entity);
+    virtual void connectEntity(EntityPtr &in_entity);
 
     // safely get the associated name
     std::string getName();
@@ -45,7 +45,7 @@ class Widget {
     virtual void addChild(WidgetPtr &in_widget);
 
     // add an animation by pointer
-    virtual void addAnimation(SpriteAnimation a_sprite_anim);
+    virtual void addAnimation(SpriteAnimation &a_sprite_anim);
 
     // add an animation by params
     virtual void addAnimation(const std::string &animname,
@@ -62,7 +62,7 @@ class Widget {
     virtual void animate();
 
     // get currently active animation
-    SpriteAnimation *active_animation();
+    SpriteAnimation *currentAnimation();
 
     // move by an offset
     virtual void move(int dx, int dy);
@@ -95,7 +95,7 @@ class Widget {
     WidgetList children;
 
     // height for render order
-    int z_order;
+    int z_order = 0;
 
     // handle or ignore clicks
     bool clickable = false;
@@ -109,7 +109,7 @@ class Widget {
     // widget is selected by debug tool
     bool grabbed = false;
 
-  protected:
+protected:
     // every widget is associated with a game entity (controller)
     EntityPtr entity;
 

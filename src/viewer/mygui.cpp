@@ -28,7 +28,7 @@ void mygui::showSpriteFrame(Widget &widget) {
     items.push_back("none");
 
     // need to get the index of active animation
-    SpriteAnimation *anim = widget.active_animation();
+    SpriteAnimation *anim = widget.currentAnimation();
     if (anim) {
         item_current = anim_map[anim];
     } else {
@@ -41,13 +41,19 @@ void mygui::showSpriteFrame(Widget &widget) {
     if (anim_name == "none") {
         widget.stopAnimation();
     } else {
-        widget.startAnimation(anim_name);
+        if (widget.currentAnimation()) {
+            if (widget.currentAnimation()->name != anim_name) {
+                widget.startAnimation(anim_name);
+            }
+        } else {
+            widget.startAnimation(anim_name);
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////
     /// scaling
     /////////////////////////////////////////////////////////////////////////////
-    static float scale = 1.0f;
+    scale = widget.scale();
     ImGui::SliderFloat("scale", &scale, 0.0f, 10.0f, "%.1f");
     widget.scale(scale, scale);
 

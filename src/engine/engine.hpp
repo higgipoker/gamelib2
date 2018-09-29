@@ -25,7 +25,7 @@
 namespace gamelib2 {
 class Viewer;
 class Engine {
-  public:
+public:
     Engine();
 
     // do one frame
@@ -46,9 +46,9 @@ class Engine {
     // outside access to fps
     float fps = 0;
 
-  private:
+private:
     // engine links to a viewer
-    Viewer *viewer;
+    Viewer *viewer = nullptr;
 
     // track current fram count
     unsigned int frame_count = 0;

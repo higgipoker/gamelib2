@@ -50,8 +50,6 @@ void Viewer::startup() {
     video_mode.width = 800;
     video_mode.height = 600;
     window.create(video_mode, "test", sf::Style::Titlebar);
-    // window.setVerticalSyncEnabled(true);
-    // window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
     window.resetGLStates();
     window.setActive(false);
@@ -89,9 +87,7 @@ void Viewer::run(std::future<void> futureObj) {
         // --------------------
         // fps
         // --------------------
-        time = clock.getElapsedTime();
-        fps = 1.0f / time.asSeconds();
-        clock.restart().asSeconds();
+        calc_fps();
     }
     std::cout << "Viewer::run: end thread" << std::endl;
 }
@@ -122,7 +118,7 @@ void Viewer::addWidget(WidgetPtr &new_widget) {
 void Viewer::remWidget(WidgetPtr &in_widget) {
     auto w = root_widget;
 
-    while (w->children.size()) {
+    while (!w->children.empty()) {
         const auto original_size = w->children.size();
         // already found?
         w->children.erase(
@@ -163,6 +159,10 @@ void Viewer::on_click(int x, int y, WidgetPtr &widget) {
             widget->click(x, y);
 
             if (!gui.hover(x, y)) {
+                if (widget.get() != grabbed_widget) {
+                    widget_changed = true;
+                    gui.scale = widget->scale();
+                }
                 grabbed_widget = widget.get();
                 widget_grabbed = true;
             }
@@ -360,5 +360,14 @@ void Viewer::connectEngine(Engine *in_engine) {
 // -----------------------------------------------------------------------------
 void Viewer::onMessage(const std::string &in_message) {
     std::cout << "message received: " << in_message << std::endl;
+}
+
+// -----------------------------------------------------------------------------
+// calc_fps
+// -----------------------------------------------------------------------------
+void Viewer::calc_fps() {
+    time = clock.getElapsedTime();
+    fps = 1.0f / time.asSeconds();
+    clock.restart().asSeconds();
 }
 } // namespace gamelib2

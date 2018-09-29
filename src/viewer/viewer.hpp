@@ -32,7 +32,7 @@ namespace gamelib2 {
 
 class Engine;
 class Viewer {
-  public:
+public:
     Viewer();
     ~Viewer();
     void startup();
@@ -49,7 +49,7 @@ class Viewer {
     void onMessage(const std::string &in_message);
     bool running = true;
 
-  private:
+private:
     void render();
     void get_input();
     void do_debug_ui();
@@ -63,11 +63,13 @@ class Viewer {
     WidgetPtr root_widget = std::make_shared<Widget>();
     KeyboardPtr keyboard;
     Widget *grabbed_widget = nullptr;
+    bool widget_changed = false;
     Engine *engine = nullptr;
     bool widget_grabbed = false;
     std::mutex viewer_mutex;
     sf::Clock clock;
     sf::Time time;
     float fps = 0;
+    void calc_fps();
 };
 } // namespace gamelib2

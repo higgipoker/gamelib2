@@ -1,8 +1,8 @@
 #ifndef GAMELIB2_SPRITE_HPP__
 #define GAMELIB2_SPRITE_HPP__
 
-#include "../widgets/widget.hpp"
 #include "../graphics/autotexture.hpp"
+#include "../widgets/widget.hpp"
 #include "spriteanimation.hpp"
 #include <SFML/Graphics/Sprite.hpp>
 #include <set>
@@ -13,15 +13,15 @@ namespace gamelib2 {
  * @brief The Sprite class
  */
 class Sprite : public Widget {
-  public:
+public:
     Sprite();
-    Sprite(std::string a_filename, int a_rows, int a_cols);
+    Sprite(const std::string &a_filename, int a_rows, int a_cols);
     ~Sprite() override;
 
     void render(sf::RenderTarget &target) override;
     void init(std::string a_filename, int a_rows, int a_cols);
     void setFrame(unsigned int a_frame);
-    void addAnimation(SpriteAnimation a_sprite_anim) override;
+    void addAnimation(SpriteAnimation &a_sprite_anim) override;
     void addAnimation(const std::string &animname, unsigned int frametime,
                       bool loopanim,
                       std::vector<unsigned int> framelist) override;
@@ -33,7 +33,7 @@ class Sprite : public Widget {
     sf::FloatRect bounds() override;
     sf::Vector2f position() override;
 
-  private:
+private:
     AutoTexture texture;
     std::vector<sf::IntRect> rects;
     sf::Sprite sprite;

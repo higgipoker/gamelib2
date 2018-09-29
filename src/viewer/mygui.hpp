@@ -18,23 +18,26 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-#include <SFML/Graphics/RenderWindow.hpp>
-#include "../widgets/widget.hpp"
 #include "../imgui/imgui.h"
+#include "../widgets/widget.hpp"
+#include <SFML/Graphics/RenderWindow.hpp>
 
 namespace gamelib2 {
 class mygui {
- public:
-  bool visible = false;
-  bool check1 = false;
-  bool check2 = false;
-  std::string window_title = "debug";
-  sf::Rect<float> rect;
-  float alpha = 1.0;
-  sf::Clock deltaClock;
-  ImGuiWindowFlags flags =
+public:
+    bool visible = false;
+    bool check1 = false;
+    bool check2 = false;
+    std::string window_title = "debug";
+    sf::Rect<float> rect;
+    float alpha = 1.0;
+    sf::Clock deltaClock;
+    ImGuiWindowFlags flags =
       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize;
-  bool hover(int x, int y) { return rect.contains(x, y) && visible; }
-  void showSpriteFrame(Widget& widget);
-};  // namespace mygui
-}  // namespace gamelib2
+    bool hover(int x, int y) {
+        return rect.contains(x, y) && visible;
+    }
+    void showSpriteFrame(Widget &widget);
+    float scale = 1.0f;
+}; // namespace mygui
+} // namespace gamelib2

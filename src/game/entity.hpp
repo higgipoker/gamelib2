@@ -28,21 +28,24 @@
 namespace gamelib2 {
 class Widget;
 class Entity {
-  public:
+public:
     // construct with a name id
     Entity(const std::string in_name);
 
     // a game entity is associated with a widget
-    void connectWidget(WidgetPtr in_widget);
+    void connectWidget(WidgetPtr &in_widget);
 
     // connect to an input
     void connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard);
 
+    // after any initiliazations are done (eg connect to widget)
+    virtual void activate();
+
     // main update
-    void update(float dt);
+    virtual void update(float dt);
 
     // movement speed
-    float running_speed = 150.0f;
+    float speed = 150.0f;
 
     // physical aspects
     Vector3 position;
@@ -55,7 +58,7 @@ class Entity {
     // entity is associated with a widget
     WidgetPtr widget;
 
-  private:
+private:
     // handle input
     void handle_input();
 
