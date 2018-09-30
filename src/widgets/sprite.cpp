@@ -74,6 +74,13 @@ void Sprite::setFrame(unsigned int a_frame) {
 }
 
 // -----------------------------------------------------------------------------
+// setFrame
+// -----------------------------------------------------------------------------
+unsigned int Sprite::getFrame() {
+    return current_animation->currentFrame();
+}
+
+// -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
 void Sprite::addAnimation(SpriteAnimation &a_sprite_anim) {
@@ -143,6 +150,14 @@ void Sprite::setPosition(float x, float y) {
 // -----------------------------------------------------------------------------
 float Sprite::scale() {
     return sprite.getScale().x;
+}
+
+// -----------------------------------------------------------------------------
+// getScale
+// -----------------------------------------------------------------------------
+void Sprite::connectShadow(WidgetPtrWeak &spr) {
+    has_shadow = true;
+    shadow = spr;
 }
 
 } // namespace gamelib2

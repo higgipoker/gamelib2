@@ -1,5 +1,4 @@
-#ifndef GAMELIB2_SPRITE_HPP__
-#define GAMELIB2_SPRITE_HPP__
+#pragma once
 
 #include "../graphics/autotexture.hpp"
 #include "../widgets/widget.hpp"
@@ -20,21 +19,25 @@ public:
 
     void render(sf::RenderTarget &target) override;
     void init(std::string a_filename, int a_rows, int a_cols);
-    void setFrame(unsigned int a_frame);
-    void addAnimation(SpriteAnimation &a_sprite_anim) override;
-    void addAnimation(const std::string &animname, unsigned int frametime,
-                      bool loopanim,
-                      std::vector<unsigned int> framelist) override;
     void animate() override;
     void move(float dx, float dy) override;
     void setPosition(float x, float y) override;
     void scale(float x, float y) override;
     float scale() override;
+    void connectShadow(WidgetPtrWeak &spr);
+    void setFrame(unsigned int a_frame);
+    unsigned int getFrame();
+    void addAnimation(SpriteAnimation &a_sprite_anim) override;
+    void addAnimation(const std::string &animname, unsigned int frametime,
+                      bool loopanim,
+                      std::vector<unsigned int> framelist) override;
     sf::FloatRect bounds() override;
     sf::Vector2f position() override;
 
     float image_width;
     float image_height;
+    bool has_shadow = false;
+    WidgetPtrWeak shadow;
 
 private:
     AutoTexture texture;
@@ -43,5 +46,3 @@ private:
 };
 
 } // namespace gamelib2
-
-#endif // SPRITE_HPP
