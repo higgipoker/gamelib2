@@ -15,10 +15,10 @@ namespace gamelib2 {
 //  getWorkingDirectory
 // -----------------------------------------------------------------------------
 std::string Files::getWorkingDirectory() {
-  char buff[FILENAME_MAX];
-  GetCurrentDir(buff, FILENAME_MAX);
-  std::string current_working_dir(buff);
-  return current_working_dir;
+    char buff[FILENAME_MAX];
+    GetCurrentDir(buff, FILENAME_MAX);
+    std::string current_working_dir(buff);
+    return current_working_dir;
 }
 
-}  // namespace gamelib2
+} // namespace gamelib2

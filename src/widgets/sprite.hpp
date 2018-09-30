@@ -26,7 +26,7 @@ public:
                       bool loopanim,
                       std::vector<unsigned int> framelist) override;
     void animate() override;
-    void move(int dx, int dy) override;
+    void move(float dx, float dy) override;
     void setPosition(float x, float y) override;
     void scale(float x, float y) override;
     float scale() override;

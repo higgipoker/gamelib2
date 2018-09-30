@@ -33,7 +33,10 @@ public:
     virtual ~Widget();
 
     // a widget is associated with an entity
-    virtual void connectEntity(EntityPtr &in_entity);
+    virtual void connectEntity(EntityPtrWeak &in_entity);
+
+    // release the entity
+    virtual void releaseEntity();
 
     // safely get the associated name
     std::string getName();
@@ -65,7 +68,7 @@ public:
     SpriteAnimation *currentAnimation();
 
     // move by an offset
-    virtual void move(int dx, int dy);
+    virtual void move(float dx, float dy);
 
     // move to an absolute position
     virtual void setPosition(float x, float y);
@@ -87,6 +90,9 @@ public:
 
     // get position
     virtual sf::Vector2f position();
+
+    // sort children based on z order
+    void sort();
 
     // my parent widget in the tree struct
     WidgetPtr parent = nullptr;
@@ -111,7 +117,7 @@ public:
 
 protected:
     // every widget is associated with a game entity (controller)
-    EntityPtr entity;
+    EntityPtrWeak entity;
 
     // draw the bounds rect
     virtual void draw_bounds(sf::RenderTarget &target);

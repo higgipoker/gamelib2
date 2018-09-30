@@ -105,8 +105,7 @@ sf::FloatRect Sprite::bounds() {
 // -----------------------------------------------------------------------------
 // move
 // -----------------------------------------------------------------------------
-void Sprite::move(int dx, int dy) {
-    std::cout << "move by " << dx << ", " << dy << std::endl;
+void Sprite::move(float dx, float dy) {
     sprite.move(dx, dy);
     Widget::move(dx, dy);
 }
@@ -129,7 +128,10 @@ void Sprite::scale(float x, float y) {
 // setPosition
 // -----------------------------------------------------------------------------
 void Sprite::setPosition(float x, float y) {
+    float dx = this->position().x - x;
+    float dy = this->position().y - y;
     sprite.setPosition(x, y);
+    Widget::move(dx, dy);
 }
 
 // -----------------------------------------------------------------------------

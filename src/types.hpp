@@ -22,6 +22,7 @@
 #include <vector>
 
 namespace gamelib2 {
+
 class Entity;
 class Widget;
 class Sprite;
@@ -29,15 +30,19 @@ class KeyboardListener;
 class Engine;
 class Viewer;
 class Keyboard;
-typedef std::shared_ptr<Widget> WidgetPtr;
-typedef std::vector<WidgetPtr> WidgetList;
-typedef std::shared_ptr<Sprite> SpritePointer;
-typedef std::shared_ptr<KeyboardListener> KeyboardListenerPtr;
-typedef std::vector<KeyboardListenerPtr> keyboardlistenerList;
-typedef std::shared_ptr<Engine> EnginePtr;
-typedef std::shared_ptr<Viewer> ViewerPtr;
-typedef std::shared_ptr<Entity> EntityPtr;
-typedef std::vector<EntityPtr> EntityList;
-typedef std::shared_ptr<Keyboard> KeyboardPtr;
+
+using WidgetPtr = std::shared_ptr<Widget>;
+using WidgetPtrWeak = std::weak_ptr<Widget>;
+using WidgetList = std::vector<WidgetPtr>;
+using SpritePointer = std::shared_ptr<Sprite>;
+using KeyboardListenerPtr = std::shared_ptr<KeyboardListener>;
+using keyboardlistenerList = std::vector<KeyboardListenerPtr>;
+using EnginePtr = std::shared_ptr<Engine>;
+using ViewerPtr = std::shared_ptr<Viewer>;
+using EntityPtr = std::shared_ptr<Entity>;
+using EntityPtrWeak = std::weak_ptr<Entity>;
+using EntityList = std::vector<EntityPtr>;
+using KeyboardPtr = std::shared_ptr<Keyboard>;
+using KeyboardPtrWeak = std::weak_ptr<Keyboard>;
 
 } // namespace gamelib2

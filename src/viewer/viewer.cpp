@@ -41,14 +41,15 @@ Viewer::Viewer() {
 // ~Viewer
 // -----------------------------------------------------------------------------
 Viewer::~Viewer() {
+    ImGui::SFML::Shutdown();
 }
 
 // -----------------------------------------------------------------------------
 // startup
 // -----------------------------------------------------------------------------
 void Viewer::startup() {
-    video_mode.width = 800;
-    video_mode.height = 600;
+    video_mode.width = 1200;
+    video_mode.height = 900;
     window.create(video_mode, "test", sf::Style::Titlebar);
     ImGui::SFML::Init(window);
     window.resetGLStates();
@@ -58,6 +59,14 @@ void Viewer::startup() {
     gui.rect.height = window.getSize().y;
     gui.rect.left = window.getSize().x - gui.rect.width + 6;
     gui.rect.top = 0;
+}
+
+// -----------------------------------------------------------------------------
+// close
+// -----------------------------------------------------------------------------
+void Viewer::close() {
+    running = false;
+    window.close();
 }
 
 // -----------------------------------------------------------------------------
@@ -98,6 +107,7 @@ void Viewer::run(std::future<void> futureObj) {
 void Viewer::render() {
     // std::lock_guard<std::mutex> lock(viewer_mutex);
     window.clear();
+    sort_widgets();
     root_widget->render(window);
     if (gui.visible) {
         do_debug_ui();
@@ -137,15 +147,6 @@ void Viewer::remWidget(WidgetPtr &in_widget) {
             }
         }
     }
-}
-
-// -----------------------------------------------------------------------------
-// close
-// -----------------------------------------------------------------------------
-void Viewer::close() {
-    running = false;
-    ImGui::SFML::Shutdown();
-    window.close();
 }
 
 // -----------------------------------------------------------------------------
@@ -271,33 +272,33 @@ void Viewer::get_input() {
 // pollAsyncInputs
 // -----------------------------------------------------------------------------
 void Viewer::pollAsyncInputs() {
-    // std::lock_guard<std::mutex> lock(viewer_mutex);
-
-    if (keyboard.get() == nullptr)
+    std::lock_guard<std::mutex> lock(viewer_mutex);
+    auto kb = keyboard.lock();
+    if (kb.get() == nullptr)
         return;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        keyboard->event_states[UP] = 1;
+        kb->event_states[UP] = 1;
     } else {
-        keyboard->event_states[UP] = 0;
+        kb->event_states[UP] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        keyboard->event_states[DOWN] = 1;
+        kb->event_states[DOWN] = 1;
     } else {
-        keyboard->event_states[DOWN] = 0;
+        kb->event_states[DOWN] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        keyboard->event_states[LEFT] = 1;
+        kb->event_states[LEFT] = 1;
     } else {
-        keyboard->event_states[LEFT] = 0;
+        kb->event_states[LEFT] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        keyboard->event_states[RIGHT] = 1;
+        kb->event_states[RIGHT] = 1;
     } else {
-        keyboard->event_states[RIGHT] = 0;
+        kb->event_states[RIGHT] = 0;
     }
 }
 
@@ -343,7 +344,7 @@ void Viewer::remKeyboardListener(KeyboardListenerPtr &listener) {
 // -----------------------------------------------------------------------------
 // connectKeyboard
 // -----------------------------------------------------------------------------
-void Viewer::connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard) {
+void Viewer::connectKeyboard(KeyboardPtrWeak &in_keyboard) {
     keyboard = in_keyboard;
 }
 
@@ -360,6 +361,18 @@ void Viewer::connectEngine(Engine *in_engine) {
 // -----------------------------------------------------------------------------
 void Viewer::onMessage(const std::string &in_message) {
     std::cout << "message received: " << in_message << std::endl;
+}
+
+// -----------------------------------------------------------------------------
+// sort_widgets
+// -----------------------------------------------------------------------------
+void Viewer::sort_widgets() {
+    WidgetPtr parent = root_widget;
+
+    while (!parent->children.empty()) {
+        parent->sort();
+        parent = parent->children[0];
+    }
 }
 
 // -----------------------------------------------------------------------------

@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
+#include <cmath>
 
 namespace gamelib2 {
 
@@ -26,6 +27,24 @@ namespace gamelib2 {
 static const float PI = 3.14159265359f;
 static const float TOL = 0.001f;
 enum INDEX { X = 0, Y = 1, Z = 2 };
+
+// maybe move this somewhere else
+namespace Floats {
+
+static bool equal(float a, float b, float epsilon = 0.0001f) {
+    return fabsf(a - b) <=
+      ((fabsf(a) < fabsf(b) ? fabsf(b) : fabsf(a)) * epsilon);
+}
+
+static bool greater_than(float a, float b, float epsilon = 0.0001f) {
+    return (a - b) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+}
+
+static bool less_than(float a, float b, float epsilon = 0.0001f) {
+    return (b - a) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+}
+
+} // namespace Floats
 
 //  ----------------------------------------------------------------------------
 //

@@ -30,16 +30,29 @@ Entity::Entity(const std::string in_name)
 }
 
 // -----------------------------------------------------------------------------
+// ~Entity
+// -----------------------------------------------------------------------------
+Entity::~Entity() {
+}
+
+// -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(WidgetPtr &in_widget) {
+void Entity::connectWidget(WidgetPtrWeak &in_widget) {
     widget = in_widget;
+}
+
+// -----------------------------------------------------------------------------
+// releaseWidget
+// -----------------------------------------------------------------------------
+void Entity::releaseWidget() {
+    widget.reset();
 }
 
 // -----------------------------------------------------------------------------
 // connectKeyboard
 // -----------------------------------------------------------------------------
-void Entity::connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard) {
+void Entity::connectKeyboard(KeyboardPtrWeak &in_keyboard) {
     keyboard = in_keyboard;
 }
 
@@ -57,24 +70,25 @@ void Entity::update(float dt) {
 // handle_input
 // -----------------------------------------------------------------------------
 void Entity::handle_input() {
-    if (keyboard.get() == nullptr)
+    auto kb = keyboard.lock();
+    if (kb.get() == nullptr)
         return;
 
     velocity.reset();
 
-    if (keyboard->event_states[UP]) {
+    if (kb->event_states[UP]) {
         velocity.y = -1;
     }
 
-    if (keyboard->event_states[RIGHT]) {
+    if (kb->event_states[RIGHT]) {
         velocity.x = 1;
     }
 
-    if (keyboard->event_states[DOWN]) {
+    if (kb->event_states[DOWN]) {
         velocity.y = 1;
     }
 
-    if (keyboard->event_states[LEFT]) {
+    if (kb->event_states[LEFT]) {
         velocity.x = -1;
     }
 }

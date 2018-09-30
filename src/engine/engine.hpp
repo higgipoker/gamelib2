@@ -27,6 +27,7 @@ class Viewer;
 class Engine {
 public:
     Engine();
+    ~Engine();
 
     // do one frame
     void frame(float dt);
@@ -36,6 +37,9 @@ public:
 
     // add an entity to the engine
     void addEntity(EntityPtr &in_entity);
+
+    // remove an entity from the engine
+    void remEntity(EntityPtr &in_entity);
 
     // handle a message from the viewer (or anyone else actually)
     void onMessage(const std::string &in_msg);

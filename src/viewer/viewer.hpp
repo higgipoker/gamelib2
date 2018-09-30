@@ -43,7 +43,7 @@ public:
     void addKeyboardListener(KeyboardListenerPtr &listener);
     void remKeyboardListener(KeyboardListenerPtr &listener);
     void pollAsyncInputs();
-    void connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard);
+    void connectKeyboard(KeyboardPtrWeak &in_keyboard);
     void setAsyncInputHook(std::map<input_event, int> *hook);
     void connectEngine(Engine *in_engine);
     void onMessage(const std::string &in_message);
@@ -54,6 +54,7 @@ private:
     void get_input();
     void do_debug_ui();
     void on_click(int x, int y, WidgetPtr &widget);
+    void sort_widgets();
     bool mouse_pressed = false;
     sf::RenderWindow window;
     sf::VideoMode video_mode;
@@ -61,7 +62,7 @@ private:
     keyboardlistenerList keyboard_listeners;
     EntityPtr root_entity = std::make_shared<Entity>("root");
     WidgetPtr root_widget = std::make_shared<Widget>();
-    KeyboardPtr keyboard;
+    KeyboardPtrWeak keyboard;
     Widget *grabbed_widget = nullptr;
     bool widget_changed = false;
     Engine *engine = nullptr;

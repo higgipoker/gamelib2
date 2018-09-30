@@ -31,12 +31,16 @@ class Entity {
 public:
     // construct with a name id
     Entity(const std::string in_name);
+    ~Entity();
 
     // a game entity is associated with a widget
-    void connectWidget(WidgetPtr &in_widget);
+    void connectWidget(WidgetPtrWeak &in_widget);
+
+    // release the widget
+    void releaseWidget();
 
     // connect to an input
-    void connectKeyboard(std::shared_ptr<Keyboard> &in_keyboard);
+    void connectKeyboard(KeyboardPtrWeak &in_keyboard);
 
     // after any initiliazations are done (eg connect to widget)
     virtual void activate();
@@ -56,13 +60,13 @@ public:
     std::string name;
 
     // entity is associated with a widget
-    WidgetPtr widget;
+    WidgetPtrWeak widget;
 
 private:
     // handle input
     void handle_input();
 
     // an entity can handle input
-    KeyboardPtr keyboard;
+    KeyboardPtrWeak keyboard;
 };
 } // namespace gamelib2

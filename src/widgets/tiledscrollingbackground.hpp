@@ -18,8 +18,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-#include "../widgets/widget.hpp"
 #include "../graphics/autotexture.hpp"
+#include "../widgets/widget.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <string>
@@ -27,16 +27,16 @@
 namespace gamelib2 {
 
 class TiledScrollingBackground : public Widget {
-  public:
+public:
     TiledScrollingBackground(const std::string &in_file);
     void init(const std::string &a_filename);
     void render(sf::RenderTarget &target) override;
     sf::FloatRect bounds() override;
     void setPosition(float x, float y) override;
-    void move(int dx, int dy) override;
+    void move(float dx, float dy) override;
     sf::Vector2f position() override;
 
-  private:
+private:
     sf::FloatRect boundsrect;
     unsigned int total_width = 0, total_height = 0;
     unsigned int tile_width = 0, tile_height = 0;

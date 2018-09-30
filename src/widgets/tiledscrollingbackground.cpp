@@ -20,11 +20,18 @@
 #include "tiledscrollingbackground.hpp"
 
 namespace gamelib2 {
+
+// -----------------------------------------------------------------------------
+// TiledScrollingBackground
+// -----------------------------------------------------------------------------
 TiledScrollingBackground::TiledScrollingBackground(const std::string &in_file) {
     init(in_file);
     clickable = true;
 }
 
+// -----------------------------------------------------------------------------
+// init
+// -----------------------------------------------------------------------------
 void TiledScrollingBackground::init(const std::string &a_filename) {
     texture.Initialize(a_filename);
     sprite.setTexture(texture());
@@ -32,19 +39,29 @@ void TiledScrollingBackground::init(const std::string &a_filename) {
     total_height = 1000;
 
     tiles_wide =
-      total_width / static_cast<unsigned int>(sprite.getTextureRect().width);
-    tiles_high =
-      total_height / static_cast<unsigned int>(sprite.getTextureRect().height);
+      (total_width / static_cast<unsigned int>(sprite.getTextureRect().width)) +
+      1;
+    tiles_high = (total_height /
+                  static_cast<unsigned int>(sprite.getTextureRect().height)) +
+      1;
 
     tile_width = static_cast<unsigned int>(sprite.getTextureRect().width);
     tile_height = static_cast<unsigned int>(sprite.getTextureRect().height);
 
     boundsrect.left = boundsrect.top = 0;
-    boundsrect.width = total_width;
-    boundsrect.height = total_height;
+    boundsrect.width = tiles_wide * tile_width;
+    boundsrect.height = tiles_high * tile_height;
 }
+
+// -----------------------------------------------------------------------------
+// render
+// -----------------------------------------------------------------------------
 void TiledScrollingBackground::render(sf::RenderTarget &target) {
+    float coverage_width = 0;
+    float coverage_height = 0;
     for (unsigned int i = 0; i <= tiles_wide; i++) {
+        coverage_width += tile_width;
+        coverage_height = 0;
         for (unsigned int j = 0; j <= tiles_high; j++) {
             // get the absolute position of the tile
             sf::Rect<unsigned int> tile_rect(i * tile_width, j * tile_height,
@@ -58,28 +75,46 @@ void TiledScrollingBackground::render(sf::RenderTarget &target) {
                 sprite.setPosition(tile_rect.left + boundsrect.left,
                                    tile_rect.top + boundsrect.top);
                 target.draw(sprite);
+                coverage_height += tile_height;
             }
         }
     }
+    boundsrect.width = coverage_width;
+    boundsrect.height = coverage_height;
+
     Widget::render(target);
 }
 
+// -----------------------------------------------------------------------------
+// bounds
+// -----------------------------------------------------------------------------
 sf::FloatRect TiledScrollingBackground::bounds() {
     return boundsrect;
 }
 
+// -----------------------------------------------------------------------------
+// setPosition
+// -----------------------------------------------------------------------------
 void TiledScrollingBackground::setPosition(float x, float y) {
+    float dx = x - this->position().x;
+    float dy = y - this->position().y;
     boundsrect.left = x;
     boundsrect.top = y;
-    Widget::setPosition(x, y);
+    Widget::move(dx, dy);
 }
 
-void TiledScrollingBackground::move(int dx, int dy) {
+// -----------------------------------------------------------------------------
+// move
+// -----------------------------------------------------------------------------
+void TiledScrollingBackground::move(float dx, float dy) {
     boundsrect.left += dx;
     boundsrect.top += dy;
     Widget::move(dx, dy);
 }
 
+// -----------------------------------------------------------------------------
+// position
+// -----------------------------------------------------------------------------
 sf::Vector2f TiledScrollingBackground::position() {
     return {boundsrect.left, boundsrect.top};
 }
