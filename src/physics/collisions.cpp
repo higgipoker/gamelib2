@@ -3,6 +3,9 @@
 
 namespace gamelib2 {
 
+// -----------------------------------------------------------------------------
+// circle with circle
+// -----------------------------------------------------------------------------
 bool Collision::collides(const sf::CircleShape &c1, const sf::CircleShape &c2) {
 
     if (Floats::equal(c1.getRadius(), 0) || Floats::equal(c2.getRadius(), 0)) {
