@@ -77,7 +77,10 @@ void Sprite::setFrame(unsigned int a_frame) {
 // setFrame
 // -----------------------------------------------------------------------------
 unsigned int Sprite::getFrame() {
-    return current_animation->currentFrame();
+    if (current_animation)
+        return current_animation->currentFrame();
+
+    return 0;
 }
 
 // -----------------------------------------------------------------------------

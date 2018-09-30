@@ -13,6 +13,7 @@ namespace gamelib2 {
  */
 class Sprite : public Widget {
 public:
+    // construct etc
     Sprite();
     Sprite(const std::string &a_filename, int a_rows, int a_cols);
     ~Sprite() override;

@@ -42,4 +42,5 @@ src/utils/timer.cpp
 src/input/keyboard.cpp
 src/input/keyboardlistener.cpp
 src/compass/compass.cpp
+src/physics/collisions.cpp
 )
