@@ -33,6 +33,9 @@ public:
     sf::FloatRect bounds() override;
     sf::Vector2f position() override;
 
+    float image_width;
+    float image_height;
+
 private:
     AutoTexture texture;
     std::vector<sf::IntRect> rects;

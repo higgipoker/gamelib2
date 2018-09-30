@@ -32,6 +32,8 @@ Sprite::~Sprite() {
 void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
     texture.Initialize(std::move(a_filename));
     sprite.setTexture(texture());
+    image_width = texture().getSize().x / static_cast<float>(a_cols);
+    image_height = texture().getSize().y / static_cast<float>(a_rows);
 
     // sprite sheet must have at least 1 row and col
     assert(a_rows && a_cols);
@@ -42,6 +44,8 @@ void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
     // set up the coordinates of each frame
     int sprite_width = static_cast<int>(texture().getSize().x) / a_cols;
     int sprite_height = static_cast<int>(texture().getSize().y) / a_rows;
+
+    sprite.setOrigin(sprite_width / 2, sprite_height / 2);
 
     for (int row = 0; row < a_rows; row++) {
         for (int col = 0; col < a_cols; col++) {

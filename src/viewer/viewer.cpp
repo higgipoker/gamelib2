@@ -240,7 +240,7 @@ void Viewer::get_input() {
                 if (mouse_pressed && widget_grabbed) {
                     float abs_x = grabbed_widget->position().x + delta.x;
                     float abs_y = grabbed_widget->position().y + delta.y;
-                    grabbed_widget->setPosition(abs_x, abs_y);
+                    grabbed_widget->onMoved(abs_x, abs_y, delta.x, delta.y);
                 }
             }
         } break;

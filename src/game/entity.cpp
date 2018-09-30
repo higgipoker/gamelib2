@@ -98,4 +98,18 @@ void Entity::handle_input() {
 // -----------------------------------------------------------------------------
 void Entity::activate() {
 }
+
+// -----------------------------------------------------------------------------
+// perspectivize
+// -----------------------------------------------------------------------------
+void Entity::perspectivize(float camera_height) {
+}
+
+// -----------------------------------------------------------------------------
+// on_moved
+// -----------------------------------------------------------------------------
+void Entity::onMoved(const Vector3 &new_position, float dx, float dy) {
+    position.x = new_position.x;
+    position.y = new_position.y;
+}
 } // namespace gamelib2

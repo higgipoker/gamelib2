@@ -22,25 +22,26 @@
 
 namespace gamelib2 {
 
+#define PI 3.14159265359f
 #define RADIANS(a) a *(PI / 180.0f)
 #define DEGREES(a) a *(180.0f / PI)
-static const float PI = 3.14159265359f;
-static const float TOL = 0.001f;
+
+static const float TOL = 0.5f;
 enum INDEX { X = 0, Y = 1, Z = 2 };
 
 // maybe move this somewhere else
 namespace Floats {
 
-static bool equal(float a, float b, float epsilon = 0.0001f) {
+static bool equal(float a, float b, float epsilon = TOL) {
     return fabsf(a - b) <=
       ((fabsf(a) < fabsf(b) ? fabsf(b) : fabsf(a)) * epsilon);
 }
 
-static bool greater_than(float a, float b, float epsilon = 0.0001f) {
+static bool greater_than(float a, float b, float epsilon = TOL) {
     return (a - b) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
 }
 
-static bool less_than(float a, float b, float epsilon = 0.0001f) {
+static bool less_than(float a, float b, float epsilon = TOL) {
     return (b - a) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
 }
 
@@ -116,7 +117,7 @@ public:
     // comparison operations
     // ---------------------------------------------------------------------------
     bool equals(const Vector3 &v);
-    bool equals(const Vector3 &v, float tolerancce);
+    bool equals(const Vector3 &v, float tolerance);
     static bool isMovingTowards(Vector3 testPoint, Vector3 objectPosition,
                                 Vector3 objectVelocity);
 };

@@ -233,16 +233,17 @@ Vector3 Vector3::rotate(float a, float x_origin, float y_origin) const {
 //   test for equality
 // -----------------------------------------------------------------------------
 bool Vector3::equals(const Vector3 &v) {
-    return (fabsf(x - v.x) < TOL && fabsf(y - v.y) < TOL &&
-            fabsf(z - v.z) < TOL);
+    return (Floats::equal(x, v.x) && Floats::equal(y, v.y) &&
+            Floats::equal(z, v.z));
 }
 
 // -----------------------------------------------------------------------------
 //   test for equality
 // -----------------------------------------------------------------------------
-bool Vector3::equals(const Vector3 &v, float tolerancce) {
-    return (fabsf(x - v.x) < tolerancce && fabsf(y - v.y) < tolerancce &&
-            fabsf(z - v.z) < tolerancce);
+bool Vector3::equals(const Vector3 &v, float tolerance) {
+    return (Floats::equal(x, v.x, tolerance) &&
+            Floats::equal(y, v.y, tolerance) &&
+            Floats::equal(z, v.z, tolerance));
 }
 
 // -----------------------------------------------------------------------------

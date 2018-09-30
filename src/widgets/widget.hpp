@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
+#include "../math/vector.hpp"
 #include "../types.hpp"
 #include "../widgets/spriteanimation.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -114,6 +115,9 @@ public:
 
     // widget is selected by debug tool
     bool grabbed = false;
+
+    // the widget was moved manually
+    virtual void onMoved(float x, float y, float dx=0, float dy=0);
 
 protected:
     // every widget is associated with a game entity (controller)

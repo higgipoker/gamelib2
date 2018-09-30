@@ -48,6 +48,9 @@ public:
     // main update
     virtual void update(float dt);
 
+    // the entity was manually moved
+    virtual void onMoved(const Vector3 &new_position,float dx=0, float dy=0);
+
     // movement speed
     float speed = 150.0f;
 
@@ -65,6 +68,9 @@ public:
 private:
     // handle input
     void handle_input();
+
+    // optionally add perspective
+    virtual void perspectivize(float camera_height);
 
     // an entity can handle input
     KeyboardPtrWeak keyboard;
