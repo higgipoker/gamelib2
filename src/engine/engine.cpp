@@ -26,7 +26,7 @@
 namespace gamelib2 {
 
 // static float accumulator = 0.0f;
-static float target_frame_time = 1.f / 60.f;
+static float target_frame_time = 1.f / 120.f;
 
 // -----------------------------------------------------------------------------
 // Engine

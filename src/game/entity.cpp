@@ -76,19 +76,19 @@ void Entity::handle_input() {
 
     velocity.reset();
 
-    if (kb->event_states[UP]) {
+    if (kb->states[ControllerState::Up]) {
         velocity.y = -1;
     }
 
-    if (kb->event_states[RIGHT]) {
+    if (kb->states[ControllerState::Right]) {
         velocity.x = 1;
     }
 
-    if (kb->event_states[DOWN]) {
+    if (kb->states[ControllerState::Down]) {
         velocity.y = 1;
     }
 
-    if (kb->event_states[LEFT]) {
+    if (kb->states[ControllerState::Left]) {
         velocity.x = -1;
     }
 }

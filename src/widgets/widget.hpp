@@ -24,6 +24,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <map>
+#include <mutex>
 
 namespace gamelib2 {
 
@@ -117,7 +118,7 @@ public:
     bool grabbed = false;
 
     // the widget was moved manually
-    virtual void onMoved(float x, float y, float dx=0, float dy=0);
+    virtual void onMoved(float x, float y, float dx = 0, float dy = 0);
 
 protected:
     // every widget is associated with a game entity (controller)
@@ -128,6 +129,9 @@ protected:
 
     // current running animation
     SpriteAnimation *current_animation = nullptr;
+
+    // scoped mutex
+    std::mutex sprite_mutex;
 };
 
 } // namespace gamelib2

@@ -1,14 +1,10 @@
 #pragma once
-#include "../viewer/viewer.hpp"
-#include "keyboardlistener.hpp"
-#include <SFML/Window.hpp>
-#include <map>
-#include <memory>
+#include "controller.hpp"
 
 namespace gamelib2 {
-class Keyboard {
-  public:
-    std::map<input_event, int> event_states;
+class Keyboard : public Controller {
+public:
+    void update() override;
 };
 
 } // namespace gamelib2

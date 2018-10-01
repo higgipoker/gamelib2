@@ -41,6 +41,7 @@ src/utils/tree.cpp
 src/utils/timer.cpp
 src/input/keyboard.cpp
 src/input/keyboardlistener.cpp
+src/input/controller.cpp
 src/compass/compass.cpp
 src/physics/collisions.cpp
 )

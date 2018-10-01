@@ -25,7 +25,6 @@
 #include "../widgets/widget.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
-#include <future>
 #include <map>
 
 namespace gamelib2 {
@@ -36,7 +35,7 @@ public:
     Viewer();
     ~Viewer();
     void startup();
-    void run(std::future<void> futureObj);
+    void run();
     void close();
     void addWidget(WidgetPtr &new_widget);
     void remWidget(WidgetPtr &in_widget);

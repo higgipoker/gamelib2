@@ -24,33 +24,41 @@
 #include "mygui.hpp"
 #include <SFML/Window/Event.hpp>
 #include <iostream>
-#include <mutex>
-#include <thread>
 
 namespace gamelib2 {
 
 static mygui gui;
 
+// ------------------------------------------------------------------------------------------------------------
+// plain old function to find video modes
+// ------------------------------------------------------------------------------------------------------------
+static bool valid_videomode(unsigned int width, unsigned int height) {
+    // get list of supported video modes
+    std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+
+    // search for one that matched the requested width and height
+    for (auto &mode : modes) {
+        if (mode.width == width && mode.height == height) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer() {
-}
-
-// -----------------------------------------------------------------------------
-// ~Viewer
-// -----------------------------------------------------------------------------
-Viewer::~Viewer() {
-    ImGui::SFML::Shutdown();
-}
-
-// -----------------------------------------------------------------------------
-// startup
-// -----------------------------------------------------------------------------
-void Viewer::startup() {
     video_mode.width = 1200;
     video_mode.height = 900;
-    window.create(video_mode, "test", sf::Style::Titlebar);
+    if (valid_videomode(video_mode.width, video_mode.height)) {
+        window.create(video_mode, "test", sf::Style::Fullscreen);
+    } else {
+        std::cout << "no valid fullscreen videomode for " << video_mode.width
+                  << "x" << video_mode.height << std::endl;
+        window.create(video_mode, "test", sf::Style::Default);
+    }
     ImGui::SFML::Init(window);
     window.resetGLStates();
     window.setActive(false);
@@ -62,50 +70,55 @@ void Viewer::startup() {
 }
 
 // -----------------------------------------------------------------------------
-// close
+// ~Viewer
 // -----------------------------------------------------------------------------
-void Viewer::close() {
+Viewer::~Viewer() {
+    ImGui::SFML::Shutdown();
     running = false;
     window.close();
 }
 
 // -----------------------------------------------------------------------------
+// startup
+// -----------------------------------------------------------------------------
+void Viewer::startup() {
+}
+
+// -----------------------------------------------------------------------------
+// close
+// -----------------------------------------------------------------------------
+void Viewer::close() {
+}
+
+// -----------------------------------------------------------------------------
 // run
 // -----------------------------------------------------------------------------
-void Viewer::run(std::future<void> futureObj) {
-    std::cout << "Viewer::run: start thread" << std::endl;
+void Viewer::run() {
+    // --------------------
+    // input
+    // --------------------
+    get_input();
 
-    // until exit signal received
-    while (futureObj.wait_for(std::chrono::milliseconds(1)) ==
-           std::future_status::timeout) {
-        // --------------------
-        // input
-        // --------------------
-        get_input();
+    // --------------------
+    // render
+    // --------------------
+    render();
 
-        // --------------------
-        // render
-        // --------------------
-        render();
+    // --------------------
+    // present
+    // --------------------
+    window.display();
 
-        // --------------------
-        // present
-        // --------------------
-        window.display();
-
-        // --------------------
-        // fps
-        // --------------------
-        calc_fps();
-    }
-    std::cout << "Viewer::run: end thread" << std::endl;
+    // --------------------
+    // fps
+    // --------------------
+    calc_fps();
 }
 
 // -----------------------------------------------------------------------------
 // render
 // -----------------------------------------------------------------------------
 void Viewer::render() {
-    // std::lock_guard<std::mutex> lock(viewer_mutex);
     window.clear();
     sort_widgets();
     root_widget->render(window);
@@ -119,6 +132,7 @@ void Viewer::render() {
 // addWidget
 // -----------------------------------------------------------------------------
 void Viewer::addWidget(WidgetPtr &new_widget) {
+    //
     root_widget->addChild(new_widget);
 }
 
@@ -126,6 +140,7 @@ void Viewer::addWidget(WidgetPtr &new_widget) {
 // remWidget
 // -----------------------------------------------------------------------------
 void Viewer::remWidget(WidgetPtr &in_widget) {
+    //
     auto w = root_widget;
 
     while (!w->children.empty()) {
@@ -153,7 +168,7 @@ void Viewer::remWidget(WidgetPtr &in_widget) {
 // on_click
 // -----------------------------------------------------------------------------
 void Viewer::on_click(int x, int y, WidgetPtr &widget) {
-    // std::lock_guard<std::mutex> lock(viewer_mutex);
+    //
     // process current widget
     if (widget->clickable) {
         if (widget->hit(x, y)) {
@@ -203,7 +218,7 @@ void Viewer::get_input() {
                 if (gui.visible) {
                     gui.visible = false;
                 } else {
-                    close();
+                    running = false;
                 }
             } else if (event.key.code == sf::Keyboard::P) {
                 engine->paused = !engine->paused;
@@ -272,41 +287,19 @@ void Viewer::get_input() {
 // pollAsyncInputs
 // -----------------------------------------------------------------------------
 void Viewer::pollAsyncInputs() {
-    std::lock_guard<std::mutex> lock(viewer_mutex);
+    //
     auto kb = keyboard.lock();
     if (kb.get() == nullptr)
         return;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        kb->event_states[UP] = 1;
-    } else {
-        kb->event_states[UP] = 0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        kb->event_states[DOWN] = 1;
-    } else {
-        kb->event_states[DOWN] = 0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        kb->event_states[LEFT] = 1;
-    } else {
-        kb->event_states[LEFT] = 0;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        kb->event_states[RIGHT] = 1;
-    } else {
-        kb->event_states[RIGHT] = 0;
-    }
+    kb->update();
 }
 
 // -----------------------------------------------------------------------------
 // do_debug_ui
 // -----------------------------------------------------------------------------
 void Viewer::do_debug_ui() {
-    // std::lock_guard<std::mutex> lock(viewer_mutex);
+
     Widget::debug = true;
     ImGui::SFML::Update(window, gui.deltaClock.restart());
     ImGui::SetNextWindowSize(sf::Vector2f(gui.rect.width, gui.rect.height));

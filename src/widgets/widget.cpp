@@ -148,12 +148,6 @@ void Widget::addAnimation(const std::string &animname, unsigned int frametime,
 // startAnimation
 // -----------------------------------------------------------------------------
 void Widget::startAnimation(const std::string &a_name) {
-    //    if (current_animation) {
-    //        if (current_animation->name == a_name) {
-    //            return;
-    //        }
-    //    }
-
     if (animations.find(a_name) != animations.end()) {
         current_animation = &(animations.find(a_name)->second);
         current_animation->start();
