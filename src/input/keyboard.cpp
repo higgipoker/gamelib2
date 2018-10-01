@@ -10,46 +10,44 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 void Keyboard::update() {
 
-    states[ControllerState::FireUp] = 0;
+    states[InputState::FireUp] = 0;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        states[ControllerState::Up] = 1;
+        states[InputState::Up] = 1;
     } else {
-        states[ControllerState::Up] = 0;
+        states[InputState::Up] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        states[ControllerState::Down] = 1;
+        states[InputState::Down] = 1;
     } else {
-        states[ControllerState::Down] = 0;
+        states[InputState::Down] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        states[ControllerState::Left] = 1;
+        states[InputState::Left] = 1;
     } else {
-        states[ControllerState::Left] = 0;
+        states[InputState::Left] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        states[ControllerState::Right] = 1;
+        states[InputState::Right] = 1;
     } else {
-        states[ControllerState::Right] = 0;
+        states[InputState::Right] = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        if (states[ControllerState::FireDown] == 0) {
-            states[ControllerState::FireDown] = 1;
+        if (states[InputState::FireDown] == 0) {
+            states[InputState::FireDown] = 1;
             fire_ticks = 0;
         } else {
-            states[ControllerState::FireLength] = fire_ticks++;
-            std::cout << "fire down" << std::endl;
+            states[InputState::FireLength] = fire_ticks++;
         }
-    } else if (states[ControllerState::FireDown] == 1) {
-        states[ControllerState::FireUp] = 1;
-        states[ControllerState::FireDown] = 0;
-        states[ControllerState::FireLengthCached] = fire_ticks;
-        states[ControllerState::FireLength] = 0;
-        std::cout << "fire up (" << fire_ticks << ")" << std::endl;
+    } else if (states[InputState::FireDown] == 1) {
+        states[InputState::FireUp] = 1;
+        states[InputState::FireDown] = 0;
+        states[InputState::FireLengthCached] = fire_ticks;
+        states[InputState::FireLength] = 0;
     }
 }
 

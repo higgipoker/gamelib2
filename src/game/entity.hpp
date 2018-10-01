@@ -39,9 +39,6 @@ public:
     // release the widget
     void releaseWidget();
 
-    // connect to an input
-    void connectKeyboard(KeyboardPtrWeak &in_keyboard);
-
     // after any initiliazations are done (eg connect to widget)
     virtual void activate();
 
@@ -49,7 +46,8 @@ public:
     virtual void update(float dt);
 
     // the entity was manually moved
-    virtual void onMoved(const Vector3 &new_position,float dx=0, float dy=0);
+    virtual void onMoved(const Vector3 &new_position, float dx = 0,
+                         float dy = 0);
 
     // movement speed
     float speed = 150.0f;
@@ -65,14 +63,8 @@ public:
     // entity is associated with a widget
     WidgetPtrWeak widget;
 
-private:
-    // handle input
-    void handle_input();
-
+protected:
     // optionally add perspective
     virtual void perspectivize(float camera_height);
-
-    // an entity can handle input
-    KeyboardPtrWeak keyboard;
 };
 } // namespace gamelib2

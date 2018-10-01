@@ -50,47 +50,11 @@ void Entity::releaseWidget() {
 }
 
 // -----------------------------------------------------------------------------
-// connectKeyboard
-// -----------------------------------------------------------------------------
-void Entity::connectKeyboard(KeyboardPtrWeak &in_keyboard) {
-    keyboard = in_keyboard;
-}
-
-// -----------------------------------------------------------------------------
 // update
 // -----------------------------------------------------------------------------
 void Entity::update(float dt) {
     // differnt types of enteties can override this to do movement physics or
     // whatever
-
-    handle_input();
-}
-
-// -----------------------------------------------------------------------------
-// handle_input
-// -----------------------------------------------------------------------------
-void Entity::handle_input() {
-    auto kb = keyboard.lock();
-    if (kb.get() == nullptr)
-        return;
-
-    velocity.reset();
-
-    if (kb->states[ControllerState::Up]) {
-        velocity.y = -1;
-    }
-
-    if (kb->states[ControllerState::Right]) {
-        velocity.x = 1;
-    }
-
-    if (kb->states[ControllerState::Down]) {
-        velocity.y = 1;
-    }
-
-    if (kb->states[ControllerState::Left]) {
-        velocity.x = -1;
-    }
 }
 
 // -----------------------------------------------------------------------------

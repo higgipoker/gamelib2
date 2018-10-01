@@ -20,7 +20,6 @@
 #pragma once
 #include "../game/entity.hpp"
 #include "../input/input.hpp"
-#include "../input/keyboardlistener.hpp"
 #include "../types.hpp"
 #include "../widgets/widget.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -39,11 +38,6 @@ public:
     void close();
     void addWidget(WidgetPtr &new_widget);
     void remWidget(WidgetPtr &in_widget);
-    void addKeyboardListener(KeyboardListenerPtr &listener);
-    void remKeyboardListener(KeyboardListenerPtr &listener);
-    void pollAsyncInputs();
-    void connectKeyboard(KeyboardPtrWeak &in_keyboard);
-    void setAsyncInputHook(std::map<input_event, int> *hook);
     void connectEngine(Engine *in_engine);
     void onMessage(const std::string &in_message);
     bool running = true;
@@ -58,10 +52,8 @@ private:
     sf::RenderWindow window;
     sf::VideoMode video_mode;
     sf::Vector2i mouse_position;
-    keyboardlistenerList keyboard_listeners;
     EntityPtr root_entity = std::make_shared<Entity>("root");
     WidgetPtr root_widget = std::make_shared<Widget>();
-    KeyboardPtrWeak keyboard;
     Widget *grabbed_widget = nullptr;
     bool widget_changed = false;
     Engine *engine = nullptr;

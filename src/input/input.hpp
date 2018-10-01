@@ -18,21 +18,36 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-namespace gamelib2{
+#include <cstring>
+namespace gamelib2 {
 
-enum input_event {
-  UP = 0,
-  DOWN,
-  LEFT,
-  RIGHT,
-  FIRE_DOWN,
-  FIRE_UP,
-  FIRE_LENGTH,
-  FIRE_LENGTH_CACHED,
-  SINGLE_TAP,
-  DOUBLE_TAP,
-  FIRE_PRESS,
-  TOTAL_EVENTS
+enum InputState {
+    Up = 0,
+    Down,
+    Left,
+    Right,
+    FireDown,
+    FireUp,
+    FireLength,
+    FireLengthCached,
+    SingleTap,
+    DoubleTap,
+    FirePress,
+    Totalevents
 };
 
-}// namespace
+class Input {
+public:
+    Input() = default;
+    virtual ~Input() = default;
+    virtual void update() = 0;
+    void reset() {
+        memset(states, 0, sizeof(states));
+    }
+    int states[InputState::Totalevents]{};
+
+protected:
+    int fire_ticks = 0;
+};
+
+} // namespace gamelib2

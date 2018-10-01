@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../input/controller.hpp"
 #include <string>
 
 namespace gamelib2 {
@@ -25,6 +26,9 @@ public:
 
     // change to next state
     virtual void changeToNextState() = 0;
+
+    // event handler
+    virtual bool handle_input(ControllerEvent event) = 0;
 
     // identifier
     std::string name;

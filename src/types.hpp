@@ -30,6 +30,7 @@ class KeyboardListener;
 class Engine;
 class Viewer;
 class Keyboard;
+class Controller;
 
 using WidgetPtr = std::shared_ptr<Widget>;
 using WidgetPtrWeak = std::weak_ptr<Widget>;
@@ -44,5 +45,6 @@ using EntityPtrWeak = std::weak_ptr<Entity>;
 using EntityList = std::vector<EntityPtr>;
 using KeyboardPtr = std::shared_ptr<Keyboard>;
 using KeyboardPtrWeak = std::weak_ptr<Keyboard>;
+using ControllerPtrWeak = std::weak_ptr<Controller>;
 
 } // namespace gamelib2

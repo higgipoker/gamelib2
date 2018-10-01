@@ -1,8 +1,8 @@
 #pragma once
-#include "controller.hpp"
+#include "input.hpp"
 
 namespace gamelib2 {
-class Keyboard : public Controller {
+class Keyboard : public Input {
 public:
     void update() override;
 };

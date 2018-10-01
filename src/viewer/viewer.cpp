@@ -275,24 +275,7 @@ void Viewer::get_input() {
             }
             break;
         }
-        for (auto &listener : keyboard_listeners) {
-            listener->onEvent(event);
-        }
-        // the prev inputs were event triggered, now do realtime stuff
-        pollAsyncInputs();
     }
-}
-
-// -----------------------------------------------------------------------------
-// pollAsyncInputs
-// -----------------------------------------------------------------------------
-void Viewer::pollAsyncInputs() {
-    //
-    auto kb = keyboard.lock();
-    if (kb.get() == nullptr)
-        return;
-
-    kb->update();
 }
 
 // -----------------------------------------------------------------------------
@@ -314,31 +297,6 @@ void Viewer::do_debug_ui() {
     }
 
     ImGui::End();
-}
-
-// -----------------------------------------------------------------------------
-// addKeyboardListener
-// -----------------------------------------------------------------------------
-void Viewer::addKeyboardListener(KeyboardListenerPtr &listener) {
-    keyboard_listeners.emplace_back(listener);
-}
-
-// -----------------------------------------------------------------------------
-// remKeyboardListener
-// -----------------------------------------------------------------------------
-void Viewer::remKeyboardListener(KeyboardListenerPtr &listener) {
-    keyboard_listeners.erase(std::remove(keyboard_listeners.begin(),
-                                         keyboard_listeners.end(), listener),
-                             keyboard_listeners.end());
-
-    listener.reset();
-}
-
-// -----------------------------------------------------------------------------
-// connectKeyboard
-// -----------------------------------------------------------------------------
-void Viewer::connectKeyboard(KeyboardPtrWeak &in_keyboard) {
-    keyboard = in_keyboard;
 }
 
 // -----------------------------------------------------------------------------

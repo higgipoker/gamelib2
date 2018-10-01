@@ -1,34 +1,62 @@
 #pragma once
+
+#include "input.hpp"
 #include <SFML/System/Clock.hpp>
 #include <cstring>
+#include <set>
+#include <memory>
 
 namespace gamelib2 {
 
-enum ControllerState {
-    Up = 0,
-    Down,
-    Left,
-    Right,
-    FireDown,
-    FireUp,
-    FireLength,
-    FireLengthCached,
-    SingleTap,
-    DoubleTap,
-    FirePress,
-    Totalevents
+enum ControllerEventID {
+    NoEvent = 0,
+    Fire,
+    DPadLeft,
+    DPadRight,
+    DPadUp,
+    DPadDown
+};
+
+enum ControllerEventStatus { Released = 0, Pressed };
+
+struct ControllerEvent {
+    ControllerEvent() {
+        id = NoEvent;
+        status = Released;
+        param = 0;
+    }
+
+    ControllerEvent(ControllerEventID i, ControllerEventStatus s, int p = 0) {
+        id = i;
+        status = s;
+        param = p;
+    }
+
+    ControllerEventID id;
+    ControllerEventStatus status;
+    int param;
+};
+
+class ControllerListener {
+public:
+    virtual ~ControllerListener() = default;
+    virtual void onControllerEvent(ControllerEvent event) = 0;
 };
 
 class Controller {
 
 public:
-    Controller() = default;
+    Controller(std::unique_ptr<Input> i);
     virtual ~Controller() = default;
-    virtual void update() = 0;
-    void reset() { memset(states, 0, sizeof(states)); }
-    int states[static_cast<int>(ControllerState::Totalevents)]{};
+    virtual void update();
+
+    void setListener(ControllerListener *l);
     int fire_ticks;
 
 protected:
+    std::unique_ptr<Input> input;
+    ControllerListener *listener;
+    bool wait_for_release = false;
+    void notify(ControllerEvent event);
 };
 } // namespace gamelib2
