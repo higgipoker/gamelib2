@@ -38,7 +38,7 @@ Entity::~Entity() {
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(WidgetPtrWeak &in_widget) {
+void Entity::connectWidget(WidgetPtr &in_widget) {
     widget = in_widget;
 }
 

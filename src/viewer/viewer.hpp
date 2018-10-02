@@ -36,8 +36,8 @@ public:
     void startup();
     void run();
     void close();
-    void addWidget(WidgetPtr &new_widget);
-    void remWidget(WidgetPtr &in_widget);
+    void addWidget(Widget *new_widget);
+    void remWidget(Widget *in_widget);
     void connectEngine(Engine *in_engine);
     void onMessage(const std::string &in_message);
     bool running = true;
@@ -46,14 +46,14 @@ private:
     void render();
     void get_input();
     void do_debug_ui();
-    void on_click(int x, int y, WidgetPtr &widget);
+    void on_click(int x, int y, Widget *widget);
     void sort_widgets();
     bool mouse_pressed = false;
     sf::RenderWindow window;
     sf::VideoMode video_mode;
     sf::Vector2i mouse_position;
-    EntityPtr root_entity = std::make_shared<Entity>("root");
-    WidgetPtr root_widget = std::make_shared<Widget>();
+    EntityUniquePtr root_entity;
+    WidgetUniquePtr root_widget;
     Widget *grabbed_widget = nullptr;
     bool widget_changed = false;
     Engine *engine = nullptr;

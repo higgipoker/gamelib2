@@ -35,7 +35,7 @@ public:
     virtual ~Widget();
 
     // a widget is associated with an entity
-    virtual void connectEntity(EntityPtrWeak &in_entity);
+    virtual void connectEntity(EntityPtr &in_entity);
 
     // release the entity
     virtual void releaseEntity();
@@ -47,7 +47,7 @@ public:
     virtual void render(sf::RenderTarget &target);
 
     // add a child to the widget tree from here
-    virtual void addChild(WidgetPtr &in_widget);
+    virtual void addChild(Widget *in_widget);
 
     // add an animation by pointer
     virtual void addAnimation(SpriteAnimation &a_sprite_anim);
@@ -122,7 +122,7 @@ public:
 
 protected:
     // every widget is associated with a game entity (controller)
-    EntityPtrWeak entity;
+    EntityWeakPtr entity;
 
     // draw the bounds rect
     virtual void draw_bounds(sf::RenderTarget &target);

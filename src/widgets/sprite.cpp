@@ -158,7 +158,7 @@ float Sprite::scale() {
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-void Sprite::connectShadow(WidgetPtrWeak &spr) {
+void Sprite::connectShadow(WidgetPtr &spr) {
     has_shadow = true;
     shadow = spr;
 }

@@ -34,7 +34,7 @@ public:
     ~Entity();
 
     // a game entity is associated with a widget
-    void connectWidget(WidgetPtrWeak &in_widget);
+    void connectWidget(WidgetPtr &in_widget);
 
     // release the widget
     void releaseWidget();
@@ -61,7 +61,7 @@ public:
     std::string name;
 
     // entity is associated with a widget
-    WidgetPtrWeak widget;
+    WidgetPtr widget;
 
 protected:
     // optionally add perspective

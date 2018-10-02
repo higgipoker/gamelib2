@@ -29,7 +29,7 @@ bool Widget::debug = false;
 // sort predicate for widgets)
 // ------------------------------------------------------------------------------------------------------------
 struct {
-    bool operator()(const WidgetPtr &w1, const WidgetPtr &w2) const {
+    bool operator()(const Widget *w1, const Widget *w2) const {
         return w1->z_order < w2->z_order;
     }
 } sort_widget;
@@ -44,20 +44,14 @@ Widget::Widget() {
 // ~Widget
 // -----------------------------------------------------------------------------
 Widget::~Widget() {
-    entity.reset();
-
-    for (auto &child : children) {
-        child.reset();
-    }
 }
 
 // -----------------------------------------------------------------------------
 // getName
 // -----------------------------------------------------------------------------
 std::string Widget::getName() {
-    auto e = entity.lock();
-    if (e.get()) {
-        return e->name;
+    if (entity.lock()) {
+        return entity.lock()->name;
     }
     return "unknown widget";
 }
@@ -65,7 +59,7 @@ std::string Widget::getName() {
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(EntityPtrWeak &in_entity) {
+void Widget::connectEntity(EntityPtr &in_entity) {
     entity = in_entity;
 }
 
@@ -91,7 +85,7 @@ void Widget::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 // addChild
 // -----------------------------------------------------------------------------
-void Widget::addChild(WidgetPtr &in_widget) {
+void Widget::addChild(Widget *in_widget) {
     children.emplace_back(in_widget);
 }
 
@@ -208,8 +202,9 @@ void Widget::sort() {
 // new_position
 // -----------------------------------------------------------------------------
 void Widget::onMoved(float x, float y, float dx, float dy) {
-    auto e = entity.lock();
-    e->onMoved(Vector3(x, y), dx, dy);
+    if (entity.lock()) {
+        entity.lock()->onMoved(Vector3(x, y), dx, dy);
+    }
 }
 
 // -----------------------------------------------------------------------------

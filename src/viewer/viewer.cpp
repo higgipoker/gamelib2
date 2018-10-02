@@ -49,16 +49,18 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer() {
-    video_mode.width = 1200;
-    video_mode.height = 900;
-    if (valid_videomode(video_mode.width, video_mode.height)) {
-        window.create(video_mode, "test", sf::Style::Fullscreen);
-    } else {
-        std::cout << "no valid fullscreen videomode for " << video_mode.width
-                  << "x" << video_mode.height << std::endl;
-        window.create(video_mode, "test", sf::Style::Default);
-    }
+Viewer::Viewer()
+  : root_entity(new Entity("root"))
+  , root_widget(new Widget()) {
+    video_mode.width = 800;
+    video_mode.height = 600;
+    //    if (valid_videomode(video_mode.width, video_mode.height)) {
+    //        window.create(video_mode, "test", sf::Style::Fullscreen);
+    //    } else {
+    std::cout << "no valid fullscreen videomode for " << video_mode.width << "x"
+              << video_mode.height << std::endl;
+    window.create(video_mode, "test", sf::Style::Default);
+    //}
     ImGui::SFML::Init(window);
     window.resetGLStates();
     window.setActive(false);
@@ -131,17 +133,16 @@ void Viewer::render() {
 // -----------------------------------------------------------------------------
 // addWidget
 // -----------------------------------------------------------------------------
-void Viewer::addWidget(WidgetPtr &new_widget) {
-    //
+void Viewer::addWidget(Widget *new_widget) {
     root_widget->addChild(new_widget);
 }
 
 // -----------------------------------------------------------------------------
 // remWidget
 // -----------------------------------------------------------------------------
-void Viewer::remWidget(WidgetPtr &in_widget) {
+void Viewer::remWidget(Widget *in_widget) {
     //
-    auto w = root_widget;
+    auto w = root_widget.get();
 
     while (!w->children.empty()) {
         const auto original_size = w->children.size();
@@ -154,12 +155,7 @@ void Viewer::remWidget(WidgetPtr &in_widget) {
             for (auto &child : in_widget->children) {
                 remWidget(child);
             }
-            in_widget.reset();
             return;
-        } else {
-            for (auto &widget : w->children) {
-                w = widget;
-            }
         }
     }
 }
@@ -167,19 +163,19 @@ void Viewer::remWidget(WidgetPtr &in_widget) {
 // -----------------------------------------------------------------------------
 // on_click
 // -----------------------------------------------------------------------------
-void Viewer::on_click(int x, int y, WidgetPtr &widget) {
-    //
+void Viewer::on_click(int x, int y, Widget *widget) {
+
     // process current widget
     if (widget->clickable) {
         if (widget->hit(x, y)) {
             widget->click(x, y);
 
             if (!gui.hover(x, y)) {
-                if (widget.get() != grabbed_widget) {
+                if (widget != grabbed_widget) {
                     widget_changed = true;
                     gui.scale = widget->scale();
                 }
-                grabbed_widget = widget.get();
+                grabbed_widget = widget;
                 widget_grabbed = true;
             }
         }
@@ -231,7 +227,7 @@ void Viewer::get_input() {
                     // if (!gui.hover(event.mouseButton.x, event.mouseButton.y))
                     // {
                     on_click(event.mouseButton.x, event.mouseButton.y,
-                             root_widget);
+                             root_widget.get());
                     mouse_position.x = event.mouseButton.x;
                     mouse_position.y = event.mouseButton.y;
                     mouse_pressed = true;
@@ -318,7 +314,7 @@ void Viewer::onMessage(const std::string &in_message) {
 // sort_widgets
 // -----------------------------------------------------------------------------
 void Viewer::sort_widgets() {
-    WidgetPtr parent = root_widget;
+    Widget *parent = root_widget.get();
 
     while (!parent->children.empty()) {
         parent->sort();
