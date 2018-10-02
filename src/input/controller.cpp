@@ -2,8 +2,8 @@
 #include <iostream>
 namespace gamelib2 {
 
-Controller::Controller(std::unique_ptr<Input> i)
-  : input(std::move(i)) {
+Controller::Controller(gamelib2::Input *i)
+  : input(i) {
 }
 
 void Controller::update() {

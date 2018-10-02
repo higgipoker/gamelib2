@@ -35,7 +35,7 @@ public:
     virtual ~Widget();
 
     // a widget is associated with an entity
-    virtual void connectEntity(EntityPtr &in_entity);
+    virtual void connectEntity(Entity *in_entity);
 
     // release the entity
     virtual void releaseEntity();
@@ -97,7 +97,7 @@ public:
     void sort();
 
     // my parent widget in the tree struct
-    WidgetPtr parent = nullptr;
+    Widget *parent = nullptr;
 
     // my children in the tree struct
     WidgetList children;
@@ -122,7 +122,7 @@ public:
 
 protected:
     // every widget is associated with a game entity (controller)
-    EntityWeakPtr entity;
+    Entity *entity;
 
     // draw the bounds rect
     virtual void draw_bounds(sf::RenderTarget &target);

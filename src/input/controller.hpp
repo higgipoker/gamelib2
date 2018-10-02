@@ -46,7 +46,7 @@ public:
 class Controller {
 
 public:
-    Controller(std::unique_ptr<Input> i);
+    Controller(Input *i);
     virtual ~Controller() = default;
     virtual void update();
 
@@ -54,7 +54,7 @@ public:
     int fire_ticks;
 
 protected:
-    std::unique_ptr<Input> input;
+    Input *input = nullptr;
     ControllerListener *listener;
     bool wait_for_release = false;
     void notify(ControllerEvent event);

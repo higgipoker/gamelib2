@@ -36,10 +36,10 @@ public:
     void connectViewer(Viewer *in_viewer);
 
     // add an entity to the engine
-    void addEntity(EntityPtr &in_entity);
+    void addEntity(Entity *in_entity);
 
     // remove an entity from the engine
-    void remEntity(EntityPtr &in_entity);
+    void remEntity(Entity *in_entity);
 
     // handle a message from the viewer (or anyone else actually)
     void onMessage(const std::string &in_msg);

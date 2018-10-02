@@ -24,6 +24,8 @@ Sprite::Sprite(const std::string &a_filename, int a_rows, int a_cols) {
 // ~Sprite
 // -----------------------------------------------------------------------------
 Sprite::~Sprite() {
+    if (shadow)
+        delete shadow;
 }
 
 // -----------------------------------------------------------------------------
@@ -158,9 +160,15 @@ float Sprite::scale() {
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-void Sprite::connectShadow(WidgetPtr &spr) {
+void Sprite::connectShadow(Sprite *spr) {
     has_shadow = true;
     shadow = spr;
 }
 
+// -----------------------------------------------------------------------------
+// getShadow
+// -----------------------------------------------------------------------------
+Sprite *Sprite::getShadow() {
+    return static_cast<Sprite *>(shadow);
+}
 } // namespace gamelib2

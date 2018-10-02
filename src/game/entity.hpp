@@ -31,10 +31,10 @@ class Entity {
 public:
     // construct with a name id
     Entity(const std::string in_name);
-    ~Entity();
+    virtual ~Entity();
 
     // a game entity is associated with a widget
-    void connectWidget(WidgetPtr &in_widget);
+    void connectWidget(Widget *in_widget);
 
     // release the widget
     void releaseWidget();
@@ -61,7 +61,7 @@ public:
     std::string name;
 
     // entity is associated with a widget
-    WidgetPtr widget;
+    Widget *widget;
 
 protected:
     // optionally add perspective

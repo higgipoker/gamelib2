@@ -70,14 +70,14 @@ void Engine::connectViewer(Viewer *in_viewer) {
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::addEntity(EntityPtr &in_entity) {
+void Engine::addEntity(Entity *in_entity) {
     entities.emplace_back(in_entity);
 }
 
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::remEntity(EntityPtr &in_entity) {
+void Engine::remEntity(Entity *in_entity) {
     // entities.emplace_back(in_entity);
 }
 

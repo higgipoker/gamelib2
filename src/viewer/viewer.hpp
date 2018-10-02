@@ -52,8 +52,8 @@ private:
     sf::RenderWindow window;
     sf::VideoMode video_mode;
     sf::Vector2i mouse_position;
-    EntityUniquePtr root_entity;
-    WidgetUniquePtr root_widget;
+    Entity *root_entity = nullptr;
+    Widget *root_widget = nullptr;
     Widget *grabbed_widget = nullptr;
     bool widget_changed = false;
     Engine *engine = nullptr;

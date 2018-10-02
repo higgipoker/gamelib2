@@ -38,6 +38,7 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 
     // search for one that matched the requested width and height
     for (auto &mode : modes) {
+        std::cout << mode.width << "x" << mode.height << std::endl;
         if (mode.width == width && mode.height == height) {
             return true;
         }
@@ -52,15 +53,16 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 Viewer::Viewer()
   : root_entity(new Entity("root"))
   , root_widget(new Widget()) {
-    video_mode.width = 800;
-    video_mode.height = 600;
+    video_mode.width = 1024;
+    video_mode.height = 768;
     //    if (valid_videomode(video_mode.width, video_mode.height)) {
     //        window.create(video_mode, "test", sf::Style::Fullscreen);
     //    } else {
-    std::cout << "no valid fullscreen videomode for " << video_mode.width << "x"
-              << video_mode.height << std::endl;
+    //    std::cout << "no valid fullscreen videomode for " << video_mode.width
+    //    << "x"
+    //              << video_mode.height << std::endl;
     window.create(video_mode, "test", sf::Style::Default);
-    //}
+    //    }
     ImGui::SFML::Init(window);
     window.resetGLStates();
     window.setActive(false);
@@ -78,6 +80,8 @@ Viewer::~Viewer() {
     ImGui::SFML::Shutdown();
     running = false;
     window.close();
+    delete root_entity;
+    delete root_widget;
 }
 
 // -----------------------------------------------------------------------------
@@ -142,7 +146,7 @@ void Viewer::addWidget(Widget *new_widget) {
 // -----------------------------------------------------------------------------
 void Viewer::remWidget(Widget *in_widget) {
     //
-    auto w = root_widget.get();
+    auto w = root_widget;
 
     while (!w->children.empty()) {
         const auto original_size = w->children.size();
@@ -227,7 +231,7 @@ void Viewer::get_input() {
                     // if (!gui.hover(event.mouseButton.x, event.mouseButton.y))
                     // {
                     on_click(event.mouseButton.x, event.mouseButton.y,
-                             root_widget.get());
+                             root_widget);
                     mouse_position.x = event.mouseButton.x;
                     mouse_position.y = event.mouseButton.y;
                     mouse_pressed = true;
@@ -314,7 +318,7 @@ void Viewer::onMessage(const std::string &in_message) {
 // sort_widgets
 // -----------------------------------------------------------------------------
 void Viewer::sort_widgets() {
-    Widget *parent = root_widget.get();
+    Widget *parent = root_widget;
 
     while (!parent->children.empty()) {
         parent->sort();

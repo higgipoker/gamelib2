@@ -50,8 +50,8 @@ Widget::~Widget() {
 // getName
 // -----------------------------------------------------------------------------
 std::string Widget::getName() {
-    if (entity.lock()) {
-        return entity.lock()->name;
+    if (entity) {
+        return entity->name;
     }
     return "unknown widget";
 }
@@ -59,7 +59,7 @@ std::string Widget::getName() {
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(EntityPtr &in_entity) {
+void Widget::connectEntity(Entity *in_entity) {
     entity = in_entity;
 }
 
@@ -67,7 +67,6 @@ void Widget::connectEntity(EntityPtr &in_entity) {
 // releaseEntity
 // -----------------------------------------------------------------------------
 void Widget::releaseEntity() {
-    entity.reset();
 }
 
 // -----------------------------------------------------------------------------
@@ -195,6 +194,8 @@ void Widget::scale(float x, float y) {
 // sort
 // -----------------------------------------------------------------------------
 void Widget::sort() {
+    if (children.size() < 2)
+        return;
     std::sort(children.begin(), children.end(), sort_widget);
 }
 
@@ -202,8 +203,8 @@ void Widget::sort() {
 // new_position
 // -----------------------------------------------------------------------------
 void Widget::onMoved(float x, float y, float dx, float dy) {
-    if (entity.lock()) {
-        entity.lock()->onMoved(Vector3(x, y), dx, dy);
+    if (entity) {
+        entity->onMoved(Vector3(x, y), dx, dy);
     }
 }
 

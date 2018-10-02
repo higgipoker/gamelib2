@@ -25,7 +25,7 @@ public:
     void setPosition(float x, float y) override;
     void scale(float x, float y) override;
     float scale() override;
-    void connectShadow(WidgetPtr &spr);
+    void connectShadow(Sprite *spr);
     void setFrame(unsigned int a_frame);
     unsigned int getFrame();
     void addAnimation(SpriteAnimation &a_sprite_anim) override;
@@ -38,12 +38,14 @@ public:
     float image_width;
     float image_height;
     bool has_shadow = false;
-    WidgetPtr shadow;
+
+    Sprite *getShadow();
 
 private:
     AutoTexture texture;
     std::vector<sf::IntRect> rects;
     sf::Sprite sprite;
+    Sprite *shadow = nullptr;
 };
 
 using SpriteWeakPtr = std::weak_ptr<Sprite>;

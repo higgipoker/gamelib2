@@ -38,7 +38,7 @@ Entity::~Entity() {
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(WidgetPtr &in_widget) {
+void Entity::connectWidget(Widget *in_widget) {
     widget = in_widget;
 }
 
@@ -46,7 +46,6 @@ void Entity::connectWidget(WidgetPtr &in_widget) {
 // releaseWidget
 // -----------------------------------------------------------------------------
 void Entity::releaseWidget() {
-    widget.reset();
 }
 
 // -----------------------------------------------------------------------------

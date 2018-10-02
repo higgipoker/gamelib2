@@ -32,19 +32,7 @@ class Viewer;
 class Keyboard;
 class Controller;
 
-using WidgetPtr = std::shared_ptr<Widget>;
-using WidgetWeakPtr = std::weak_ptr<Widget>;
-using WidgetUniquePtr = std::unique_ptr<Widget>;
 using WidgetList = std::vector<Widget *>;
-using SpritePointer = std::shared_ptr<Sprite>;
-using KeyboardListenerPtr = std::shared_ptr<KeyboardListener>;
-using keyboardlistenerList = std::vector<KeyboardListenerPtr>;
-using EnginePtr = std::shared_ptr<Engine>;
-using ViewerPtr = std::shared_ptr<Viewer>;
-using EntityPtr = std::shared_ptr<Entity>;
-using EntityWeakPtr = std::weak_ptr<Entity>;
-using EntityUniquePtr = std::unique_ptr<Entity>;
-using EntityList = std::vector<EntityPtr>;
-using KeyboardPtr = std::shared_ptr<Keyboard>;
+using EntityList = std::vector<Entity *>;
 
 } // namespace gamelib2
