@@ -24,8 +24,6 @@ Sprite::Sprite(const std::string &a_filename, int a_rows, int a_cols) {
 // ~Sprite
 // -----------------------------------------------------------------------------
 Sprite::~Sprite() {
-    if (shadow)
-        delete shadow;
 }
 
 // -----------------------------------------------------------------------------

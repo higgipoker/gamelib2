@@ -71,6 +71,9 @@ Viewer::Viewer()
     gui.rect.height = window.getSize().y;
     gui.rect.left = window.getSize().x - gui.rect.width + 6;
     gui.rect.top = 0;
+
+    view.reset(sf::FloatRect(0,0,800,600));
+    window.setView(view);
 }
 
 // -----------------------------------------------------------------------------

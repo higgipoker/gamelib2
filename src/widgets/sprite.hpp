@@ -41,11 +41,12 @@ public:
 
     Sprite *getShadow();
 
+    Sprite *shadow = nullptr;
+
 private:
     AutoTexture texture;
     std::vector<sf::IntRect> rects;
     sf::Sprite sprite;
-    Sprite *shadow = nullptr;
 };
 
 using SpriteWeakPtr = std::weak_ptr<Sprite>;

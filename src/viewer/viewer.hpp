@@ -24,6 +24,7 @@
 #include "../widgets/widget.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <map>
 
 namespace gamelib2 {
@@ -63,5 +64,7 @@ private:
     sf::Time time;
     float fps = 0;
     void calc_fps();
+
+    sf::View view;
 };
 } // namespace gamelib2
