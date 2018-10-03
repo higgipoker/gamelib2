@@ -59,7 +59,6 @@ private:
     bool widget_changed = false;
     Engine *engine = nullptr;
     bool widget_grabbed = false;
-    std::mutex viewer_mutex;
     sf::Clock clock;
     sf::Time time;
     float fps = 0;

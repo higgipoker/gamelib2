@@ -24,7 +24,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <map>
-#include <mutex>
 
 namespace gamelib2 {
 
@@ -129,9 +128,6 @@ protected:
 
     // current running animation
     SpriteAnimation *current_animation = nullptr;
-
-    // scoped mutex
-    std::mutex sprite_mutex;
 };
 
 } // namespace gamelib2
