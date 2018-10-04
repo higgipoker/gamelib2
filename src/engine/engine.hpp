@@ -55,7 +55,7 @@ private:
     Viewer *viewer = nullptr;
 
     // track current fram count
-    unsigned int frame_count = 0;
+    int frame_count = 0;
 
     // list of entities
     EntityList entities;
