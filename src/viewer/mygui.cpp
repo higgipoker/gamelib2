@@ -1,4 +1,5 @@
 #include "mygui.hpp"
+#include "../game/entity.hpp"
 #include <iostream>
 #include <sstream>
 
@@ -10,8 +11,10 @@ void mygui::showSpriteFrame(Widget &widget) {
     ImGui::NewLine();
     ImGui::Bullet();
     std::ostringstream name;
-    name << widget.getName() << " (" << static_cast<int>(widget.position().x)
-         << ", " << static_cast<int>(widget.position().y) << ")";
+    name << widget.getName() << " ("
+         << static_cast<int>(widget.entity->position.x) << ", "
+         << static_cast<int>(widget.entity->position.y) << ", "
+         << static_cast<int>(widget.entity->position.z) << ")";
     ImGui::Text("%s", name.str().c_str());
 
     /////////////////////////////////////////////////////////////////////////////

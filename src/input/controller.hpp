@@ -46,15 +46,15 @@ public:
 class Controller {
 
 public:
-    Controller(Input *i);
+    Controller(Input &i);
     virtual ~Controller() = default;
     virtual void update();
 
     void setListener(ControllerListener *l);
     int fire_ticks;
+    Input &input;
 
 protected:
-    Input *input = nullptr;
     ControllerListener *listener;
     bool wait_for_release = false;
     void notify(ControllerEvent event);

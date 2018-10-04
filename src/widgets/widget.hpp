@@ -119,10 +119,10 @@ public:
     // the widget was moved manually
     virtual void onMoved(float x, float y, float dx = 0, float dy = 0);
 
-protected:
     // every widget is associated with a game entity (controller)
     Entity *entity;
 
+protected:
     // draw the bounds rect
     virtual void draw_bounds(sf::RenderTarget &target);
 
