@@ -95,6 +95,9 @@ public:
     // sort children based on z order
     void sort();
 
+    // dragged by debug gui
+    virtual void onDragged(const Vector3 &diff);
+
     // my parent widget in the tree struct
     Widget *parent = nullptr;
 
@@ -116,11 +119,8 @@ public:
     // widget is selected by debug tool
     bool grabbed = false;
 
-    // the widget was moved manually
-    virtual void onMoved(float x, float y, float dx = 0, float dy = 0);
-
     // every widget is associated with a game entity (controller)
-    Entity *entity;
+    Entity *entity = nullptr;
 
 protected:
     // draw the bounds rect

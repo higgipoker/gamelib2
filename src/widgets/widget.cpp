@@ -86,6 +86,7 @@ void Widget::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 void Widget::addChild(Widget *in_widget) {
     children.emplace_back(in_widget);
+    in_widget->parent = this;
 }
 
 // -----------------------------------------------------------------------------
@@ -200,11 +201,15 @@ void Widget::sort() {
 }
 
 // -----------------------------------------------------------------------------
-// new_position
+// onDragged
 // -----------------------------------------------------------------------------
-void Widget::onMoved(float x, float y, float dx, float dy) {
-    if (entity) {
-        entity->onMoved(Vector3(x, y), dx, dy);
+void Widget::onDragged(const Vector3 &diff) {
+    // just pass off to entity
+    entity->onDragged(diff);
+    for (auto &child : children) {
+        if (child->entity) {
+            child->entity->onDragged(diff);
+        }
     }
 }
 

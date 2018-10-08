@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "tiledscrollingbackground.hpp"
+#include <iostream>
 
 namespace gamelib2 {
 
@@ -57,14 +58,10 @@ void TiledScrollingBackground::init(const std::string &a_filename) {
 // render
 // -----------------------------------------------------------------------------
 void TiledScrollingBackground::render(sf::RenderTarget &target) {
-    float coverage_width = 0;
-    float coverage_height = 0;
-    for (unsigned int i = 0; i <= tiles_wide; i++) {
-        coverage_width += tile_width;
-        coverage_height = 0;
-        for (unsigned int j = 0; j <= tiles_high; j++) {
+    for (unsigned int x = 0; x <= tiles_wide; x++) {
+        for (unsigned int y = 0; y <= tiles_high; y++) {
             // get the absolute position of the tile
-            sf::Rect<unsigned int> tile_rect(i * tile_width, j * tile_height,
+            sf::Rect<unsigned int> tile_rect(x * tile_width, y * tile_height,
                                              tile_width, tile_height);
 
             sf::Rect<unsigned int> rect;
@@ -75,13 +72,11 @@ void TiledScrollingBackground::render(sf::RenderTarget &target) {
                 sprite.setPosition(tile_rect.left + boundsrect.left,
                                    tile_rect.top + boundsrect.top);
                 target.draw(sprite);
-                coverage_height += tile_height;
             }
         }
     }
-    boundsrect.width = coverage_width;
-    boundsrect.height = coverage_height;
-
+    boundsrect.width = (target.getSize().x / tile_width + 1) * tile_width;
+    boundsrect.height = (target.getSize().y / tile_height + 1) * tile_height;
     Widget::render(target);
 }
 

@@ -52,7 +52,7 @@ private:
     bool mouse_pressed = false;
     sf::RenderWindow window;
     sf::VideoMode video_mode;
-    sf::Vector2i mouse_position;
+    Vector3 mouse;
     Entity *root_entity = nullptr;
     Widget *root_widget = nullptr;
     Widget *grabbed_widget = nullptr;

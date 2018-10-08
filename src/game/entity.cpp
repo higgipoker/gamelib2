@@ -71,8 +71,7 @@ void Entity::perspectivize(float camera_height) {
 // -----------------------------------------------------------------------------
 // on_moved
 // -----------------------------------------------------------------------------
-void Entity::onMoved(const Vector3 &new_position, float dx, float dy) {
-    position.x = new_position.x;
-    position.y = new_position.y;
+void Entity::onDragged(const Vector3 &diff) {
+    position += diff;
 }
 } // namespace gamelib2

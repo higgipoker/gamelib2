@@ -152,6 +152,20 @@ float Vector3::operator*(Vector3 &rhs) {
 }
 
 // -----------------------------------------------------------------------------
+//   scalar + operator
+// -----------------------------------------------------------------------------
+const Vector3 Vector3::operator+(const float scalar) {
+    return Vector3(this->x + scalar, this->y + scalar, this->z + scalar);
+}
+
+// -----------------------------------------------------------------------------
+//   scalar - operator
+// -----------------------------------------------------------------------------
+const Vector3 Vector3::operator-(const float scalar) {
+    return Vector3(this->x - scalar, this->y - scalar, this->z - scalar);
+}
+
+// -----------------------------------------------------------------------------
 //  normalise
 // -----------------------------------------------------------------------------
 Vector3 Vector3::normalise() {

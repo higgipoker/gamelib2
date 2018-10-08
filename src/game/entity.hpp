@@ -46,8 +46,7 @@ public:
     virtual void update(float dt);
 
     // the entity was manually moved
-    virtual void onMoved(const Vector3 &new_position, float dx = 0,
-                         float dy = 0);
+    virtual void onDragged(const Vector3 &diff);
 
     // movement speed
     float speed = 150.0f;

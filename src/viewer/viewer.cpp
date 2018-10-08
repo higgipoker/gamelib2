@@ -53,8 +53,8 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 Viewer::Viewer()
   : root_entity(new Entity("root"))
   , root_widget(new Widget()) {
-    video_mode.width = 1024;
-    video_mode.height = 768;
+    video_mode.width = 800;
+    video_mode.height = 600;
     //    if (valid_videomode(video_mode.width, video_mode.height)) {
     //        window.create(video_mode, "test", sf::Style::Fullscreen);
     //    } else {
@@ -72,8 +72,8 @@ Viewer::Viewer()
     gui.rect.left = window.getSize().x - gui.rect.width + 6;
     gui.rect.top = 0;
 
-    view.reset(sf::FloatRect(0, 0, 800, 600));
-    window.setView(view);
+    // view.reset(sf::FloatRect(0, 0, 800, 600));
+    // window.setView(view);
     sf::Joystick::update();
 }
 
@@ -236,8 +236,6 @@ void Viewer::get_input() {
                     // {
                     on_click(event.mouseButton.x, event.mouseButton.y,
                              root_widget);
-                    mouse_position.x = event.mouseButton.x;
-                    mouse_position.y = event.mouseButton.y;
                     mouse_pressed = true;
                     // }
                 }
@@ -251,21 +249,20 @@ void Viewer::get_input() {
         } break;
 
         case sf::Event::MouseMoved: {
-            sf::Vector2i mouse_old = mouse_position;
-            mouse_position.x = event.mouseMove.x;
-            mouse_position.y = event.mouseMove.y;
-            if (grabbed_widget) {
-                sf::Vector2i delta = mouse_position - mouse_old;
+            Vector3 mouse_old = mouse;
+            mouse.x = event.mouseMove.x;
+            mouse.y = event.mouseMove.y;
+            Vector3 mouse_delta = mouse - mouse_old;
+            if (grabbed_widget && grabbed_widget->entity) {
                 if (mouse_pressed && widget_grabbed) {
-                    float abs_x = grabbed_widget->position().x + delta.x;
-                    float abs_y = grabbed_widget->position().y + delta.y;
-                    grabbed_widget->onMoved(abs_x, abs_y, delta.x, delta.y);
+                    grabbed_widget->onDragged(mouse_delta);
                 }
             }
         } break;
 
         case sf::Event::MouseWheelScrolled:
-            if (gui.visible && gui.hover(mouse_position.x, mouse_position.y)) {
+            if (gui.visible &&
+                gui.hover(event.mouseWheelScroll.x, event.mouseWheelScroll.y)) {
                 if (event.mouseWheelScroll.delta > 0) {
                     gui.alpha += 0.1;
                 } else {
@@ -293,7 +290,17 @@ void Viewer::do_debug_ui() {
     ImGui::SetNextWindowPos(sf::Vector2f(gui.rect.left, gui.rect.top));
     ImGui::SetNextWindowBgAlpha(gui.alpha);
     ImGui::Begin(gui.window_title.c_str(), nullptr, gui.flags);
+
+    //
+    // fps
+    //
     ImGui::Text("%d fps", static_cast<int>(fps));
+
+    //
+    // mouse pos
+    //
+    ImGui::Text("mouse: %d, %d", static_cast<int>(mouse.x),
+                static_cast<int>(mouse.y));
 
     if (grabbed_widget) {
         gui.showSpriteFrame(*grabbed_widget);
