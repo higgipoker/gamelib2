@@ -108,13 +108,14 @@ public:
     Vector3 reverse(void);
     Vector3 normalizeToUnits();
     Vector3 rotate(float a, float x_origin = 0, float y_origin = 0) const;
+
     // -------------------------------------------------------------------------
     // scaler operations
     // -------------------------------------------------------------------------
     float projectionOn(Vector3 line);
     float perpProduct(const Vector3 &v, bool right_normal = true);
     float magnitude(void) const;
-    float magnidude2d(void);
+    float magnitude2d(void);
     float magSquared(void);
     float dotProduct(const Vector3 &v) const;
     float angle(void);

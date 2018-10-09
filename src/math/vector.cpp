@@ -342,7 +342,7 @@ float Vector3::magnitude() const {
 // -----------------------------------------------------------------------------
 // get magnitude of this vector in 2d
 // -----------------------------------------------------------------------------
-float Vector3::magnidude2d() {
+float Vector3::magnitude2d() {
     return sqrtf(x * x + y * y);
 }
 
