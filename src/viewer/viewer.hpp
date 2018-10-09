@@ -35,7 +35,7 @@ public:
     Viewer();
     ~Viewer();
     void startup();
-    void run();
+    void frame();
     void close();
     void addWidget(Widget *new_widget);
     void remWidget(Widget *in_widget);

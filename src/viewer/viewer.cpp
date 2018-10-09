@@ -72,8 +72,8 @@ Viewer::Viewer()
     gui.rect.left = window.getSize().x - gui.rect.width + 6;
     gui.rect.top = 0;
 
-    // view.reset(sf::FloatRect(0, 0, 800, 600));
-    // window.setView(view);
+    view.reset(sf::FloatRect(0, 0, 800, 600));
+    window.setView(view);
     sf::Joystick::update();
 }
 
@@ -103,7 +103,7 @@ void Viewer::close() {
 // -----------------------------------------------------------------------------
 // run
 // -----------------------------------------------------------------------------
-void Viewer::run() {
+void Viewer::frame() {
     // --------------------
     // input
     // --------------------
@@ -205,7 +205,17 @@ void Viewer::get_input() {
         if (gui.visible) {
             ImGui::SFML::ProcessEvent(event);
         }
+
         switch (event.type) {
+
+        case sf::Event::Resized: {
+            gui.rect.width = 300;
+            gui.rect.height = window.getSize().y;
+            gui.rect.left = window.getSize().x - gui.rect.width + 6;
+            gui.rect.top = 0;
+            // window.setView(sf::View(visibleArea));
+        } break;
+
         case sf::Event::KeyReleased:
             if (event.key.code == sf::Keyboard::Tab) {
                 gui.visible = !gui.visible;
@@ -234,9 +244,13 @@ void Viewer::get_input() {
                 if (gui.visible) {
                     // if (!gui.hover(event.mouseButton.x, event.mouseButton.y))
                     // {
-                    on_click(event.mouseButton.x, event.mouseButton.y,
-                             root_widget);
+                    // get the current mouse position in the window
+                    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+                    // convert it to world coordinates
+                    sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+                    on_click(worldPos.x, worldPos.y, root_widget);
                     mouse_pressed = true;
+                    mouse = Vector3(worldPos.x, worldPos.y);
                     // }
                 }
             }
@@ -249,9 +263,13 @@ void Viewer::get_input() {
         } break;
 
         case sf::Event::MouseMoved: {
+            // get the current mouse position in the window
+            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+            // convert it to world coordinates
+            sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
             Vector3 mouse_old = mouse;
-            mouse.x = event.mouseMove.x;
-            mouse.y = event.mouseMove.y;
+            mouse.x = worldPos.x;
+            mouse.y = worldPos.y;
             Vector3 mouse_delta = mouse - mouse_old;
             if (grabbed_widget && grabbed_widget->entity) {
                 if (mouse_pressed && widget_grabbed) {
