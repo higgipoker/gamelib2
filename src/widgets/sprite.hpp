@@ -25,7 +25,7 @@ public:
     void setPosition(float x, float y) override;
     void scale(float x, float y) override;
     float scale() override;
-    void connectShadow(Sprite *spr);
+    void connectShadow(std::unique_ptr<Sprite> spr);
     void setFrame(unsigned int a_frame);
     unsigned int getFrame();
     void addAnimation(SpriteAnimation &a_sprite_anim) override;
@@ -41,7 +41,7 @@ public:
 
     Sprite *getShadow();
 
-    Sprite *shadow = nullptr;
+    std::unique_ptr<Sprite> shadow;
 
 private:
     AutoTexture texture;

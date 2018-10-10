@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../input/controller.hpp"
+#include "../input/device.hpp"
 #include <string>
 
 namespace gamelib2 {

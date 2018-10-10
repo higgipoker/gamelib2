@@ -1,8 +1,8 @@
-#include "controller.hpp"
+#include "device.hpp"
 #include <iostream>
 namespace gamelib2 {
 
-Controller::Controller(gamelib2::Input &i)
+Controller::Controller(gamelib2::InputDevice &i)
   : input(i) {
 }
 

@@ -34,7 +34,7 @@ public:
     virtual ~Entity();
 
     // a game entity is associated with a widget
-    void connectWidget(Widget *in_widget);
+    void connectWidget(std::unique_ptr<Widget> in_widget);
 
     // release the widget
     void releaseWidget();
@@ -60,7 +60,7 @@ public:
     std::string name;
 
     // entity is associated with a widget
-    Widget *widget;
+    std::unique_ptr<Widget> widget;
 
 protected:
     // optionally add perspective

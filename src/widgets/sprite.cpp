@@ -161,15 +161,15 @@ float Sprite::scale() {
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-void Sprite::connectShadow(Sprite *spr) {
+void Sprite::connectShadow(std::unique_ptr<gamelib2::Sprite> spr) {
     has_shadow = true;
-    shadow = spr;
+    shadow = std::move(spr);
 }
 
 // -----------------------------------------------------------------------------
 // getShadow
 // -----------------------------------------------------------------------------
 Sprite *Sprite::getShadow() {
-    return static_cast<Sprite *>(shadow);
+    return shadow.get();
 }
 } // namespace gamelib2

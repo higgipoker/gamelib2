@@ -46,13 +46,13 @@ public:
 class Controller {
 
 public:
-    Controller(Input &i);
+    Controller(InputDevice &i);
     virtual ~Controller() = default;
     virtual void update();
 
     void setListener(ControllerListener *l);
     int fire_ticks;
-    Input &input;
+    InputDevice &input;
 
 protected:
     ControllerListener *listener;

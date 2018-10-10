@@ -6,7 +6,7 @@
 
 namespace gamelib2 {
 
-class XboxController : public Input {
+class XboxController : public InputDevice {
 
 public:
     void update() override;

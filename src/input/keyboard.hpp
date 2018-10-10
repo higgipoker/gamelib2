@@ -2,7 +2,7 @@
 #include "input.hpp"
 
 namespace gamelib2 {
-class Keyboard : public Input {
+class Keyboard : public InputDevice {
 public:
     void update() override;
 };

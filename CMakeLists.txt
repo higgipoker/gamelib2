@@ -34,12 +34,13 @@ src/game/entity.cpp
 src/graphics/autotexture.cpp
 src/widgets/spriteanimation.cpp
 src/widgets/sprite.cpp
+src/widgets/label.cpp
 src/widgets/tiledscrollingbackground.cpp
 src/math/vector.cpp
 src/utils/files.cpp
 src/utils/tree.cpp
 src/utils/timer.cpp
-src/input/controller.cpp
+src/input/device.cpp
 src/input/keyboard.cpp
 src/input/xbox_gamepad.cpp
 src/compass/compass.cpp

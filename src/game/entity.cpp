@@ -38,8 +38,8 @@ Entity::~Entity() {
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(Widget *in_widget) {
-    widget = in_widget;
+void Entity::connectWidget(std::unique_ptr<Widget> in_widget) {
+    widget = std::move(in_widget);
 }
 
 // -----------------------------------------------------------------------------

@@ -36,10 +36,10 @@ enum InputState {
     Totalevents
 };
 
-class Input {
+class InputDevice {
 public:
-    Input() = default;
-    virtual ~Input() = default;
+    InputDevice() = default;
+    virtual ~InputDevice() = default;
     virtual void update() = 0;
     void reset() {
         memset(states, 0, sizeof(states));

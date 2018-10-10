@@ -66,8 +66,8 @@ void TiledScrollingBackground::render(sf::RenderTarget &target) {
 
             sf::Rect<unsigned int> rect;
             rect.left = rect.top = 0;
-            rect.width = target.getSize().x;
-            rect.height = target.getSize().y;
+            rect.width = target.getView().getSize().x;
+            rect.height = target.getView().getSize().y;
             if (rect.intersects(tile_rect)) {
                 sprite.setPosition(tile_rect.left + boundsrect.left,
                                    tile_rect.top + boundsrect.top);
@@ -75,8 +75,10 @@ void TiledScrollingBackground::render(sf::RenderTarget &target) {
             }
         }
     }
-    boundsrect.width = (target.getSize().x / tile_width + 1) * tile_width;
-    boundsrect.height = (target.getSize().y / tile_height + 1) * tile_height;
+    boundsrect.width =
+      (target.getView().getSize().x / tile_width + 1) * tile_width;
+    boundsrect.height =
+      (target.getView().getSize().y / tile_height + 1) * tile_height;
     Widget::render(target);
 }
 

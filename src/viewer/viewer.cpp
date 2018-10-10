@@ -61,7 +61,11 @@ Viewer::Viewer()
     //    std::cout << "no valid fullscreen videomode for " << video_mode.width
     //    << "x"
     //              << video_mode.height << std::endl;
-    window.create(video_mode, "test", sf::Style::Default);
+    // window.create(video_mode, "test", sf::Style::Default);
+
+    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
+    window.create(vm, "test", sf::Style::Default);
+
     //    }
     ImGui::SFML::Init(window);
     window.resetGLStates();
