@@ -30,7 +30,7 @@ class Widget;
 class Entity {
 public:
     // construct with a name id
-    Entity(const std::string in_name);
+    Entity(std::string in_name);
     virtual ~Entity();
 
     // a game entity is associated with a widget

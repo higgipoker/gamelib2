@@ -28,15 +28,15 @@ public:
     void connectShadow(std::unique_ptr<Sprite> spr);
     void setFrame(unsigned int a_frame);
     unsigned int getFrame();
-    void addAnimation(SpriteAnimation &a_sprite_anim) override;
+    void addAnimation(const SpriteAnimation &a_sprite_anim) override;
     void addAnimation(const std::string &animname, unsigned int frametime,
                       bool loopanim,
-                      std::vector<unsigned int> framelist) override;
+                      const std::vector<unsigned int> &framelist) override;
     sf::FloatRect bounds() override;
     sf::Vector2f position() override;
 
-    float image_width;
-    float image_height;
+    float image_width = 0;
+    float image_height = 0;
     bool has_shadow = false;
 
     Sprite *getShadow();

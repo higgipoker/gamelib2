@@ -49,12 +49,12 @@ public:
     virtual void addChild(Widget *in_widget);
 
     // add an animation by pointer
-    virtual void addAnimation(SpriteAnimation &a_sprite_anim);
+    virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
 
     // add an animation by params
     virtual void addAnimation(const std::string &animname,
                               unsigned int frametime, bool loopanim,
-                              std::vector<unsigned int> framelist);
+                              const std::vector<unsigned int> &framelist);
 
     // start an animation
     virtual void startAnimation(const std::string &a_name);

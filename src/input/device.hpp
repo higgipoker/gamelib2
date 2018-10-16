@@ -51,11 +51,11 @@ public:
     virtual void update();
 
     void setListener(ControllerListener *l);
-    int fire_ticks;
+    int fire_ticks = 0;
     InputDevice &input;
 
 protected:
-    ControllerListener *listener;
+    ControllerListener *listener = nullptr;
     bool wait_for_release = false;
     void notify(ControllerEvent event);
 };

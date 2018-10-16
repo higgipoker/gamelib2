@@ -1,5 +1,6 @@
 #include "label.hpp"
 #include <iostream>
+#include <sstream>
 namespace gamelib2 {
 
 // -----------------------------------------------------------------------------
@@ -37,6 +38,16 @@ void Label::setPosition(float x, float y) {
 // -----------------------------------------------------------------------------
 void Label::setText(std::string l) {
     label = std::move(l);
+    text.setString(label);
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Label::setText(int a_number) {
+    std::ostringstream s;
+    s << a_number;
+    label = std::move(s.str());
     text.setString(label);
 }
 

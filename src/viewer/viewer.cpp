@@ -29,9 +29,9 @@ namespace gamelib2 {
 
 static mygui gui;
 
-// ------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // plain old function to find video modes
-// ------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 static bool valid_videomode(unsigned int width, unsigned int height) {
     // get list of supported video modes
     std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
@@ -61,10 +61,10 @@ Viewer::Viewer()
     //    std::cout << "no valid fullscreen videomode for " << video_mode.width
     //    << "x"
     //              << video_mode.height << std::endl;
-    // window.create(video_mode, "test", sf::Style::Default);
+    window.create(video_mode, "test", sf::Style::Default);
 
-    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
-    window.create(vm, "test", sf::Style::Default);
+    //    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
+    //    window.create(vm, "test", sf::Style::Default);
 
     //    }
     ImGui::SFML::Init(window);
@@ -336,7 +336,6 @@ void Viewer::do_debug_ui() {
 // connectEngine
 // -----------------------------------------------------------------------------
 void Viewer::connectEngine(Engine *in_engine) {
-    assert(in_engine != nullptr);
     engine = in_engine;
 }
 

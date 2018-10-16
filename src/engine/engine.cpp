@@ -62,7 +62,6 @@ void Engine::frame(float dt) {
 // connectViewer
 // -----------------------------------------------------------------------------
 void Engine::connectViewer(Viewer *in_viewer) {
-    assert(in_viewer != nullptr);
     viewer = in_viewer;
     viewer->onMessage("connected");
 }

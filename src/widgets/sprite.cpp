@@ -10,8 +10,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 // Sprite
 // -----------------------------------------------------------------------------
-Sprite::Sprite() {
-}
+Sprite::Sprite() = default;
 
 // -----------------------------------------------------------------------------
 // Sprite
@@ -23,8 +22,7 @@ Sprite::Sprite(const std::string &a_filename, int a_rows, int a_cols) {
 // -----------------------------------------------------------------------------
 // ~Sprite
 // -----------------------------------------------------------------------------
-Sprite::~Sprite() {
-}
+Sprite::~Sprite() = default;
 
 // -----------------------------------------------------------------------------
 // init
@@ -34,12 +32,6 @@ void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
     sprite.setTexture(texture());
     image_width = texture().getSize().x / static_cast<float>(a_cols);
     image_height = texture().getSize().y / static_cast<float>(a_rows);
-
-    // sprite sheet must have at least 1 row and col
-    assert(a_rows && a_cols);
-
-    // sanity check for texture
-    assert(texture().getSize().x && texture().getSize().y);
 
     // set up the coordinates of each frame
     int sprite_width = static_cast<int>(texture().getSize().x) / a_cols;
@@ -86,7 +78,7 @@ unsigned int Sprite::getFrame() {
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Sprite::addAnimation(SpriteAnimation &a_sprite_anim) {
+void Sprite::addAnimation(const SpriteAnimation &a_sprite_anim) {
     animations.insert(
       std::make_pair(a_sprite_anim.name, std::move(a_sprite_anim)));
 }
@@ -95,7 +87,8 @@ void Sprite::addAnimation(SpriteAnimation &a_sprite_anim) {
 // AddAnimation
 // ----------------------------------------------------------------------------------
 void Sprite::addAnimation(const std::string &animname, unsigned int frametime,
-                          bool loopanim, std::vector<unsigned int> framelist) {
+                          bool loopanim,
+                          const std::vector<unsigned int> &framelist) {
     SpriteAnimation anim(animname, frametime, loopanim, std::move(framelist));
     addAnimation(anim);
 }

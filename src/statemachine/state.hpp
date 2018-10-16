@@ -28,7 +28,7 @@ public:
     virtual void changeToNextState() = 0;
 
     // event handler
-    virtual bool handle_input(ControllerEvent event) = 0;
+    virtual bool handle_input(const ControllerEvent &event) = 0;
 
     // identifier
     std::string name;

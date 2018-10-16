@@ -73,10 +73,10 @@ void XboxController::update() {
 }
 
 bool XboxController::isConnected() {
-    if (sf_joystick_index > sf::Joystick::Count)
-        return false;
-    else
+    if (sf_joystick_index <= sf::Joystick::Count)
         return sf::Joystick::isConnected(sf_joystick_index);
+
+    return false;
 }
 
 bool XboxController::A() {
@@ -164,15 +164,13 @@ bool XboxController::RightTrigger() {
 }
 
 sf::Vector2f XboxController::LeftThumbstick() {
-    return sf::Vector2f(
-      sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::X),
-      sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::Y));
+    return {sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::X),
+            sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::Y)};
 }
 
 sf::Vector2f XboxController::RightThumbstick() {
-    return sf::Vector2f(
-      sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::U),
-      sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::V));
+    return {sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::U),
+            sf::Joystick::getAxisPosition(sf_joystick_index, sf::Joystick::V)};
 }
 
 bool XboxController::Up() {
