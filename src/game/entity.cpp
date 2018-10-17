@@ -53,6 +53,9 @@ void Entity::releaseWidget() {
 void Entity::update(float dt) {
     // differnt types of enteties can override this to do movement physics or
     // whatever
+
+    // reset the debug primitives
+    widget->primitives.clear();
 }
 
 // -----------------------------------------------------------------------------

@@ -11,6 +11,7 @@ namespace gamelib2 {
 enum ControllerEventID {
     NoEvent = 0,
     Fire,
+    FireTap,
     DPadLeft,
     DPadRight,
     DPadUp,
@@ -58,5 +59,7 @@ protected:
     ControllerListener *listener = nullptr;
     bool wait_for_release = false;
     void notify(ControllerEvent event);
+
+    static const int fire_tap_length = 15;
 };
 } // namespace gamelib2

@@ -23,6 +23,7 @@
 #include "../widgets/spriteanimation.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/VertexArray.hpp>
 #include <map>
 
 namespace gamelib2 {
@@ -121,6 +122,9 @@ public:
 
     // every widget is associated with a game entity (controller)
     Entity *entity = nullptr;
+
+    // a list of drawable primitives for debug
+    std::vector<sf::VertexArray> primitives;
 
 protected:
     // draw the bounds rect

@@ -45,4 +45,5 @@ src/input/keyboard.cpp
 src/input/xbox_gamepad.cpp
 src/compass/compass.cpp
 src/physics/collisions.cpp
+src/types.hpp
 )

@@ -71,9 +71,17 @@ void Widget::releaseEntity() {
 // render
 // -----------------------------------------------------------------------------
 void Widget::render(sf::RenderTarget &target) {
+    // first draw all children
     for (auto &widget : children) {
         widget->render(target);
     }
+
+    // draw debug primitives
+    for (auto &primitive : primitives) {
+        target.draw(primitive);
+    }
+
+    // draw debug view bounds
     if (debug) {
         draw_bounds(target);
     }

@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
+#include "math/vector.hpp"
 #include <memory>
 #include <vector>
 
@@ -34,5 +35,13 @@ class Controller;
 
 using WidgetList = std::vector<Widget *>;
 using EntityList = std::vector<Entity *>;
+
+typedef struct {
+
+    Vector3 p1;
+    Vector3 p2;
+    Vector3 p3;
+
+} Triangle;
 
 } // namespace gamelib2

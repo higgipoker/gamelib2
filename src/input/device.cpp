@@ -20,8 +20,12 @@ void Controller::update() {
     //
     if (old_states[InputState::FireDown]) {
         if (input.states[InputState::FireUp]) {
-            notify(ControllerEvent(Fire, Released,
-                                   input.states[InputState::FireLengthCached]));
+            if (input.states[InputState::FireLengthCached] < fire_tap_length) {
+                notify(ControllerEvent(FireTap, Released));
+            } else {
+                notify(ControllerEvent(
+                  Fire, Released, input.states[InputState::FireLengthCached]));
+            }
         }
 
     } else {
