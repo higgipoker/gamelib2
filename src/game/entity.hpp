@@ -27,7 +27,17 @@
 
 namespace gamelib2 {
 class Widget;
-class Entity {
+
+// a debug interface that all entities must implement
+class EntityInterface {
+public:
+    // the entity was manually moved
+    virtual void onDragged(const Vector3 &diff) = 0;
+
+protected:
+};
+
+class Entity : public EntityInterface {
 public:
     // construct with a name id
     Entity(std::string in_name);
@@ -45,8 +55,8 @@ public:
     // main update
     virtual void update(float dt);
 
-    // the entity was manually moved
-    virtual void onDragged(const Vector3 &diff);
+    // debug interface
+    void onDragged(const Vector3 &diff) override;
 
     // movement speed
     float speed = 150.0f;
