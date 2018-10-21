@@ -1,70 +1,55 @@
-#ifndef SPRITEANIMATION_H
-#define SPRITEANIMATION_H
+#pragma	once
 
-#include <string>
-#include <vector>
+#include	<string>
+#include	<vector>
 
-namespace gamelib2 {
+namespace	gamelib2	{
 
 /**
- * @brief a sprite animatio is just a lst of frames and a speed
- */
-class SpriteAnimation {
- public:
-  /**
-   * @brief SpriteAnimation
-   */
-  SpriteAnimation(std::string a_id, unsigned int a_frametime, bool a_loop,
-                  std::vector<unsigned int> a_frames);
+	* @brief a sprite animatio is just a lst of frames and a speed
+	*/
+class	SpriteAnimation	{
+public:
+				SpriteAnimation(std::string	a_id,	unsigned	int	a_frametime,	bool	a_loop,
+				                std::vector<unsigned	int>	a_frames);
 
-  /**
-   * @brief start the animation
-   */
-  void start();
+				// start the animation
+				void	start();
 
-  /**
-   * @brief step the animation
-   */
-  unsigned int step();
+				// update anim
+				unsigned	int	update();
 
-  /**
-   * @brief stop the animation
-   */
-  void stop();
+				// stop animation
+				void	stop();
 
-  /**
-   * @brief set anim speed
-   * @param a_seped number of ticks per anim frame
-   */
-  void setStpeed(unsigned int a_seped);
+				// set the frame update speed
+				void	setStpeed(unsigned	int	a_seped);
 
-  /**
-   * @brief currentFrame
-   * @return
-   */
-  unsigned int currentFrame();
+				// get the current frame
+				unsigned	int	currentFrame();
 
-  /// a name to identify the animatin easily
-  std::string name;
+				// for non looping animations, is finished?
+				bool finished();
 
- private:
-  /// list of frame numbers
-  std::vector<unsigned int> frames;
+				std::string	name;
 
-  /// point to current frame
-  std::vector<unsigned int>::iterator current_frame;
+private:
+				// list of frame numbers
+				std::vector<unsigned	int>	frames;
 
-  /// is a looping animation
-  bool loop = false;
+				// point to current frame
+				std::vector<unsigned	int>::iterator	current_frame;
 
-  /// animation is still running
-  bool running = false;
+				// is a looping animation
+				bool	loop	=	false;
 
-  /// time of a frame
-  unsigned int frame_time = 0;
+				// animation is still running
+				bool	running	=	false;
 
-  /// frame timer
-  unsigned int ticks = 0;
+				// time of a frame
+				unsigned	int	frame_time	=	0;
+
+				// frame timer
+				unsigned	int	ticks	=	0;
 };
-}  // namespace gamelib2
-#endif  // SPRITEANIMATION_H
+}	// namespace gamelib2

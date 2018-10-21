@@ -29,9 +29,12 @@ static std::map<int, std::string> buttons{
   {15, "Up"},   {16, "Down"},
 };
 
+// -----------------------------------------------------------------------------
+// update
+// -----------------------------------------------------------------------------
 void XboxController::update() {
 
-    sf_joystick_index = 2;
+    sf_joystick_index = 1;
 
     // fire button
     states[InputState::FireUp] = 0;
@@ -72,6 +75,9 @@ void XboxController::update() {
     }
 }
 
+// -----------------------------------------------------------------------------
+// isConnected
+// -----------------------------------------------------------------------------
 bool XboxController::isConnected() {
     if (sf_joystick_index <= sf::Joystick::Count)
         return sf::Joystick::isConnected(sf_joystick_index);
@@ -79,6 +85,9 @@ bool XboxController::isConnected() {
     return false;
 }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 bool XboxController::A() {
     return sf::Joystick::isButtonPressed(sf_joystick_index, 0);
 }
