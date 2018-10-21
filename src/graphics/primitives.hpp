@@ -18,12 +18,20 @@
 	* 3. This notice may not be removed or altered from any source distribution.
 	****************************************************************************/
 #pragma	once
-
+#include "../math/vector.hpp"
+#include <SFML/Graphics/RenderWindow.hpp>
 namespace	gamelib2	{
 
 class	Primitives	{
 public:
 				Primitives();
+
+				static void drawLine(sf::RenderTarget &target, const Vector3 &point1,
+				                          const Vector3 &point2, unsigned int thickness);
+
+				static void arc(sf::RenderTarget &target, float x, float y, float radius,
+				                     float start, float end, unsigned int segments,
+				                     unsigned int thickness);
 };
 
 }	// namespace gamelib2
