@@ -32,6 +32,7 @@ src/viewer/viewer.cpp
 src/widgets/widget.cpp
 src/game/entity.cpp
 src/graphics/autotexture.cpp
+src/graphics/primitives.cpp
 src/widgets/spriteanimation.cpp
 src/widgets/sprite.cpp
 src/widgets/label.cpp
