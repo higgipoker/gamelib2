@@ -40,10 +40,12 @@ src/math/vector.cpp
 src/utils/files.cpp
 src/utils/tree.cpp
 src/utils/timer.cpp
+src/utils/grid.cpp
 src/input/device.cpp
 src/input/keyboard.cpp
 src/input/xbox_gamepad.cpp
 src/compass/compass.cpp
 src/physics/collisions.cpp
+src/camera/camera.cpp
 src/types.hpp
 )
