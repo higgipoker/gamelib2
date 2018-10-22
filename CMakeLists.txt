@@ -15,6 +15,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 # ------------------------------------------------------------------------------
 # include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.0/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui-sfml)
 
 # ------------------------------------------------------------------------------
 # project build
@@ -23,11 +25,6 @@ src/statemachine/state_machine.cpp
 src/statemachine/state.cpp
 src/engine/engine.cpp
 src/math/vector.cpp
-src/imgui/imgui_widgets.cpp
-src/imgui/imgui-SFML.cpp
-src/imgui/imgui_draw.cpp
-src/imgui/imgui.cpp
-src/viewer/mygui.cpp
 src/viewer/viewer.cpp
 src/widgets/widget.cpp
 src/game/entity.cpp
