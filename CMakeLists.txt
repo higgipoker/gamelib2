@@ -21,6 +21,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui-sfml)
 # ------------------------------------------------------------------------------
 # project build
 add_library(gamelib2 SHARED
+src/debug/diagnostic.cpp
 src/statemachine/state_machine.cpp
 src/statemachine/state.cpp
 src/engine/engine.cpp
