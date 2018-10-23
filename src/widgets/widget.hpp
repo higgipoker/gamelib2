@@ -31,107 +31,107 @@ namespace gamelib2 {
 class Entity;
 class Widget {
 public:
-    Widget();
-    virtual ~Widget();
+  Widget();
+  virtual ~Widget();
 
-    // a widget is associated with an entity
-    virtual void connectEntity(Entity *in_entity);
+  // a widget is associated with an entity
+  virtual void connectEntity(Entity *in_entity);
 
-    // release the entity
-    virtual void releaseEntity();
+  // release the entity
+  virtual void releaseEntity();
 
-    // safely get the associated name
-    std::string getName();
+  // safely get the associated name
+  std::string getName();
 
-    // renders itself with sfml
-    virtual void render(sf::RenderTarget &target);
+  // renders itself with sfml
+  virtual void render(sf::RenderTarget &target);
 
-    // add a child to the widget tree from here
-    virtual void addChild(Widget *in_widget);
+  // add a child to the widget tree from here
+  virtual void addChild(Widget *in_widget);
 
-    // add an animation by pointer
-    virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
+  // add an animation by pointer
+  virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
 
-    // add an animation by params
-    virtual void addAnimation(const std::string &animname,
-                              unsigned int frametime, bool loopanim,
-                              const std::vector<unsigned int> &framelist);
+  // add an animation by params
+  virtual void addAnimation(const std::string &animname, unsigned int frametime,
+                            bool loopanim,
+                            const std::vector<unsigned int> &framelist);
 
-    // start an animation
-    virtual void startAnimation(const std::string &a_name);
+  // start an animation
+  virtual void startAnimation(const std::string &a_name);
 
-    // stop an animation
-    virtual void stopAnimation();
+  // stop an animation
+  virtual void stopAnimation();
 
-    // update the animation
-    virtual void animate();
+  // update the animation
+  virtual void animate();
 
-    // get currently active animation
-    SpriteAnimation *currentAnimation();
+  // get currently active animation
+  SpriteAnimation *currentAnimation();
 
-    // move by an offset
-    virtual void move(float dx, float dy);
+  // move by an offset
+  virtual void move(float dx, float dy);
 
-    // move to an absolute position
-    virtual void setPosition(float x, float y);
+  // move to an absolute position
+  virtual void setPosition(float x, float y);
 
-    // set scale
-    virtual void scale(float x, float y);
+  // set scale
+  virtual void scale(float x, float y);
 
-    // get scale
-    virtual float scale();
+  // get scale
+  virtual float scale();
 
-    // check if point is in bounds
-    virtual bool hit(int x, int y);
+  // check if point is in bounds
+  virtual bool hit(int x, int y);
 
-    // handle a click
-    virtual void click(int x, int y);
+  // handle a click
+  virtual void click(int x, int y);
 
-    // get the bounds
-    virtual sf::FloatRect bounds();
+  // get the bounds
+  virtual sf::FloatRect bounds();
 
-    // get position
-    virtual sf::Vector2f position();
+  // get position
+  virtual sf::Vector2f position();
 
-    // sort children based on z order
-    void sort();
+  // sort children based on z order
+  void sort();
 
-    // dragged by debug gui
-    virtual void onDragged(const Vector3 &diff);
+  // dragged by debug gui
+  virtual void onDragged(const Vector3 &diff);
 
-    // my parent widget in the tree struct
-    Widget *parent = nullptr;
+  // my parent widget in the tree struct
+  Widget *parent = nullptr;
 
-    // my children in the tree struct
-    WidgetList children;
+  // my children in the tree struct
+  WidgetList children;
 
-    // height for render order
-    int z_order = 0;
+  // height for render order
+  int z_order = 0;
 
-    // handle or ignore clicks
-    bool clickable = false;
+  // handle or ignore clicks
+  bool clickable = false;
 
-    // list of animations
-    std::map<std::string, SpriteAnimation> animations;
+  // list of animations
+  std::map<std::string, SpriteAnimation> animations;
 
-    // is debugmode activated
-    static bool debug;
+  // is debugmode activated
+  static bool debug;
 
-    // widget is selected by debug tool
-    bool grabbed = false;
+  // widget is selected by debug tool
+  bool grabbed = false;
 
-    // every widget is associated with a game entity (controller)
-    Entity *entity = nullptr;
+  // every widget is associated with a game entity (controller)
+  Entity *entity = nullptr;
 
-    // a list of drawable primitives for debug
-    std::vector<sf::VertexArray> primitives;
+  // a list of drawable primitives for debug
+  std::vector<sf::VertexArray> primitives;
 
 protected:
-    // draw the bounds rect
-    virtual void draw_bounds(sf::RenderTarget &target);
+  // draw the bounds rect
+  virtual void draw_bounds(sf::RenderTarget &target);
 
-    // current running animation
-    SpriteAnimation *current_animation = nullptr;
+  // current running animation
+  SpriteAnimation *current_animation = nullptr;
 };
 
 } // namespace gamelib2

@@ -29,7 +29,9 @@ public:
   virtual ~Diagnostic() = default;
   static void active(bool status);
   static bool active();
-  virtual void selectEntity(Entity &entity);
+  virtual void update()=0;
+  virtual void selectEntity(Entity *entity)=0;
+  virtual void deSelect()=0;
 
 protected:
   static bool on;

@@ -31,49 +31,52 @@ class Widget;
 // a debug interface that all entities must implement
 class EntityInterface {
 public:
-    // the entity was manually moved
-    virtual void onDragged(const Vector3 &diff) = 0;
+  // the entity was manually moved
+  virtual void onDragged(const Vector3 &diff) = 0;
 
 protected:
 };
 
 class Entity : public EntityInterface {
 public:
-    // construct with a name id
-    Entity(std::string in_name);
-    virtual ~Entity();
+  // construct with a name id
+  Entity(std::string in_type, std::string in_name);
+  virtual ~Entity();
 
-    // a game entity is associated with a widget
-    void connectWidget(std::unique_ptr<Widget> in_widget);
+  // a game entity is associated with a widget
+  void connectWidget(std::unique_ptr<Widget> in_widget);
 
-    // release the widget
-    void releaseWidget();
+  // release the widget
+  void releaseWidget();
 
-    // after any initiliazations are done (eg connect to widget)
-    virtual void activate();
+  // after any initiliazations are done (eg connect to widget)
+  virtual void activate();
 
-    // main update
-    virtual void update(float dt);
+  // main update
+  virtual void update(float dt);
 
-    // debug interface
-    void onDragged(const Vector3 &diff) override;
+  // debug interface
+  void onDragged(const Vector3 &diff) override;
 
-    // movement speed
-    float speed = 150.0f;
+  // movement speed
+  float speed = 150.0f;
 
-    // physical aspects
-    Vector3 position;
-    Vector3 velocity;
-    Vector3 acceleration;
+  // physical aspects
+  Vector3 position;
+  Vector3 velocity;
+  Vector3 acceleration;
 
-    // identifier name
-    std::string name;
+  // type id
+  std::string type;
 
-    // entity is associated with a widget
-    std::unique_ptr<Widget> widget;
+  // identifier name
+  std::string name;
+
+  // entity is associated with a widget
+  std::unique_ptr<Widget> widget;
 
 protected:
-    // optionally add perspective
-    virtual void perspectivize(float camera_height);
+  // optionally add perspective
+  virtual void perspectivize(float camera_height);
 };
 } // namespace gamelib2

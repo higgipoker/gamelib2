@@ -25,9 +25,8 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 // Entity
 // -----------------------------------------------------------------------------
-Entity::Entity(std::string in_name)
-  : name(std::move(in_name)) {
-}
+Entity::Entity(std::string in_type, std::string in_name)
+    : type(std::move(in_type)), name(std::move(in_name)) {}
 
 // -----------------------------------------------------------------------------
 // ~Entity
@@ -38,42 +37,37 @@ Entity::~Entity() = default;
 // connectWidget
 // -----------------------------------------------------------------------------
 void Entity::connectWidget(std::unique_ptr<Widget> in_widget) {
-    widget = std::move(in_widget);
+  widget = std::move(in_widget);
 }
 
 // -----------------------------------------------------------------------------
 // releaseWidget
 // -----------------------------------------------------------------------------
-void Entity::releaseWidget() {
-}
+void Entity::releaseWidget() {}
 
 // -----------------------------------------------------------------------------
 // update
 // -----------------------------------------------------------------------------
 void Entity::update(float dt) {
-    // differnt types of enteties can override this to do movement physics or
-    // whatever
+  // differnt types of enteties can override this to do movement physics or
+  // whatever
 
-    // reset the debug primitives
-    widget->primitives.clear();
+  // reset the debug primitives
+  widget->primitives.clear();
 }
 
 // -----------------------------------------------------------------------------
 // activate
 // -----------------------------------------------------------------------------
-void Entity::activate() {
-}
+void Entity::activate() {}
 
 // -----------------------------------------------------------------------------
 // perspectivize
 // -----------------------------------------------------------------------------
-void Entity::perspectivize(float camera_height) {
-}
+void Entity::perspectivize(float camera_height) {}
 
 // -----------------------------------------------------------------------------
 // on_moved
 // -----------------------------------------------------------------------------
-void Entity::onDragged(const Vector3 &diff) {
-    position += diff;
-}
+void Entity::onDragged(const Vector3 &diff) { position += diff; }
 } // namespace gamelib2

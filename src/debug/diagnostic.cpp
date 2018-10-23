@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "diagnostic.hpp"
+#include "../widgets/widget.hpp"
 
 namespace gamelib2 {
 
@@ -28,12 +29,10 @@ Diagnostic::Diagnostic() = default;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Diagnostic::selectEntity(Entity &entity) {}
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-void Diagnostic::active(bool status) { on = status; }
+void Diagnostic::active(bool status) {
+  on = status;
+  Widget::debug = on;
+}
 
 // -----------------------------------------------------------------------------
 //

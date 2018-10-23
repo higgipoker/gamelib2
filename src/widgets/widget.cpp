@@ -29,9 +29,9 @@ bool Widget::debug = false;
 // sort predicate for widgets)
 // -----------------------------------------------------------------------------
 struct {
-    bool operator()(const Widget *w1, const Widget *w2) const {
-        return w1->z_order < w2->z_order;
-    }
+  bool operator()(const Widget *w1, const Widget *w2) const {
+    return w1->z_order < w2->z_order;
+  }
 } sort_widget;
 
 // -----------------------------------------------------------------------------
@@ -48,224 +48,207 @@ Widget::~Widget() = default;
 // getName
 // -----------------------------------------------------------------------------
 std::string Widget::getName() {
-    if (entity) {
-        return entity->name;
-    }
-    return "unknown widget";
+  if (entity) {
+    return entity->name;
+  }
+  return "unknown widget";
 }
 
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(Entity *in_entity) {
-    entity = in_entity;
-}
+void Widget::connectEntity(Entity *in_entity) { entity = in_entity; }
 
 // -----------------------------------------------------------------------------
 // releaseEntity
 // -----------------------------------------------------------------------------
-void Widget::releaseEntity() {
-}
+void Widget::releaseEntity() {}
 
 // -----------------------------------------------------------------------------
 // render
 // -----------------------------------------------------------------------------
 void Widget::render(sf::RenderTarget &target) {
-    // first draw all children
-    for (auto &widget : children) {
-        widget->render(target);
-    }
+  // first draw all children
+  for (auto &widget : children) {
+    widget->render(target);
+  }
 
-    // draw debug primitives
-    for (auto &primitive : primitives) {
-        target.draw(primitive);
-    }
+  // draw debug primitives
+  for (auto &primitive : primitives) {
+    target.draw(primitive);
+  }
 
-    // draw debug view bounds
-    if (debug) {
-        draw_bounds(target);
-    }
+  // draw debug view bounds
+  if (debug) {
+    draw_bounds(target);
+  }
 }
 
 // -----------------------------------------------------------------------------
 // addChild
 // -----------------------------------------------------------------------------
 void Widget::addChild(Widget *in_widget) {
-    children.emplace_back(in_widget);
-    in_widget->parent = this;
+  children.emplace_back(in_widget);
+  in_widget->parent = this;
 }
 
 // -----------------------------------------------------------------------------
 // hit
 // -----------------------------------------------------------------------------
-bool Widget::hit(int x, int y) {
-    return (bounds().contains(x, y));
-}
+bool Widget::hit(int x, int y) { return (bounds().contains(x, y)); }
 
 // -----------------------------------------------------------------------------
 // onClick
 // -----------------------------------------------------------------------------
-void Widget::click(int x, int y) {
-}
+void Widget::click(int x, int y) {}
 
 // -----------------------------------------------------------------------------
 // move
 // -----------------------------------------------------------------------------
 void Widget::move(float dx, float dy) {
-    for (auto &child : children) {
-        child->move(dx, dy);
-    }
+  for (auto &child : children) {
+    child->move(dx, dy);
+  }
 }
 
 // -----------------------------------------------------------------------------
 // setPosition
 // -----------------------------------------------------------------------------
-void Widget::setPosition(float x, float y) {
-}
+void Widget::setPosition(float x, float y) {}
 
 // -----------------------------------------------------------------------------
 // position
 // -----------------------------------------------------------------------------
 sf::Vector2f Widget::position() {
-    sf::Vector2f pos;
-    return pos;
+  sf::Vector2f pos;
+  return pos;
 }
 
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {
-}
+void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {}
 
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
 void Widget::addAnimation(const std::string &animname, unsigned int frametime,
                           bool loopanim,
-                          const std::vector<unsigned int> &framelist) {
-}
+                          const std::vector<unsigned int> &framelist) {}
 
 // -----------------------------------------------------------------------------
 // startAnimation
 // -----------------------------------------------------------------------------
 void Widget::startAnimation(const std::string &a_name) {
-    if (animations.find(a_name) != animations.end()) {
-        current_animation = &(animations.find(a_name)->second);
-        current_animation->start();
-    }
+  if (animations.find(a_name) != animations.end()) {
+    current_animation = &(animations.find(a_name)->second);
+    current_animation->start();
+  }
 }
 
 // -----------------------------------------------------------------------------
 // stopAnimation
 // -----------------------------------------------------------------------------
 void Widget::stopAnimation() {
-    if (current_animation) {
-        current_animation->stop();
-        current_animation = nullptr;
-    }
+  if (current_animation) {
+    current_animation->stop();
+    current_animation = nullptr;
+  }
 }
 
 // -----------------------------------------------------------------------------
 // stopAnimation
 // -----------------------------------------------------------------------------
-SpriteAnimation *Widget::currentAnimation() {
-    return current_animation;
-}
+SpriteAnimation *Widget::currentAnimation() { return current_animation; }
 
 // -----------------------------------------------------------------------------
 // draw_animate
 // -----------------------------------------------------------------------------
-void Widget::animate() {
-}
+void Widget::animate() {}
 
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-float Widget::scale() {
-    return 1.f;
-}
+float Widget::scale() { return 1.f; }
 
 // -----------------------------------------------------------------------------
 // getBounds
 // -----------------------------------------------------------------------------
-sf::FloatRect Widget::bounds() {
-    return {};
-}
+sf::FloatRect Widget::bounds() { return {}; }
 
 // -----------------------------------------------------------------------------
 // scale
 // -----------------------------------------------------------------------------
-void Widget::scale(float x, float y) {
-}
+void Widget::scale(float x, float y) {}
 
 // -----------------------------------------------------------------------------
 // sort
 // -----------------------------------------------------------------------------
 void Widget::sort() {
-    if (children.size() < 2)
-        return;
-    std::sort(children.begin(), children.end(), sort_widget);
+  if (children.size() < 2)
+    return;
+  std::sort(children.begin(), children.end(), sort_widget);
 }
 
 // -----------------------------------------------------------------------------
 // onDragged
 // -----------------------------------------------------------------------------
 void Widget::onDragged(const Vector3 &diff) {
-    // just pass off to entity
-    entity->onDragged(diff);
-    for (auto &child : children) {
-        if (child->entity) {
-            child->entity->onDragged(diff);
-        }
+  // just pass off to entity
+  entity->onDragged(diff);
+  for (auto &child : children) {
+    if (child->entity) {
+      child->entity->onDragged(diff);
     }
+  }
 }
 
 // -----------------------------------------------------------------------------
 // draw_bounds
 // -----------------------------------------------------------------------------
 void Widget::draw_bounds(sf::RenderTarget &target) {
-    std::vector<sf::Vertex> vertices;
-    sf::FloatRect rect = bounds();
+  std::vector<sf::Vertex> vertices;
+  sf::FloatRect rect = bounds();
 
-    // line 1
-    vertices.emplace_back(
+  // line 1
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top),
                  grabbed ? sf::Color::White
                          : grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.emplace_back(
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    // line 2
-    vertices.emplace_back(
+  // line 2
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.emplace_back(
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    // line 3
-    vertices.emplace_back(
+  // line 3
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.emplace_back(
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    // kline 4
-    vertices.emplace_back(
+  // kline 4
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    vertices.emplace_back(
+  vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-    target.draw(&vertices[0], vertices.size(), sf::Lines);
+  target.draw(&vertices[0], vertices.size(), sf::Lines);
 
-    grabbed = false;
+  grabbed = false;
 }
 } // namespace gamelib2

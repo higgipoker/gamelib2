@@ -49,7 +49,8 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer() : root_entity(new Entity("root")), root_widget(new Widget()) {
+Viewer::Viewer()
+    : root_entity(new Entity("root", "root")), root_widget(new Widget()) {
   video_mode.width = 800;
   video_mode.height = 600;
   //    if (valid_videomode(video_mode.width, video_mode.height)) {
@@ -73,9 +74,6 @@ Viewer::Viewer() : root_entity(new Entity("root")), root_widget(new Widget()) {
   sf::Joystick::update();
 
   ImGui::SFML::Init(window);
-
-  // tmp
-  debug = new Diagnostic();
 }
 
 // -----------------------------------------------------------------------------
@@ -86,11 +84,10 @@ Viewer::~Viewer() {
   window.close();
   delete root_entity;
   delete root_widget;
-  delete debug;
 }
 
 // -----------------------------------------------------------------------------
-//
+// getWindow
 // -----------------------------------------------------------------------------
 sf::RenderWindow &Viewer::getWindow() { return window; }
 
@@ -175,7 +172,6 @@ void Viewer::remWidget(Widget *in_widget) {
 // on_click
 // -----------------------------------------------------------------------------
 void Viewer::on_click(int x, int y, Widget &widget) {
-
   // process current widget
   if (widget.clickable) {
     if (widget.hit(x, y)) {
@@ -224,13 +220,23 @@ void Viewer::get_input() {
 
     case sf::Event::MouseButtonPressed: {
       if (event.mouseButton.button == sf::Mouse::Left) {
-        mouse_pressed = true;
-        on_click(event.mouseButton.x, event.mouseButton.y, *root_widget);
+        if (!mouse_pressed) {
+          mouse_pressed = true;
+          on_click(event.mouseButton.x + engine->camera.getViewInWorld().left,
+                   event.mouseButton.y + engine->camera.getViewInWorld().top,
+                   *root_widget);
+          if (grabbed_widget) {
+            if (grabbed_widget->clickable) {
+              debug->selectEntity(grabbed_widget->entity);
+              widget_grabbed = true;
+            }
+          }
+        }
       }
     } break;
 
     case sf::Event::MouseButtonReleased: {
-      // grabbed_widget = nullptr;
+      grabbed_widget = nullptr;
       mouse_pressed = false;
       widget_grabbed = false;
     } break;
