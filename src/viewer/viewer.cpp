@@ -60,7 +60,7 @@ Viewer::Viewer()
   //    << "x"
   //              << video_mode.height << std::endl;
   window.create(video_mode, "test", sf::Style::Default);
-  window.setPosition(sf::Vector2i(0, 0));
+  // window.setPosition(sf::Vector2i(0, 0));
 
   //    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
   //    window.create(vm, "test", sf::Style::Default);
