@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <map>
 #include <string>
+#include <memory>
 
 namespace gamelib2 {
 
@@ -11,11 +12,11 @@ namespace gamelib2 {
  * @brief easier to read than a pair
  */
 struct CountedTexture {
-    CountedTexture(sf::Texture *a_texture, int a_count)
+    CountedTexture(std::shared_ptr<sf::Texture> a_texture, int a_count)
       : texture(a_texture)
       , count(a_count) {
     }
-    sf::Texture *texture = nullptr;
+    std::shared_ptr<sf::Texture> texture;
     int count = 0;
 };
 
@@ -45,11 +46,6 @@ public:
     void Initialize(std::string a_filename);
 
     /**
-     * destructor
-     */
-    ~AutoTexture();
-
-    /**
      * @brief operator ()
      * @return
      */
@@ -59,7 +55,7 @@ public:
 
 private:
     /// sf texture
-    sf::Texture *texture = nullptr;
+    std::shared_ptr<sf::Texture> texture;
 
     /// track image filename
     std::string filename;

@@ -67,12 +67,8 @@ Viewer::Viewer()
 
   //    }
 
-  window.resetGLStates();
-  window.setActive(false);
-  view.reset(sf::FloatRect(0, 0, 800, 600));
+  view.reset(sf::FloatRect(0, 0, video_mode.width, video_mode.height));
   window.setView(view);
-  sf::Joystick::update();
-
   ImGui::SFML::Init(window);
 }
 
@@ -82,8 +78,6 @@ Viewer::Viewer()
 Viewer::~Viewer() {
   running = false;
   window.close();
-  delete root_entity;
-  delete root_widget;
 }
 
 // -----------------------------------------------------------------------------
@@ -150,7 +144,7 @@ void Viewer::addWidget(Widget *new_widget) {
 // -----------------------------------------------------------------------------
 void Viewer::remWidget(Widget *in_widget) {
   //
-  auto w = root_widget;
+  auto w = root_widget.get();
 
   while (!w->children.empty()) {
     const auto original_size = w->children.size();
@@ -279,7 +273,7 @@ void Viewer::onMessage(const std::string &in_message) {
 // sort_widgets
 // -----------------------------------------------------------------------------
 void Viewer::sort_widgets() {
-  Widget *parent = root_widget;
+  Widget *parent = root_widget.get();
 
   while (!parent->children.empty()) {
     parent->sort();

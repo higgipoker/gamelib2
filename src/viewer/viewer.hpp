@@ -27,6 +27,7 @@
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Clock.hpp>
 #include <map>
+#include <memory>
 
 namespace gamelib2 {
 
@@ -56,8 +57,8 @@ private:
   sf::RenderWindow window;
   sf::VideoMode video_mode;
   Vector3 mouse;
-  Entity *root_entity = nullptr;
-  Widget *root_widget = nullptr;
+  std::unique_ptr<Entity> root_entity = std::make_unique<Entity>("root", "root");
+  std::unique_ptr<Widget> root_widget = std::make_unique<Widget>();
   Widget *grabbed_widget = nullptr;
   bool widget_changed = false;
   Engine *engine = nullptr;
