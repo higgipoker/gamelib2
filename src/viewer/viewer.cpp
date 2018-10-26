@@ -217,10 +217,12 @@ void Viewer::get_input() {
     case sf::Event::MouseButtonPressed: {
       if (event.mouseButton.button == sf::Mouse::Left) {
         if (!mouse_pressed) {
+          // get the current mouse position in the window
+          sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+          // convert it to world coordinates
+          sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
           mouse_pressed = true;
-          on_click(event.mouseButton.x + engine->camera.getViewInWorld().left,
-                   event.mouseButton.y + engine->camera.getViewInWorld().top,
-                   *root_widget);
+          on_click(worldPos.x, worldPos.y, *root_widget);
           if (grabbed_widget) {
             if (grabbed_widget->clickable) {
               debug->selectEntity(grabbed_widget->entity);
