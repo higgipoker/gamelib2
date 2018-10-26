@@ -18,10 +18,10 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "engine.hpp"
-#include <cassert>
-#include <iostream>
 #include "../utils/timer.hpp"
 #include "../viewer/viewer.hpp"
+#include <cassert>
+#include <iostream>
 
 namespace gamelib2 {
 
@@ -42,27 +42,28 @@ Engine::~Engine() { entities.clear(); }
 // run
 // -----------------------------------------------------------------------------
 void Engine::frame(float dt) {
-	if (paused) return;
-	framerate_manager.gamestep_timer.Update();
+  if (paused)
+    dt = 0;
+  framerate_manager.gamestep_timer.Update();
 
-	camera.update(dt);
+  camera.update(dt);
 
-	for (auto &entity : entities) {
-		entity->update(dt);
-	}
+  for (auto &entity : entities) {
+    entity->update(dt);
+  }
 
-	++frame_count;
-	framerate_manager.calc_fps();
-	framerate_manager.limit_framerate(target_frame_time);
-	fps = framerate_manager.fps;
+  ++frame_count;
+  framerate_manager.calc_fps();
+  framerate_manager.limit_framerate(target_frame_time);
+  fps = framerate_manager.fps;
 }
 
 // -----------------------------------------------------------------------------
 // connectViewer
 // -----------------------------------------------------------------------------
 void Engine::connectViewer(Viewer *in_viewer) {
-	viewer = in_viewer;
-	viewer->onMessage("connected");
+  viewer = in_viewer;
+  viewer->onMessage("connected");
 }
 
 // -----------------------------------------------------------------------------
@@ -74,14 +75,14 @@ void Engine::addEntity(Entity *in_entity) { entities.emplace_back(in_entity); }
 // addEntity
 // -----------------------------------------------------------------------------
 void Engine::remEntity(Entity *in_entity) {
-	// entities.emplace_back(in_entity);
+  // entities.emplace_back(in_entity);
 }
 
 // -----------------------------------------------------------------------------
 // onMessage
 // -----------------------------------------------------------------------------
 void Engine::onMessage(const std::string &in_msg) {
-	std::cout << "Message from viewer: " << in_msg << std::endl;
+  std::cout << "Message from viewer: " << in_msg << std::endl;
 }
 
-}  // namespace gamelib2
+} // namespace gamelib2

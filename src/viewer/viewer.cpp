@@ -50,7 +50,9 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer()
-    : root_entity(new Entity("root", "root")), root_widget(new Widget()) {
+    : root_entity(std::make_unique<Entity>("root", "root")),
+      root_widget(std::make_unique<Widget>()) {
+  root_widget->connectEntity(root_entity.get());
   video_mode.width = 800;
   video_mode.height = 600;
   //    if (valid_videomode(video_mode.width, video_mode.height)) {

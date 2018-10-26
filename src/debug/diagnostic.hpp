@@ -21,20 +21,27 @@
 
 #include "../game/entity.hpp"
 
-namespace gamelib2 {
 
+namespace gamelib2 {
+class viewer;
 class Diagnostic {
 public:
-  Diagnostic();
+  Diagnostic(Viewer &v);
   virtual ~Diagnostic() = default;
   static void active(bool status);
   static bool active();
-  virtual void update()=0;
-  virtual void selectEntity(Entity *entity)=0;
+  virtual void update();
+  virtual void selectEntity(Entity *e);
   virtual void deSelect()=0;
 
 protected:
+  Viewer &viewer;
   static bool on;
+  Entity* selected_entity = nullptr;
+  unsigned int active_entity_index = 0;
+
+  void process_entity_list(std::vector<const char *> &out_list, std::vector<Entity*> &out_pointers,
+                              int &out_active_index);
 };
 
 } // namespace gamelib2

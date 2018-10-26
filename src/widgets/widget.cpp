@@ -68,9 +68,16 @@ void Widget::releaseEntity() {}
 // render
 // -----------------------------------------------------------------------------
 void Widget::render(sf::RenderTarget &target) {
-  // first draw all children
+
+  // draw all children
   for (auto &widget : children) {
+    widget->anchor();
     widget->render(target);
+  }
+
+  // draw debug shapes
+  for (auto &shape : shapes) {
+    target.draw(*shape);
   }
 
   // draw debug primitives
@@ -200,6 +207,23 @@ void Widget::onDragged(const Vector3 &diff) {
     if (child->entity) {
       child->entity->onDragged(diff);
     }
+  }
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Widget::anchor() {
+  switch (anchor_type) {
+  case AnchorType::ANCHOR_TOP_LEFT:
+    this->move(-this->bounds().width / 2, -this->bounds().height / 2);
+    break;
+  case AnchorType::ANCHOR_CENTER:
+    // default;
+    break;
+  case AnchorType::ANCHOR_BASE_CENTER:
+    this->move(0, -this->bounds().height / 2);
+    break;
   }
 }
 

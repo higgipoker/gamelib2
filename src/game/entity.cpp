@@ -53,6 +53,7 @@ void Entity::update(float dt) {
   // whatever
 
   // reset the debug primitives
+  widget->shapes.clear();
   widget->primitives.clear();
 }
 

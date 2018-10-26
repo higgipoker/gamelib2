@@ -18,13 +18,59 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "diagnostic.hpp"
+#include "../engine/engine.hpp"
+#include "../viewer/viewer.hpp"
 #include "../widgets/widget.hpp"
+
+#include <imgui-SFML.h>
+#include <imgui.h>
 
 namespace gamelib2 {
 
 bool Diagnostic::on = false;
 
-Diagnostic::Diagnostic() = default;
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+Diagnostic::Diagnostic(Viewer &v) : viewer(v) {}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Diagnostic::update() {
+  // ImGui::ShowDemoWindow();
+
+  if (selected_entity == nullptr) {
+    selectEntity(viewer.engine->entities[0]);
+  }
+
+  // global debug window
+  ImGui::Begin("Debug");
+
+  // fps
+  ImGui::Text("FPS: %i", static_cast<int>(viewer.fps));
+
+  { // entities
+    int active_entity_index = 0;
+    std::vector<Entity *> entity_pointers;
+    std::vector<const char *> entities;
+    process_entity_list(entities, entity_pointers, active_entity_index);
+    ImGui::Combo("Entities", &active_entity_index, entities.data(),
+                 entities.size());
+    if (selected_entity) {
+      if (selected_entity->name != entities[active_entity_index]) {
+        selectEntity(entity_pointers[active_entity_index]);
+      }
+    }
+  }
+
+  ImGui::End();
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Diagnostic::selectEntity(Entity *e) { selected_entity = e; }
 
 // -----------------------------------------------------------------------------
 //
@@ -39,4 +85,21 @@ void Diagnostic::active(bool status) {
 // -----------------------------------------------------------------------------
 bool Diagnostic::active() { return on; }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
+                                     std::vector<Entity *> &out_pointers,
+                                     int &out_active_index) {
+
+  int idx = 0;
+  for (auto &entity : viewer.engine->entities) {
+    out_list.emplace_back(entity->name.c_str());
+    out_pointers.emplace_back(entity);
+    if (selected_entity == entity) {
+      out_active_index = idx;
+    }
+    idx++;
+  }
+}
 } // namespace gamelib2

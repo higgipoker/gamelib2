@@ -46,6 +46,9 @@ public:
   void connectDiagnostics(Diagnostic &d);
   sf::RenderWindow &getWindow();
   bool running = true;
+  float fps = 0;
+
+  Engine *engine = nullptr;
 
 private:
   void render();
@@ -61,11 +64,9 @@ private:
   std::unique_ptr<Widget> root_widget = std::make_unique<Widget>();
   Widget *grabbed_widget = nullptr;
   bool widget_changed = false;
-  Engine *engine = nullptr;
   bool widget_grabbed = false;
   sf::Clock fps_clock;
   sf::Time time;
-  float fps = 0;
   void calc_fps();
 
   sf::View view;

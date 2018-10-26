@@ -24,9 +24,16 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
+#include <SFML/Graphics/Shape.hpp>
 #include <map>
 
 namespace gamelib2 {
+
+enum AnchorType{
+    ANCHOR_TOP_LEFT,
+    ANCHOR_CENTER,
+    ANCHOR_BASE_CENTER
+};
 
 class Entity;
 class Widget {
@@ -99,6 +106,9 @@ public:
   // dragged by debug gui
   virtual void onDragged(const Vector3 &diff);
 
+  // position according to anchor
+  void anchor();
+
   // my parent widget in the tree struct
   Widget *parent = nullptr;
 
@@ -123,8 +133,14 @@ public:
   // every widget is associated with a game entity (controller)
   Entity *entity = nullptr;
 
+  // how the widget is displayed inrelation to x,y position
+  AnchorType anchor_type = ANCHOR_CENTER;
+
   // a list of drawable primitives for debug
   std::vector<sf::VertexArray> primitives;
+
+  // a list of drawable shapes for debug
+  std::vector<sf::Shape*> shapes;
 
 protected:
   // draw the bounds rect
@@ -132,6 +148,7 @@ protected:
 
   // current running animation
   SpriteAnimation *current_animation = nullptr;
+
 };
 
 } // namespace gamelib2
