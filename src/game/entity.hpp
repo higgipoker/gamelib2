@@ -59,7 +59,10 @@ public:
   void onDragged(const Vector3 &diff) override;
 
   // movement speed
-  float speed = 150.0f;
+  float speed = 100.0f;
+
+  // helper to set position through a function
+  void setPosition(float x, float y);
 
   // physical aspects
   Vector3 position;

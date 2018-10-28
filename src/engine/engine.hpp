@@ -54,14 +54,14 @@ public:
   // list of entities
   EntityList entities;
 
+  // track current fram count
+  int frame_count = 0;
+
   Camera camera;
 
 private:
   // engine links to a viewer
   Viewer *viewer = nullptr;
-
-  // track current fram count
-  int frame_count = 0;
 
   // fps stuff
   struct FrameRateManager {

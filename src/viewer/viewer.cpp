@@ -95,7 +95,7 @@ void Viewer::startup() {}
 // -----------------------------------------------------------------------------
 // close
 // -----------------------------------------------------------------------------
-void Viewer::close() {}
+void Viewer::close() { window.close(); }
 
 // -----------------------------------------------------------------------------
 // run
@@ -113,11 +113,6 @@ void Viewer::frame() {
   render();
 
   // --------------------
-  // present
-  // --------------------
-  window.display();
-
-  // --------------------
   // fps
   // --------------------
   calc_fps();
@@ -131,7 +126,12 @@ void Viewer::render() {
   sort_widgets();
   window.setView(engine->camera.view);
   root_widget->render(window);
-  ImGui::SFML::Render(window);
+
+  if (debug->active()) {
+    debug->render();
+  }
+
+  window.display();
 }
 
 // -----------------------------------------------------------------------------
@@ -170,6 +170,8 @@ void Viewer::remWidget(Widget *in_widget) {
 void Viewer::on_click(int x, int y, Widget &widget) {
   // process current widget
   if (widget.clickable) {
+    // widget.anchor(); // tmp - anchor changes on screen position for some
+    // widgets
     if (widget.hit(x, y)) {
       widget.click(x, y);
       grabbed_widget = &widget;
@@ -189,7 +191,9 @@ void Viewer::get_input() {
 
   static sf::Event event;
   while (window.pollEvent(event)) {
-    ImGui::SFML::ProcessEvent(event);
+    if (debug->active()) {
+      ImGui::SFML::ProcessEvent(event);
+    }
     switch (event.type) {
 
     case sf::Event::Resized: {
@@ -198,6 +202,10 @@ void Viewer::get_input() {
     case sf::Event::KeyReleased:
       if (event.key.code == sf::Keyboard::Tab) {
         Diagnostic::active(!Diagnostic::active());
+
+        if (!Diagnostic::active()) {
+          debug->onClose();
+        }
       }
       break;
 

@@ -137,13 +137,17 @@ void Sprite::setPosition(float x, float y) {
   float dx = this->position().x - x;
   float dy = this->position().y - y;
   sprite.setPosition(x, y);
+  if(shadow){
+      shadow->setPosition(x,y);
+  }
+
   Widget::move(dx, dy);
 }
 
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-float Sprite::scale() { return sprite.getScale().x; }
+sf::Vector2f Sprite::scale() { return sprite.getScale(); }
 
 // -----------------------------------------------------------------------------
 // getScale
@@ -157,4 +161,31 @@ void Sprite::connectShadow(std::unique_ptr<gamelib2::Sprite> spr) {
 // getShadow
 // -----------------------------------------------------------------------------
 Sprite *Sprite::getShadow() { return shadow.get(); }
+
+// -----------------------------------------------------------------------------
+// swapColors
+// -----------------------------------------------------------------------------
+void Sprite::swapColors(
+    const std::vector<std::pair<sf::Color, sf::Color>> &palette) {
+
+  // get a copy of the original texture
+  sf::Image img = texture().copyToImage();
+
+  // replace the colors in the copy
+  for (auto &colours : palette) {
+    for (auto x = 0; x < img.getSize().x; ++x) {
+      for (auto y = 0; y < img.getSize().y; ++y) {
+        if (img.getPixel(x, y) == colours.first) {
+          img.setPixel(x, y, colours.second);
+        }
+      }
+    }
+  }
+
+  // load the copy into the unique texture
+  unique_texture.loadFromImage(img);
+
+  // use the unique texture for the sprite
+  sprite.setTexture(unique_texture);
+}
 } // namespace gamelib2

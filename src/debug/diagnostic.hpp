@@ -20,7 +20,8 @@
 #pragma once
 
 #include "../game/entity.hpp"
-
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Clock.hpp>
 
 namespace gamelib2 {
 class viewer;
@@ -31,17 +32,27 @@ public:
   static void active(bool status);
   static bool active();
   virtual void update();
+  void render();
   virtual void selectEntity(Entity *e);
-  virtual void deSelect()=0;
+  virtual void deSelect() = 0;
+  virtual void onClose() = 0;
 
 protected:
   Viewer &viewer;
   static bool on;
-  Entity* selected_entity = nullptr;
+  static bool inited;
+  Entity *selected_entity = nullptr;
   unsigned int active_entity_index = 0;
 
-  void process_entity_list(std::vector<const char *> &out_list, std::vector<Entity*> &out_pointers,
-                              int &out_active_index);
+  void process_entity_list(std::vector<const char *> &out_list,
+                           std::vector<Entity *> &out_pointers,
+                           int &out_active_index);
+
+  sf::FloatRect panel_dimensions;
+  sf::FloatRect last_panel_dimensions;
+
+  int shown_fps = 0;
+  sf::Clock ui_clock;
 };
 
 } // namespace gamelib2

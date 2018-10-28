@@ -25,20 +25,42 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 
+#include <iostream>
+
 namespace gamelib2 {
 
 bool Diagnostic::on = false;
+bool Diagnostic::inited = false;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-Diagnostic::Diagnostic(Viewer &v) : viewer(v) {}
+Diagnostic::Diagnostic(Viewer &v) : viewer(v) {
+  panel_dimensions.left = 0;
+  panel_dimensions.top = 0;
+  panel_dimensions.width = 0;
+  panel_dimensions.height = 0;
+}
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 void Diagnostic::update() {
+  inited = true;
+  ImGui::SFML::Update(viewer.getWindow(), ui_clock.restart());
   // ImGui::ShowDemoWindow();
+
+  // dimensions
+  panel_dimensions.width = viewer.getWindow().getSize().x / 3.2f;
+  panel_dimensions.height = viewer.getWindow().getSize().y / 5;
+  panel_dimensions.left =
+      viewer.getWindow().getSize().x - panel_dimensions.width;
+  panel_dimensions.top = 0;
+
+  ImGui::SetNextWindowSize(
+      sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
+  ImGui::SetNextWindowPos(
+      sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
   if (selected_entity == nullptr) {
     selectEntity(viewer.engine->entities[0]);
@@ -48,7 +70,10 @@ void Diagnostic::update() {
   ImGui::Begin("Debug");
 
   // fps
-  ImGui::Text("FPS: %i", static_cast<int>(viewer.fps));
+  if (viewer.engine->frame_count % 100 == 0) {
+    shown_fps = viewer.fps;
+  }
+  ImGui::Text("FPS: %i", static_cast<int>(shown_fps));
 
   { // entities
     int active_entity_index = 0;
@@ -64,6 +89,7 @@ void Diagnostic::update() {
     }
   }
 
+  last_panel_dimensions = panel_dimensions;
   ImGui::End();
 }
 
@@ -78,6 +104,10 @@ void Diagnostic::selectEntity(Entity *e) { selected_entity = e; }
 void Diagnostic::active(bool status) {
   on = status;
   Widget::debug = on;
+
+  if (!on) {
+    inited = false;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -100,6 +130,15 @@ void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
       out_active_index = idx;
     }
     idx++;
+  }
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Diagnostic::render() {
+  if (inited) {
+    ImGui::SFML::Render(viewer.getWindow());
   }
 }
 } // namespace gamelib2

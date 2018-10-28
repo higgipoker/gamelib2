@@ -22,18 +22,14 @@
 #include "../types.hpp"
 #include "../widgets/spriteanimation.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
-#include <SFML/Graphics/Shape.hpp>
 #include <map>
 
 namespace gamelib2 {
 
-enum AnchorType{
-    ANCHOR_TOP_LEFT,
-    ANCHOR_CENTER,
-    ANCHOR_BASE_CENTER
-};
+enum AnchorType { ANCHOR_TOP_LEFT, ANCHOR_CENTER, ANCHOR_BASE_CENTER };
 
 class Entity;
 class Widget {
@@ -86,7 +82,7 @@ public:
   virtual void scale(float x, float y);
 
   // get scale
-  virtual float scale();
+  virtual sf::Vector2f scale();
 
   // check if point is in bounds
   virtual bool hit(int x, int y);
@@ -140,7 +136,7 @@ public:
   std::vector<sf::VertexArray> primitives;
 
   // a list of drawable shapes for debug
-  std::vector<sf::Shape*> shapes;
+  std::vector<sf::Shape *> shapes;
 
 protected:
   // draw the bounds rect
@@ -148,7 +144,6 @@ protected:
 
   // current running animation
   SpriteAnimation *current_animation = nullptr;
-
 };
 
 } // namespace gamelib2

@@ -31,58 +31,6 @@ void Controller::update() {
       notify(ControllerEvent(Fire, Pressed));
     }
   }
-
-  //
-  // Left
-  //
-  if (!old_states[InputState::Left]) {
-    if (input.states[InputState::Left]) {
-      notify(ControllerEvent(DPadLeft, Pressed));
-    }
-  } else {
-    if (!input.states[InputState::Left]) {
-      notify(ControllerEvent(DPadLeft, Released));
-    }
-  }
-
-  //
-  // Right
-  //
-  if (!old_states[InputState::Right]) {
-    if (input.states[InputState::Right]) {
-      notify(ControllerEvent(DPadRight, Pressed));
-    }
-  } else {
-    if (!input.states[InputState::Right]) {
-      notify(ControllerEvent(DPadRight, Released));
-    }
-  }
-
-  //
-  // Up
-  //
-  if (!old_states[InputState::Up]) {
-    if (input.states[InputState::Up]) {
-      notify(ControllerEvent(DPadUp, Pressed));
-    }
-  } else {
-    if (!input.states[InputState::Up]) {
-      notify(ControllerEvent(DPadUp, Released));
-    }
-  }
-
-  //
-  // Down
-  //
-  if (!old_states[InputState::Down]) {
-    if (input.states[InputState::Down]) {
-      notify(ControllerEvent(DPadDown, Pressed));
-    }
-  } else {
-    if (!input.states[InputState::Down]) {
-      notify(ControllerEvent(DPadDown, Released));
-    }
-  }
 }
 
 // -----------------------------------------------------------------------------
