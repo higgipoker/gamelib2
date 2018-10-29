@@ -26,6 +26,7 @@
 #include <imgui.h>
 
 #include <iostream>
+#include <sstream>
 
 namespace gamelib2 {
 
@@ -51,8 +52,8 @@ void Diagnostic::update() {
   // ImGui::ShowDemoWindow();
 
   // dimensions
-  panel_dimensions.width = viewer.getWindow().getSize().x / 3.2f;
-  panel_dimensions.height = viewer.getWindow().getSize().y / 5;
+  panel_dimensions.width = viewer.getWindow().getSize().x / 3;
+  panel_dimensions.height = viewer.getWindow().getSize().y / 4;
   panel_dimensions.left =
       viewer.getWindow().getSize().x - panel_dimensions.width;
   panel_dimensions.top = 0;
@@ -69,25 +70,33 @@ void Diagnostic::update() {
   // global debug window
   ImGui::Begin("Debug");
 
-  // fps
-  if (viewer.engine->frame_count % 100 == 0) {
-    shown_fps = viewer.fps;
-  }
-  ImGui::Text("FPS: %i", static_cast<int>(shown_fps));
+  {// fps
+    std::vector<float> values;
+    unsigned int cnt = 0;
+    for(auto &val : fps_history){
+      values.push_back(val);
+      cnt+=val;
+    }
+    unsigned int avg = static_cast<unsigned int>(cnt / values.size());
+    std::ostringstream capt;
+    capt << "Average FPS: " << static_cast<int>(avg);
+    ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()), 0, capt.str().c_str(), avg - 10, avg +10, ImVec2(0,50));
+  }// end fps
 
   { // entities
     int active_entity_index = 0;
     std::vector<Entity *> entity_pointers;
     std::vector<const char *> entities;
     process_entity_list(entities, entity_pointers, active_entity_index);
-    ImGui::Combo("Entities", &active_entity_index, entities.data(),
-                 entities.size());
+    std::ostringstream e_capt;
+    ImGui::Combo("##Entities", &active_entity_index, entities.data(),
+                 static_cast<int>(entities.size()));
     if (selected_entity) {
-      if (selected_entity->name != entities[active_entity_index]) {
-        selectEntity(entity_pointers[active_entity_index]);
+      if (selected_entity->name != entities[static_cast<unsigned long>(active_entity_index)]) {
+        selectEntity(entity_pointers[static_cast<unsigned long>(active_entity_index)]);
       }
     }
-  }
+  }// end entities
 
   last_panel_dimensions = panel_dimensions;
   ImGui::End();

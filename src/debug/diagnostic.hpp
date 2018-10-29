@@ -22,6 +22,7 @@
 #include "../game/entity.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Clock.hpp>
+#include <deque>
 
 namespace gamelib2 {
 class viewer;
@@ -36,6 +37,8 @@ public:
   virtual void selectEntity(Entity *e);
   virtual void deSelect() = 0;
   virtual void onClose() = 0;
+
+  std::deque<float> fps_history;
 
 protected:
   Viewer &viewer;

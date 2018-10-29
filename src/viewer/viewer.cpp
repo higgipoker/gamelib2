@@ -300,6 +300,14 @@ void Viewer::calc_fps() {
   time = fps_clock.getElapsedTime();
   fps = 1.0f / time.asSeconds();
   fps_clock.restart().asSeconds();
+
+
+  if(debug){
+    debug->fps_history.push_back(fps);
+    if(debug->fps_history.size() > 100){
+      debug->fps_history.pop_front();
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------

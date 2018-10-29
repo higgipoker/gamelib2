@@ -28,7 +28,6 @@
 #include <SFML/System/Clock.hpp>
 #include <map>
 #include <memory>
-
 namespace gamelib2 {
 
 class Engine;
