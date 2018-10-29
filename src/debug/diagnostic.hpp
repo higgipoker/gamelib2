@@ -54,7 +54,10 @@ protected:
   sf::FloatRect panel_dimensions;
   sf::FloatRect last_panel_dimensions;
 
-  int shown_fps = 0;
+  float shown_fps = 0;
+  float fps_min=1000;
+  float fps_max = 0;
+  int frame_count=0;
   sf::Clock ui_clock;
 };
 
