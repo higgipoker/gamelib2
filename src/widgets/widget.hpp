@@ -50,7 +50,7 @@ public:
   virtual void render(sf::RenderTarget &target);
 
   // add a child to the widget tree from here
-  virtual void addChild(Widget *in_widget);
+  virtual void addChild(std::weak_ptr<Widget >in_widget);
 
   // add an animation by pointer
   virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
@@ -58,7 +58,7 @@ public:
   // add an animation by params
   virtual void addAnimation(const std::string &animname, unsigned int frametime,
                             bool loopanim,
-                            const std::vector<unsigned int> &framelist);
+                            const std::vector< unsigned int > &framelist);
 
   // start an animation
   virtual void startAnimation(const std::string &a_name);
@@ -85,7 +85,7 @@ public:
   virtual sf::Vector2f scale();
 
   // check if point is in bounds
-  virtual bool hit(float  x, float  y);
+  virtual bool hit(float x, float y);
 
   // handle a click
   virtual void click(float x, float y);
@@ -118,7 +118,7 @@ public:
   bool clickable = false;
 
   // list of animations
-  std::map<std::string, SpriteAnimation> animations;
+  std::map< std::string, SpriteAnimation > animations;
 
   // is debugmode activated
   static bool debug;
@@ -133,10 +133,10 @@ public:
   AnchorType anchor_type = ANCHOR_CENTER;
 
   // a list of drawable primitives for debug
-  std::vector<sf::VertexArray> primitives;
+  std::vector< sf::VertexArray > primitives;
 
   // a list of drawable shapes for debug
-  std::vector<sf::Shape *> shapes;
+  std::vector< sf::Shape * > shapes;
 
 protected:
   // draw the bounds rect

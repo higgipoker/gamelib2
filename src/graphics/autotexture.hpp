@@ -3,8 +3,8 @@
 
 #include <SFML/Graphics/Texture.hpp>
 #include <map>
-#include <string>
 #include <memory>
+#include <string>
 
 namespace gamelib2 {
 
@@ -12,12 +12,12 @@ namespace gamelib2 {
  * @brief easier to read than a pair
  */
 struct CountedTexture {
-    CountedTexture(std::shared_ptr<sf::Texture> a_texture, int a_count)
-      : texture(a_texture)
-      , count(a_count) {
-    }
-    std::shared_ptr<sf::Texture> texture;
-    int count = 0;
+  CountedTexture(std::shared_ptr< sf::Texture > a_texture, int a_count)
+    : texture(a_texture)
+    , count(a_count) {
+  }
+  std::shared_ptr< sf::Texture > texture;
+  int count = 0;
 };
 
 /**
@@ -28,40 +28,40 @@ struct CountedTexture {
  */
 class AutoTexture {
 public:
-    /**
-     * @brief AutoTexture
-     */
-    AutoTexture();
+  /**
+   * @brief AutoTexture
+   */
+  AutoTexture();
 
-    /**
-     * @brief AutoTexture
-     * @param a_filename
-     */
-    AutoTexture(std::string a_filename);
+  /**
+   * @brief AutoTexture
+   * @param a_filename
+   */
+  AutoTexture(std::string a_filename);
 
-    /**
-     * @brief Initialize
-     * @param a_filename
-     */
-    void Initialize(std::string a_filename);
+  /**
+   * @brief Initialize
+   * @param a_filename
+   */
+  void Initialize(std::string a_filename);
 
-    /**
-     * @brief operator ()
-     * @return
-     */
-    sf::Texture &operator()() {
-        return *texture;
-    }
+  /**
+   * @brief operator ()
+   * @return
+   */
+  sf::Texture &operator()() {
+    return *texture;
+  }
 
 private:
-    /// sf texture
-    std::shared_ptr<sf::Texture> texture;
+  /// sf texture
+  std::shared_ptr< sf::Texture > texture;
 
-    /// track image filename
-    std::string filename;
+  /// track image filename
+  std::string filename;
 
-    /// static list of textures for ref counting
-    static std::map<std::string, CountedTexture> textures;
+  /// static list of textures for ref counting
+  static std::map< std::string, CountedTexture > textures;
 };
 
 } // namespace gamelib2

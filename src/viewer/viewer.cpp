@@ -145,31 +145,15 @@ void Viewer::render() {
 // -----------------------------------------------------------------------------
 // addWidget
 // -----------------------------------------------------------------------------
-void Viewer::addWidget(Widget *new_widget) {
+void Viewer::addWidget(std::weak_ptr<Widget >new_widget) {
   root_widget->addChild(new_widget);
 }
 
 // -----------------------------------------------------------------------------
 // remWidget
 // -----------------------------------------------------------------------------
-void Viewer::remWidget(Widget *in_widget) {
-  //
-  auto w = root_widget.get();
-
-  while (!w->children.empty()) {
-    const auto original_size = w->children.size();
-    // already found?
-    w->children.erase(
-      std::remove(w->children.begin(), w->children.end(), in_widget),
-      w->children.end());
-
-    if (w->children.size() != original_size) {
-      for (auto &child : in_widget->children) {
-        remWidget(child);
-      }
-      return;
-    }
-  }
+void Viewer::remWidget(std::weak_ptr<Widget >in_widget) {
+// TODO
 }
 
 // -----------------------------------------------------------------------------
@@ -188,7 +172,7 @@ void Viewer::on_click(float x, float y, Widget &widget) {
 
   // recursive call on children
   for (auto &child : widget.children) {
-    on_click(x, y, *child);
+    on_click(x, y, *child.lock());
   }
 }
 
@@ -301,7 +285,7 @@ void Viewer::sort_widgets() {
 
   while (!parent->children.empty()) {
     parent->sort();
-    parent = parent->children[0];
+    parent = parent->children[0].lock().get();
   }
 }
 

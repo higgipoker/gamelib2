@@ -160,7 +160,7 @@ void Sprite::connectShadow(std::unique_ptr<gamelib2::Sprite> spr) {
 // -----------------------------------------------------------------------------
 // getShadow
 // -----------------------------------------------------------------------------
-Sprite *Sprite::getShadow() { return shadow.get(); }
+std::shared_ptr<Sprite> Sprite::getShadow() { return shadow; }
 
 // -----------------------------------------------------------------------------
 // swapColors

@@ -64,7 +64,7 @@ void Engine::frame(float dt) {
 void Engine::connectViewer(std::shared_ptr<Viewer> &in_viewer) {
   viewer = in_viewer;
   if(auto view=viewer.lock()){
-    view->onMessage("connected");
+   view->onMessage("connected");
   }
 }
 
@@ -77,7 +77,6 @@ void Engine::addEntity(Entity *in_entity) { entities.emplace_back(in_entity); }
 // addEntity
 // -----------------------------------------------------------------------------
 void Engine::remEntity(Entity *in_entity) {
-  // entities.emplace_back(in_entity);
 }
 
 // -----------------------------------------------------------------------------

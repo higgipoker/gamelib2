@@ -17,7 +17,7 @@ AutoTexture::AutoTexture(std::string a_filename) {
 }
 
 // -----------------------------------------------------------------------------
-// ~Initialize
+// Initialize
 // -----------------------------------------------------------------------------
 void AutoTexture::Initialize(std::string a_filename) {
   filename = std::move(a_filename);
@@ -27,7 +27,6 @@ void AutoTexture::Initialize(std::string a_filename) {
     texture = (*tex).second.texture;
     ++(*tex).second.count;
   } else {
-    std::cout << "new texture: " << filename << std::endl;
     texture = std::make_shared<sf::Texture>();
     texture->loadFromFile(filename);
     textures.insert(std::make_pair(filename, CountedTexture(texture, 1)));

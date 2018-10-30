@@ -41,7 +41,7 @@ public:
   std::deque<float> fps_history;
 
 protected:
-  Viewer &viewer;
+  std::weak_ptr<Viewer> viewer;
   static bool on;
   static bool inited;
   Entity *selected_entity = nullptr;

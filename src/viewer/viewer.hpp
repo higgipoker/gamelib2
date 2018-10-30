@@ -38,8 +38,8 @@ public:
   void startup();
   void frame();
   void close();
-  void addWidget(Widget *new_widget);
-  void remWidget(Widget *in_widget);
+  void addWidget(std::weak_ptr<Widget> new_widget);
+  void remWidget(std::weak_ptr<Widget> in_widget);
   void connectEngine(std::shared_ptr<Engine> &in_engine);
   void onMessage(const std::string &in_message);
   void connectDiagnostics(Diagnostic &d);

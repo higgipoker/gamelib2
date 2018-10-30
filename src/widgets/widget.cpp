@@ -29,8 +29,8 @@ bool Widget::debug = false;
 // sort predicate for widgets)
 // -----------------------------------------------------------------------------
 struct {
-  bool operator()(const Widget *w1, const Widget *w2) const {
-    return w1->z_order < w2->z_order;
+  bool operator()(const std::weak_ptr<Widget>w1, const std::weak_ptr<Widget>w2) const {
+    return w1.lock()->z_order < w2.lock()->z_order;
   }
 } sort_widget;
 
@@ -57,12 +57,15 @@ std::string Widget::getName() {
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(Entity *in_entity) { entity = in_entity; }
+void Widget::connectEntity(Entity *in_entity) {
+  entity = in_entity;
+}
 
 // -----------------------------------------------------------------------------
 // releaseEntity
 // -----------------------------------------------------------------------------
-void Widget::releaseEntity() {}
+void Widget::releaseEntity() {
+}
 
 // -----------------------------------------------------------------------------
 // render
@@ -71,8 +74,10 @@ void Widget::render(sf::RenderTarget &target) {
 
   // draw all children
   for (auto &widget : children) {
-    widget->anchor();
-    widget->render(target);
+    if (auto w = widget.lock()) {
+      w->anchor();
+      w->render(target);
+    }
   }
 
   // draw debug shapes
@@ -94,34 +99,40 @@ void Widget::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 // addChild
 // -----------------------------------------------------------------------------
-void Widget::addChild(Widget *in_widget) {
+void Widget::addChild(std::weak_ptr<Widget> in_widget) {
   children.emplace_back(in_widget);
-  in_widget->parent = this;
+  in_widget.lock()->parent = this;
 }
 
 // -----------------------------------------------------------------------------
 // hit
 // -----------------------------------------------------------------------------
-bool Widget::hit(float  x, float  y) { return (bounds().contains(x, y)); }
+bool Widget::hit(float x, float y) {
+  return (bounds().contains(x, y));
+}
 
 // -----------------------------------------------------------------------------
 // onClick
 // -----------------------------------------------------------------------------
-void Widget::click(float  x, float  y) {}
+void Widget::click(float x, float y) {
+}
 
 // -----------------------------------------------------------------------------
 // move
 // -----------------------------------------------------------------------------
 void Widget::move(float dx, float dy) {
   for (auto &child : children) {
-    child->move(dx, dy);
+    if (auto c = child.lock()) {
+      c->move(dx, dy);
+    }
   }
 }
 
 // -----------------------------------------------------------------------------
 // setPosition
 // -----------------------------------------------------------------------------
-void Widget::setPosition(float x, float y) {}
+void Widget::setPosition(float x, float y) {
+}
 
 // -----------------------------------------------------------------------------
 // position
@@ -134,14 +145,16 @@ sf::Vector2f Widget::position() {
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {}
+void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {
+}
 
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
 void Widget::addAnimation(const std::string &animname, unsigned int frametime,
                           bool loopanim,
-                          const std::vector<unsigned int> &framelist) {}
+                          const std::vector< unsigned int > &framelist) {
+}
 
 // -----------------------------------------------------------------------------
 // startAnimation
@@ -166,27 +179,35 @@ void Widget::stopAnimation() {
 // -----------------------------------------------------------------------------
 // stopAnimation
 // -----------------------------------------------------------------------------
-SpriteAnimation *Widget::currentAnimation() { return current_animation; }
+SpriteAnimation *Widget::currentAnimation() {
+  return current_animation;
+}
 
 // -----------------------------------------------------------------------------
 // draw_animate
 // -----------------------------------------------------------------------------
-void Widget::animate() {}
+void Widget::animate() {
+}
 
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-sf::Vector2f Widget::scale() { return sf::Vector2f(1.f, 1.f); }
+sf::Vector2f Widget::scale() {
+  return sf::Vector2f(1.f, 1.f);
+}
 
 // -----------------------------------------------------------------------------
 // getBounds
 // -----------------------------------------------------------------------------
-sf::FloatRect Widget::bounds() { return {}; }
+sf::FloatRect Widget::bounds() {
+  return {};
+}
 
 // -----------------------------------------------------------------------------
 // scale
 // -----------------------------------------------------------------------------
-void Widget::scale(float x, float y) {}
+void Widget::scale(float x, float y) {
+}
 
 // -----------------------------------------------------------------------------
 // sort
@@ -204,8 +225,10 @@ void Widget::onDragged(const Vector3 &diff) {
   // just pass off to entity
   entity->onDragged(diff);
   for (auto &child : children) {
-    if (child->entity) {
-      child->entity->onDragged(diff);
+    if (auto c = child.lock()) {
+      if (c->entity) {
+        c->entity->onDragged(diff);
+      }
     }
   }
 }
@@ -231,45 +254,45 @@ void Widget::anchor() {
 // draw_bounds
 // -----------------------------------------------------------------------------
 void Widget::draw_bounds(sf::RenderTarget &target) {
-  std::vector<sf::Vertex> vertices;
+  std::vector< sf::Vertex > vertices;
   sf::FloatRect rect = bounds();
 
   // line 1
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left, rect.top),
-                 grabbed ? sf::Color::White
-                         : grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left, rect.top),
+               grabbed ? sf::Color::White
+                       : grabbed ? sf::Color::White : sf::Color::Magenta));
 
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   // line 2
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   // line 3
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left + rect.width, rect.top + rect.height),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   // kline 4
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   vertices.emplace_back(
-      sf::Vertex(sf::Vector2f(rect.left, rect.top),
-                 grabbed ? sf::Color::White : sf::Color::Magenta));
+    sf::Vertex(sf::Vector2f(rect.left, rect.top),
+               grabbed ? sf::Color::White : sf::Color::Magenta));
 
   target.draw(&vertices[0], vertices.size(), sf::Lines);
 

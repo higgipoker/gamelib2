@@ -38,9 +38,9 @@ public:
   float image_height = 0;
   bool has_shadow = false;
 
-  Sprite *getShadow();
+  std::shared_ptr<Sprite> getShadow();
 
-  std::unique_ptr<Sprite> shadow;
+  std::shared_ptr<Sprite> shadow;
 
 private:
   AutoTexture texture;

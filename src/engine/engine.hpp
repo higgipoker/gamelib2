@@ -34,7 +34,7 @@ public:
   void frame(float dt);
 
   // connect to a viewer
-  void connectViewer(std::shared_ptr<Viewer> &in_viewer);
+  void connectViewer(std::shared_ptr<Viewer> & in_viewer);
 
   // add an entity to the engine
   void addEntity(Entity *in_entity);

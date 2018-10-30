@@ -36,7 +36,7 @@ Entity::~Entity() = default;
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(std::unique_ptr<Widget> in_widget) {
+void Entity::connectWidget(std::shared_ptr<Widget> in_widget) {
   widget = std::move(in_widget);
 }
 
