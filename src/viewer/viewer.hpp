@@ -40,20 +40,20 @@ public:
   void close();
   void addWidget(Widget *new_widget);
   void remWidget(Widget *in_widget);
-  void connectEngine(Engine *in_engine);
+  void connectEngine(std::shared_ptr<Engine> &in_engine);
   void onMessage(const std::string &in_message);
   void connectDiagnostics(Diagnostic &d);
   sf::RenderWindow &getWindow();
   bool running = true;
   float fps = 0;
 
-  Engine *engine = nullptr;
+  std::weak_ptr<Engine> engine;
 
 private:
   void render();
   void get_input();
   void do_debug_ui();
-  void on_click(int x, int y, Widget &widget);
+  void on_click(float x, float y, Widget &widget);
   void sort_widgets();
   bool mouse_pressed = false;
   sf::RenderWindow window;

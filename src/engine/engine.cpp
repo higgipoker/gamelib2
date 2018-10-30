@@ -36,7 +36,7 @@ Engine::Engine() : camera("camera"){};
 // -----------------------------------------------------------------------------
 // ~Engine
 // -----------------------------------------------------------------------------
-Engine::~Engine() { entities.clear(); }
+Engine::~Engine() { entities.clear(); viewer.reset(); }
 
 // -----------------------------------------------------------------------------
 // run
@@ -61,9 +61,11 @@ void Engine::frame(float dt) {
 // -----------------------------------------------------------------------------
 // connectViewer
 // -----------------------------------------------------------------------------
-void Engine::connectViewer(Viewer *in_viewer) {
+void Engine::connectViewer(std::shared_ptr<Viewer> &in_viewer) {
   viewer = in_viewer;
-  viewer->onMessage("connected");
+  if(auto view=viewer.lock()){
+    view->onMessage("connected");
+  }
 }
 
 // -----------------------------------------------------------------------------

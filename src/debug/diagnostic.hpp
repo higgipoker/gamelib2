@@ -28,7 +28,7 @@ namespace gamelib2 {
 class viewer;
 class Diagnostic {
 public:
-  Diagnostic(Viewer &v);
+  Diagnostic(std::shared_ptr<Viewer> &v);
   virtual ~Diagnostic() = default;
   static void active(bool status);
   static bool active();

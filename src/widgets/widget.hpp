@@ -85,10 +85,10 @@ public:
   virtual sf::Vector2f scale();
 
   // check if point is in bounds
-  virtual bool hit(int x, int y);
+  virtual bool hit(float  x, float  y);
 
   // handle a click
-  virtual void click(int x, int y);
+  virtual void click(float x, float y);
 
   // get the bounds
   virtual sf::FloatRect bounds();

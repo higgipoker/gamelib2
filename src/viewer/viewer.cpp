@@ -33,7 +33,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 static bool valid_videomode(unsigned int width, unsigned int height) {
   // get list of supported video modes
-  std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
+  std::vector< sf::VideoMode > modes = sf::VideoMode::getFullscreenModes();
 
   // search for one that matched the requested width and height
   for (auto &mode : modes) {
@@ -50,8 +50,8 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer()
-    : root_entity(std::make_unique<Entity>("root", "root")),
-      root_widget(std::make_unique<Widget>()) {
+  : root_entity(std::make_unique< Entity >("root", "root"))
+  , root_widget(std::make_unique< Widget >()) {
   root_widget->connectEntity(root_entity.get());
   video_mode.width = 800;
   video_mode.height = 600;
@@ -79,22 +79,28 @@ Viewer::Viewer()
 Viewer::~Viewer() {
   running = false;
   window.close();
+  engine.reset();
 }
 
 // -----------------------------------------------------------------------------
 // getWindow
 // -----------------------------------------------------------------------------
-sf::RenderWindow &Viewer::getWindow() { return window; }
+sf::RenderWindow &Viewer::getWindow() {
+  return window;
+}
 
 // -----------------------------------------------------------------------------
 // startup
 // -----------------------------------------------------------------------------
-void Viewer::startup() {}
+void Viewer::startup() {
+}
 
 // -----------------------------------------------------------------------------
 // close
 // -----------------------------------------------------------------------------
-void Viewer::close() { window.close(); }
+void Viewer::close() {
+  window.close();
+}
 
 // -----------------------------------------------------------------------------
 // run
@@ -123,7 +129,10 @@ void Viewer::frame() {
 void Viewer::render() {
   window.clear();
   sort_widgets();
-  window.setView(engine->camera.view);
+
+  if (auto eng = engine.lock()) {
+    window.setView(eng->camera.view);
+  }
   root_widget->render(window);
 
   if (debug->active()) {
@@ -151,8 +160,8 @@ void Viewer::remWidget(Widget *in_widget) {
     const auto original_size = w->children.size();
     // already found?
     w->children.erase(
-        std::remove(w->children.begin(), w->children.end(), in_widget),
-        w->children.end());
+      std::remove(w->children.begin(), w->children.end(), in_widget),
+      w->children.end());
 
     if (w->children.size() != original_size) {
       for (auto &child : in_widget->children) {
@@ -166,7 +175,7 @@ void Viewer::remWidget(Widget *in_widget) {
 // -----------------------------------------------------------------------------
 // on_click
 // -----------------------------------------------------------------------------
-void Viewer::on_click(int x, int y, Widget &widget) {
+void Viewer::on_click(float x, float y, Widget &widget) {
   // process current widget
   if (widget.clickable) {
     // widget.anchor(); // tmp - anchor changes on screen position for some
@@ -217,7 +226,9 @@ void Viewer::get_input() {
         running = false;
 
       } else if (event.key.code == sf::Keyboard::P) {
-        engine->paused = !engine->paused;
+        if (auto eng = engine.lock()) {
+          eng->paused = !engine.lock()->paused;
+        }
       }
       break;
 
@@ -271,7 +282,9 @@ void Viewer::get_input() {
 // -----------------------------------------------------------------------------
 // connectEngine
 // -----------------------------------------------------------------------------
-void Viewer::connectEngine(Engine *in_engine) { engine = in_engine; }
+void Viewer::connectEngine(std::shared_ptr< Engine > &in_engine) {
+  engine = in_engine;
+}
 
 // -----------------------------------------------------------------------------
 // onMessage
