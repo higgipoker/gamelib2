@@ -33,7 +33,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 static bool valid_videomode(unsigned int width, unsigned int height) {
   // get list of supported video modes
-  std::vector< sf::VideoMode > modes = sf::VideoMode::getFullscreenModes();
+  std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
   // search for one that matched the requested width and height
   for (auto &mode : modes) {
@@ -50,8 +50,8 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer()
-  : root_entity(std::make_unique< Entity >("root", "root"))
-  , root_widget(std::make_unique< Widget >()) {
+    : root_entity(std::make_unique<Entity>("root", "root")),
+      root_widget(std::make_unique<Widget>()) {
   root_widget->connectEntity(root_entity.get());
   video_mode.width = 800;
   video_mode.height = 600;
@@ -85,22 +85,17 @@ Viewer::~Viewer() {
 // -----------------------------------------------------------------------------
 // getWindow
 // -----------------------------------------------------------------------------
-sf::RenderWindow &Viewer::getWindow() {
-  return window;
-}
+sf::RenderWindow &Viewer::getWindow() { return window; }
 
 // -----------------------------------------------------------------------------
 // startup
 // -----------------------------------------------------------------------------
-void Viewer::startup() {
-}
+void Viewer::startup() {}
 
 // -----------------------------------------------------------------------------
 // close
 // -----------------------------------------------------------------------------
-void Viewer::close() {
-  window.close();
-}
+void Viewer::close() { window.close(); }
 
 // -----------------------------------------------------------------------------
 // run
@@ -145,15 +140,15 @@ void Viewer::render() {
 // -----------------------------------------------------------------------------
 // addWidget
 // -----------------------------------------------------------------------------
-void Viewer::addWidget(std::weak_ptr<Widget >new_widget) {
+void Viewer::addWidget(std::weak_ptr<Widget> new_widget) {
   root_widget->addChild(new_widget);
 }
 
 // -----------------------------------------------------------------------------
 // remWidget
 // -----------------------------------------------------------------------------
-void Viewer::remWidget(std::weak_ptr<Widget >in_widget) {
-// TODO
+void Viewer::remWidget(std::weak_ptr<Widget> in_widget) {
+  // TODO
 }
 
 // -----------------------------------------------------------------------------
@@ -266,7 +261,7 @@ void Viewer::get_input() {
 // -----------------------------------------------------------------------------
 // connectEngine
 // -----------------------------------------------------------------------------
-void Viewer::connectEngine(std::shared_ptr< Engine > &in_engine) {
+void Viewer::connectEngine(std::shared_ptr<Engine> &in_engine) {
   engine = in_engine;
 }
 
@@ -299,7 +294,7 @@ void Viewer::calc_fps() {
 
   if (debug) {
     debug->fps_history.push_back(fps);
-    if (debug->fps_history.size() > 100) {
+    if (debug->fps_history.size() > 1000) {
       debug->fps_history.pop_front();
     }
   }
