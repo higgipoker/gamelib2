@@ -17,71 +17,130 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
-#include "entity.hpp"
-#include "../widgets/widget.hpp"
+#include "file.hpp"
+
+#include <sstream>
 
 namespace gamelib2 {
 
 // -----------------------------------------------------------------------------
-// Entity
+//
 // -----------------------------------------------------------------------------
-Entity::Entity(std::string in_type, std::string in_name)
-    : type(std::move(in_type)), name(std::move(in_name)) {}
-
-// -----------------------------------------------------------------------------
-// ~Entity
-// -----------------------------------------------------------------------------
-Entity::~Entity() = default;
-
-// -----------------------------------------------------------------------------
-// connectWidget
-// -----------------------------------------------------------------------------
-void Entity::connectWidget(std::shared_ptr<Widget> in_widget) {
-  widget = std::move(in_widget);
-}
-
-// -----------------------------------------------------------------------------
-// releaseWidget
-// -----------------------------------------------------------------------------
-void Entity::releaseWidget() {}
-
-// -----------------------------------------------------------------------------
-// update
-// -----------------------------------------------------------------------------
-void Entity::update(float dt) {
-  // differnt types of enteties can override this to do movement physics or
-  // whatever
-
-  // reset the debug primitives
-  widget->shapes.clear();
-  widget->primitives.clear();
-}
-
-// -----------------------------------------------------------------------------
-// activate
-// -----------------------------------------------------------------------------
-void Entity::activate() {}
-
-// -----------------------------------------------------------------------------
-// perspectivize
-// -----------------------------------------------------------------------------
-void Entity::perspectivize(float camera_height) {}
-
-// -----------------------------------------------------------------------------
-// on_moved
-// -----------------------------------------------------------------------------
-void Entity::onDragged(const Vector3 &diff) { position += diff; }
+File::File(std::string f) : file_name(std::move(f)) {}
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Entity::setPosition(float x, float y) {
-  position.x = x;
-  position.y = y;
+File::~File() { close(); }
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void File::close() {
+  if (open_for_read) {
+    in_file.close();
+    open_for_read = false;
+  }
+  if (open_for_write) {
+    out_file.close();
+    open_for_write = false;
+  }
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Entity::setPosition(const Vector3 &pos) { position = pos; }
+void File::writeLine(const std::string &line) {
+  openForWrite();
+
+  if (out_file.is_open()) {
+    out_file << line.c_str() << "\n";
+  } else {
+    std::cout << "Unable to opne file: " << file_name.c_str();
+  }
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void File::writeLine(int line) {
+  std::ostringstream str;
+  str << line;
+
+  writeLine(str.str());
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void File::openForWrite() {
+  if (open_for_write) {
+    return;
+  }
+
+  if (open_for_read) {
+    in_file.close();
+  }
+
+  out_file.open(file_name.c_str(), std::ios::out);
+  open_for_write = true;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void File::openForRead() {
+  if (open_for_read) {
+    return;
+  }
+
+  if (open_for_write) {
+    out_file.close();
+  }
+
+  in_file.open(file_name.c_str(), std::ios::in);
+  open_for_read = true;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+std::vector<std::string> File::getLines() {
+  openForRead();
+
+  // temp
+  std::string line;
+  while (getline(in_file, line)) {
+    lines.push_back(line);
+  }
+
+  return lines;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+std::vector<std::string> File::getLines(const std::string &_ignore) {
+  openForRead();
+
+  // temp
+  std::string line;
+  while (getline(in_file, line)) {
+    auto found = line.find(_ignore);
+    if (found == std::string::npos) lines.push_back(line);
+  }
+
+  return lines;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void File::clearContents() {
+  close();
+  out_file.open(file_name.c_str(), std::ios::out | std::ios::trunc);
+  open_for_write = true;
+  close();
+}
+
 }  // namespace gamelib2

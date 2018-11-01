@@ -63,6 +63,7 @@ public:
 
   // helper to set position through a function
   void setPosition(float x, float y);
+  void setPosition(const Vector3 &pos);
 
   // physical aspects
   Vector3 position;

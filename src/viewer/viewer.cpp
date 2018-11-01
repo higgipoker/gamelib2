@@ -69,7 +69,7 @@ Viewer::Viewer()
 
   //    }
   view.reset(sf::FloatRect(0, 0, video_mode.width, video_mode.height));
-  window.setView(view);
+  // window.setView(view);
   ImGui::SFML::Init(window);
 }
 
@@ -101,7 +101,6 @@ void Viewer::close() { window.close(); }
 // run
 // -----------------------------------------------------------------------------
 void Viewer::frame() {
-
   // --------------------
   // input
   // --------------------
@@ -175,85 +174,83 @@ void Viewer::on_click(float x, float y, Widget &widget) {
 // get_input
 // -----------------------------------------------------------------------------
 void Viewer::get_input() {
-
   static sf::Event event;
   while (window.pollEvent(event)) {
     if (debug->active()) {
       ImGui::SFML::ProcessEvent(event);
     }
     switch (event.type) {
+      case sf::Event::Resized: {
+      } break;
 
-    case sf::Event::Resized: {
-    } break;
+      case sf::Event::KeyReleased:
+        if (event.key.code == sf::Keyboard::Tab) {
+          Diagnostic::active(!Diagnostic::active());
 
-    case sf::Event::KeyReleased:
-      if (event.key.code == sf::Keyboard::Tab) {
-        Diagnostic::active(!Diagnostic::active());
-
-        if (!Diagnostic::active()) {
-          debug->onClose();
+          if (!Diagnostic::active()) {
+            debug->onClose();
+          }
         }
-      }
-      break;
+        break;
 
-    case sf::Event::Closed:
-      close();
-      break;
+      case sf::Event::Closed:
+        close();
+        break;
 
-    case sf::Event::KeyPressed:
-      if (event.key.code == sf::Keyboard::Escape) {
-        running = false;
+      case sf::Event::KeyPressed:
+        if (event.key.code == sf::Keyboard::Escape) {
+          running = false;
 
-      } else if (event.key.code == sf::Keyboard::P) {
-        if (auto eng = engine.lock()) {
-          eng->paused = !engine.lock()->paused;
+        } else if (event.key.code == sf::Keyboard::P) {
+          if (auto eng = engine.lock()) {
+            eng->paused = !engine.lock()->paused;
+          }
         }
-      }
-      break;
+        break;
 
-    case sf::Event::MouseButtonPressed: {
-      if (event.mouseButton.button == sf::Mouse::Left) {
-        if (!mouse_pressed) {
-          // get the current mouse position in the window
-          sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-          // convert it to world coordinates
-          sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
-          mouse_pressed = true;
-          on_click(worldPos.x, worldPos.y, *root_widget);
-          if (grabbed_widget) {
-            if (grabbed_widget->clickable) {
-              debug->selectEntity(grabbed_widget->entity);
-              widget_grabbed = true;
+      case sf::Event::MouseButtonPressed: {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+          if (!mouse_pressed) {
+            // get the current mouse position in the window
+            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+            // convert it to world coordinates
+            sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+            mouse_pressed = true;
+            on_click(worldPos.x, worldPos.y, *root_widget);
+            if (grabbed_widget) {
+              if (grabbed_widget->clickable) {
+                debug->selectEntity(grabbed_widget->entity);
+                widget_grabbed = true;
+              }
             }
           }
         }
-      }
-    } break;
+      } break;
 
-    case sf::Event::MouseButtonReleased: {
-      grabbed_widget = nullptr;
-      mouse_pressed = false;
-      widget_grabbed = false;
-    } break;
+      case sf::Event::MouseButtonReleased: {
+        grabbed_widget = nullptr;
+        mouse_pressed = false;
+        widget_grabbed = false;
+      } break;
 
-    case sf::Event::MouseMoved: {
-      // get the current mouse position in the window
-      sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-      // convert it to world coordinates
-      sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
-      Vector3 mouse_old = mouse;
-      mouse.x = worldPos.x;
-      mouse.y = worldPos.y;
-      Vector3 mouse_delta = mouse - mouse_old;
-      if (grabbed_widget && grabbed_widget->entity) {
-        if (mouse_pressed && widget_grabbed) {
-          grabbed_widget->onDragged(mouse_delta);
+      case sf::Event::MouseMoved: {
+        // get the current mouse position in the window
+        sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+        // convert it to world coordinates
+        sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+        Vector3 mouse_old = mouse;
+        mouse.x = worldPos.x;
+        mouse.y = worldPos.y;
+        Vector3 mouse_delta = mouse - mouse_old;
+        if (grabbed_widget && grabbed_widget->entity) {
+          if (mouse_pressed && widget_grabbed) {
+            grabbed_widget->onDragged(mouse_delta);
+          }
         }
-      }
-    } break;
+      } break;
 
-    case sf::Event::MouseWheelScrolled:
-      break;
+      case sf::Event::MouseWheelScrolled:
+        break;
     }
   }
 }
@@ -307,4 +304,4 @@ void Viewer::connectDiagnostics(Diagnostic &d) {
   assert(debug == nullptr);
   debug = &d;
 }
-} // namespace gamelib2
+}  // namespace gamelib2

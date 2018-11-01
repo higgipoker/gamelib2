@@ -36,6 +36,7 @@ src/widgets/sprite.cpp
 src/widgets/label.cpp
 src/widgets/tiledscrollingbackground.cpp
 src/math/vector.cpp
+src/utils/file.cpp
 src/utils/files.cpp
 src/utils/tree.cpp
 src/utils/timer.cpp

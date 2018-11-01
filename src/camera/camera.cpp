@@ -26,7 +26,7 @@ void Camera::setWorldRect(const sf::Rect<int> &world_rect) {
 // -----------------------------------------------------------------------------
 void Camera::follow(Entity *e) { target = e; }
 
-#define SPEED 4
+static const float camera_speed = 1.5f;
 // -----------------------------------------------------------------------------
 // Update
 // -----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ void Camera::update(float dt) {
     Vector3 distance =
         target->position - Vector3(view.getCenter().x, view.getCenter().y);
     float mag = distance.magnitude();
-    velocity = distance.normalise() * SPEED * dt * mag;
+    velocity = distance.normalise() * camera_speed * dt * mag;
     position += velocity;
     update_position();
   }
@@ -88,8 +88,7 @@ void Camera::letterbox() {
   float pos_y = 0;
 
   bool horizontal_spacing = true;
-  if (window_ratio < view_ratio)
-    horizontal_spacing = false;
+  if (window_ratio < view_ratio) horizontal_spacing = false;
 
   // If horizontal_spacing is true, the black bars will appear on the left and
   // right side. Otherwise, the black bars will appear on the top and bottom.
@@ -125,4 +124,4 @@ void Camera::onWindowResized(int x, int y) {
   //  setCenter(x / 2, y / 2);
 }
 
-} // namespace gamelib2
+}  // namespace gamelib2
