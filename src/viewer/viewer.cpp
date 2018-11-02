@@ -49,10 +49,8 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer()
-    : root_entity(std::make_unique<Entity>("root", "root")),
-      root_widget(std::make_unique<Widget>()) {
-  root_widget->connectEntity(root_entity.get());
+Viewer::Viewer() {
+  root_widget->connectEntity(root_entity);
   video_mode.width = 800;
   video_mode.height = 600;
   //    if (valid_videomode(video_mode.width, video_mode.height)) {
@@ -242,7 +240,7 @@ void Viewer::get_input() {
         mouse.x = worldPos.x;
         mouse.y = worldPos.y;
         Vector3 mouse_delta = mouse - mouse_old;
-        if (grabbed_widget && grabbed_widget->entity) {
+        if (grabbed_widget && grabbed_widget->entity.lock()) {
           if (mouse_pressed && widget_grabbed) {
             grabbed_widget->onDragged(mouse_delta);
           }

@@ -18,9 +18,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-#include "math/vector.hpp"
 #include <memory>
 #include <vector>
+#include "math/vector.hpp"
 
 namespace gamelib2 {
 
@@ -34,13 +34,13 @@ class Keyboard;
 class Controller;
 
 using WidgetList = std::vector<std::weak_ptr<Widget>>;
-using EntityList = std::vector<Entity*>;
+using EntityList = std::vector<std::weak_ptr<Entity>>;
 
 typedef struct {
-    Vector3 p1;
-    Vector3 p2;
-    Vector3 p3;
+  Vector3 p1;
+  Vector3 p2;
+  Vector3 p3;
 
 } Triangle;
 
-} // namespace gamelib2
+}  // namespace gamelib2

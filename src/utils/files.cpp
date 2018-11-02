@@ -24,14 +24,13 @@ std::string Files::getWorkingDirectory() {
 }
 
 // -----------------------------------------------------------------------------
-//
+// getFilesInFolder
 // -----------------------------------------------------------------------------
 std::vector<std::string> Files::getFilesInFolder(const std::string &folder) {
   std::vector<std::string> out;
 
   for (auto &p : std::filesystem::directory_iterator(folder)) {
     out.push_back(p.path());
-    std::cout << p.path() << std::endl;
   }
 
   return out;

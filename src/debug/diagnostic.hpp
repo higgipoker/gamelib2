@@ -34,7 +34,7 @@ public:
   static bool active();
   virtual void update();
   void render();
-  virtual void selectEntity(Entity *e);
+  virtual void selectEntity(std::weak_ptr<Entity> e);
   virtual void deSelect() = 0;
   virtual void onClose() = 0;
 
@@ -44,11 +44,11 @@ protected:
   std::weak_ptr<Viewer> viewer;
   static bool on;
   static bool inited;
-  Entity *selected_entity = nullptr;
+  std::weak_ptr<Entity> selected_entity;
   unsigned int active_entity_index = 0;
 
   void process_entity_list(std::vector<const char *> &out_list,
-                           std::vector<Entity *> &out_pointers,
+                           std::vector<std::weak_ptr<Entity> > &out_pointers,
                            int &out_active_index);
 
   sf::FloatRect panel_dimensions;

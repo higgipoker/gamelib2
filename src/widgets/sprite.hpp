@@ -23,7 +23,7 @@ public:
   void setPosition(float x, float y) override;
   void scale(float x, float y) override;
   sf::Vector2f scale() override;
-  void connectShadow(std::unique_ptr<Sprite> spr);
+  void connectShadow(std::shared_ptr<Sprite> spr);
   void setFrame(unsigned int a_frame);
   unsigned int getFrame();
   void addAnimation(const SpriteAnimation &a_sprite_anim) override;

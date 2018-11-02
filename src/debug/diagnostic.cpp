@@ -47,9 +47,7 @@ Diagnostic::Diagnostic(std::shared_ptr<Viewer> &v) : viewer(v) {
 //
 // -----------------------------------------------------------------------------
 void Diagnostic::update() {
-
   if (auto view = viewer.lock()) {
-
     inited = true;
     ImGui::SFML::Update(view->getWindow(), ui_clock.restart());
     // ImGui::ShowDemoWindow();
@@ -66,14 +64,14 @@ void Diagnostic::update() {
     ImGui::SetNextWindowPos(
         sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
-    if (selected_entity == nullptr) {
-      selectEntity(view->engine.lock()->entities[0]);
+    if (auto e = selected_entity.lock()) {
+      selectEntity(e);
     }
 
     // global debug window
     ImGui::Begin("Debug");
 
-    { // fps
+    {  // fps
       ImGui::Text("FPS (past 1000 frames)");
       std::vector<float> values;
       unsigned int cnt = 0;
@@ -97,25 +95,25 @@ void Diagnostic::update() {
       ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()),
                        0, capt.str().c_str(), avg - 6, avg + 15,
                        ImVec2(panel_dimensions.width, 50));
-    } // end fps
+    }  // end fps
 
-    { // entities
+    {  // entities
       int active_entity_index = 0;
-      std::vector<Entity *> entity_pointers;
+      std::vector<std::weak_ptr<Entity>> entity_pointers;
       std::vector<const char *> entities;
       process_entity_list(entities, entity_pointers, active_entity_index);
       ImGui::Text("%i entities:", static_cast<unsigned int>(entities.size()));
       std::ostringstream e_capt;
       ImGui::Combo("##Entities", &active_entity_index, entities.data(),
                    static_cast<int>(entities.size()));
-      if (selected_entity) {
-        if (selected_entity->name !=
+      if (auto e = selected_entity.lock()) {
+        if (e->name !=
             entities[static_cast<unsigned long>(active_entity_index)]) {
           selectEntity(
               entity_pointers[static_cast<unsigned long>(active_entity_index)]);
         }
       }
-    } // end entities
+    }  // end entities
 
     last_panel_dimensions = panel_dimensions;
     ImGui::End();
@@ -125,7 +123,7 @@ void Diagnostic::update() {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Diagnostic::selectEntity(Entity *e) { selected_entity = e; }
+void Diagnostic::selectEntity(std::weak_ptr<Entity> e) { selected_entity = e; }
 
 // -----------------------------------------------------------------------------
 //
@@ -147,16 +145,15 @@ bool Diagnostic::active() { return on; }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
-                                     std::vector<Entity *> &out_pointers,
-                                     int &out_active_index) {
-
+void Diagnostic::process_entity_list(
+    std::vector<const char *> &out_list,
+    std::vector<std::weak_ptr<Entity>> &out_pointers, int &out_active_index) {
   if (auto view = viewer.lock()) {
     int idx = 0;
     for (auto &entity : view->engine.lock()->entities) {
-      out_list.emplace_back(entity->name.c_str());
+      out_list.emplace_back(entity.lock()->name.c_str());
       out_pointers.emplace_back(entity);
-      if (selected_entity == entity) {
+      if (selected_entity.lock() == entity.lock()) {
         out_active_index = idx;
       }
       idx++;
@@ -174,4 +171,4 @@ void Diagnostic::render() {
     }
   }
 }
-} // namespace gamelib2
+}  // namespace gamelib2

@@ -152,7 +152,7 @@ sf::Vector2f Sprite::scale() { return sprite.getScale(); }
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-void Sprite::connectShadow(std::unique_ptr<gamelib2::Sprite> spr) {
+void Sprite::connectShadow(std::shared_ptr<gamelib2::Sprite> spr) {
   has_shadow = true;
   shadow = std::move(spr);
 }
