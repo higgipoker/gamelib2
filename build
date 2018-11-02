@@ -1,0 +1,6 @@
+#!/bin/sh
+cd Debug;
+make -j8;
+cd ..;
+rsync -av --exclude='*.cpp' src/* include/gamelib2
+

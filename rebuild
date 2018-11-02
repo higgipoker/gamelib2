@@ -1,0 +1,7 @@
+#!/bin/sh
+rm -rvf include/gamelib2/*
+cd Debug;
+make clean;
+make -j8;
+cd ..;
+./build
