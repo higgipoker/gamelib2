@@ -16,7 +16,7 @@ public:
 				virtual	void	start()	=	0;
 
 				// main update
-				virtual	void	update(const	float	_dt)	=	0;
+				virtual	void	update(const	float	dt)	=	0;
 
 				// end
 				virtual	void	end()	=	0;

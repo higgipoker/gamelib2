@@ -164,7 +164,7 @@ void Viewer::on_click(float x, float y, Widget &widget) {
 
   // recursive call on children
   for (auto &child : widget.children) {
-    on_click(x, y, *child.lock());
+    on_click(x, y, *child);
   }
 }
 
@@ -271,11 +271,11 @@ void Viewer::onMessage(const std::string &in_message) {
 // sort_widgets
 // -----------------------------------------------------------------------------
 void Viewer::sort_widgets() {
-  Widget *parent = root_widget.get();
+  auto parent = root_widget.get();
 
   while (!parent->children.empty()) {
     parent->sort();
-    parent = parent->children[0].lock().get();
+    parent = parent->children[0];
   }
 }
 

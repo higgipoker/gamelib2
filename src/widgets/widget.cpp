@@ -29,9 +29,8 @@ bool Widget::debug = false;
 // sort predicate for widgets)
 // -----------------------------------------------------------------------------
 struct {
-  bool operator()(const std::weak_ptr<Widget> w1,
-                  const std::weak_ptr<Widget> w2) const {
-    return w1.lock()->z_order < w2.lock()->z_order;
+  bool operator()(Widget *w1, Widget *w2) const {
+    return w1->z_order < w2->z_order;
   }
 } sort_widget;
 
@@ -73,9 +72,9 @@ void Widget::releaseEntity() {}
 void Widget::render(sf::RenderTarget &target) {
   // draw all children
   for (auto &widget : children) {
-    if (auto w = widget.lock()) {
-      w->anchor();
-      w->render(target);
+    if (widget) {
+      widget->anchor();
+      widget->render(target);
     }
   }
 
@@ -99,8 +98,10 @@ void Widget::render(sf::RenderTarget &target) {
 // addChild
 // -----------------------------------------------------------------------------
 void Widget::addChild(std::weak_ptr<Widget> in_widget) {
-  children.emplace_back(in_widget);
-  in_widget.lock()->parent = this;
+  if (auto child = in_widget.lock()) {
+    children.emplace_back(child.get());
+    in_widget.lock()->parent = this;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -118,8 +119,8 @@ void Widget::click(float x, float y) {}
 // -----------------------------------------------------------------------------
 void Widget::move(float dx, float dy) {
   for (auto &child : children) {
-    if (auto c = child.lock()) {
-      c->move(dx, dy);
+    if (child) {
+      child->move(dx, dy);
     }
   }
 }
@@ -210,9 +211,9 @@ void Widget::onDragged(const Vector3 &diff) {
   if (auto e = entity.lock()) {
     e->onDragged(diff);
     for (auto &child : children) {
-      if (auto c = child.lock()) {
-        if (c->entity.lock()) {
-          c->entity.lock()->onDragged(diff);
+      if (child) {
+        if (child->entity.lock()) {
+          child->entity.lock()->onDragged(diff);
         }
       }
     }

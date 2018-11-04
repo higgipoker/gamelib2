@@ -16,7 +16,7 @@
 //    void init(std::unique_ptr<State> &state);
 
 //    // update the state machine
-//    void update(float _dt);
+//    void update(float dt);
 
 //    // change to new state
 //    void ChangeState(std::unique_ptr<State> &state);

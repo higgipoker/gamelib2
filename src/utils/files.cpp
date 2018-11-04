@@ -26,12 +26,14 @@ std::string Files::getWorkingDirectory() {
 // -----------------------------------------------------------------------------
 // getFilesInFolder
 // -----------------------------------------------------------------------------
-std::vector<std::string> Files::getFilesInFolder(const std::string &folder) {
-  std::vector<std::string> out;
+std::set<std::string> Files::getFilesInFolder(const std::string &folder) {
+  std::set<std::string> out;
 
   for (auto &p : std::filesystem::directory_iterator(folder)) {
-    out.push_back(p.path());
+    out.insert(p.path());
   }
+
+  // sort alphabetically by default
 
   return out;
 }

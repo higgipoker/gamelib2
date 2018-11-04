@@ -109,7 +109,7 @@ public:
   Widget *parent = nullptr;
 
   // my children in the tree struct
-  WidgetList children;
+  std::vector<Widget*> children;
 
   // height for render order
   int z_order = 0;
