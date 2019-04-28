@@ -37,7 +37,7 @@ public:
   void connectViewer(std::shared_ptr<Viewer> & in_viewer);
 
   // add an entity to the engine
-  void addEntity(std::shared_ptr<Entity> in_entity);
+  void addEntity(Entity *in_entity);
 
   // remove an entity from the engine
   void remEntity(Entity *in_entity);

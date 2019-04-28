@@ -19,46 +19,46 @@
  ****************************************************************************/
 #pragma once
 
-#include "../game/entity.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Clock.hpp>
 #include <deque>
+#include "../game/entity.hpp"
 
 namespace gamelib2 {
 class viewer;
 class Diagnostic {
-public:
-  Diagnostic(std::shared_ptr<Viewer> &v);
+ public:
+  Diagnostic(Viewer &v);
   virtual ~Diagnostic() = default;
   static void active(bool status);
   static bool active();
   virtual void update();
   void render();
-  virtual void selectEntity(std::weak_ptr<Entity> e);
+  virtual void selectEntity(Entity *e);
   virtual void deSelect() = 0;
   virtual void onClose() = 0;
 
   std::deque<float> fps_history;
 
-protected:
-  std::weak_ptr<Viewer> viewer;
+ protected:
+  Viewer& viewer;
   static bool on;
   static bool inited;
-  std::weak_ptr<Entity> selected_entity;
+  Entity *selected_entity=nullptr;
   unsigned int active_entity_index = 0;
 
   void process_entity_list(std::vector<const char *> &out_list,
-                           std::vector<std::weak_ptr<Entity> > &out_pointers,
+                           std::vector<Entity *> &out_pointers,
                            int &out_active_index);
 
   sf::FloatRect panel_dimensions;
   sf::FloatRect last_panel_dimensions;
 
   float shown_fps = 0;
-  float fps_min=1000;
+  float fps_min = 1000;
   float fps_max = 0;
-  int frame_count=0;
+  int frame_count = 0;
   sf::Clock ui_clock;
 };
 
-} // namespace gamelib2
+}  // namespace gamelib2

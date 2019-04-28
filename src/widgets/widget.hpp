@@ -38,7 +38,7 @@ public:
   virtual ~Widget();
 
   // a widget is associated with an entity
-  virtual void connectEntity(std::weak_ptr<Entity> in_entity);
+  virtual void connectEntity(Entity *in_entity);
 
   // release the entity
   virtual void releaseEntity();
@@ -127,7 +127,7 @@ public:
   bool grabbed = false;
 
   // every widget is associated with a game entity (controller)
-  std::weak_ptr<Entity> entity;
+  Entity* entity;
 
   // how the widget is displayed inrelation to x,y position
   AnchorType anchor_type = ANCHOR_CENTER;

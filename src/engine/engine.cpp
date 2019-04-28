@@ -51,7 +51,7 @@ void Engine::frame(float dt) {
   camera.update(dt);
 
   for (auto &entity : entities) {
-    entity.lock()->update(dt);
+    entity->update(dt);
   }
 
   ++frame_count;
@@ -73,9 +73,7 @@ void Engine::connectViewer(std::shared_ptr<Viewer> &in_viewer) {
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::addEntity(std::shared_ptr<Entity> in_entity) {
-  entities.emplace_back(in_entity);
-}
+void Engine::addEntity(Entity *in_entity) { entities.emplace_back(in_entity); }
 
 // -----------------------------------------------------------------------------
 // addEntity

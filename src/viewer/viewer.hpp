@@ -59,8 +59,8 @@ private:
   sf::RenderWindow window;
   sf::VideoMode video_mode;
   Vector3 mouse;
-  std::shared_ptr<Entity> root_entity = std::make_shared<Entity>("root", "root");
-  std::shared_ptr<Widget> root_widget = std::make_shared<Widget>();
+  std::unique_ptr<Entity> root_entity = std::make_unique<Entity>("root", "root");
+  std::unique_ptr<Widget> root_widget = std::make_unique<Widget>();
   Widget *grabbed_widget = nullptr;
   bool widget_changed = false;
   bool widget_grabbed = false;

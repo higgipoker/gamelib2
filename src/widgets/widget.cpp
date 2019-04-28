@@ -48,8 +48,8 @@ Widget::~Widget() = default;
 // getName
 // -----------------------------------------------------------------------------
 std::string Widget::getName() {
-  if (auto e = entity.lock()) {
-    return e->name;
+  if (entity) {
+    return entity->name;
   }
   return "unknown widget";
 }
@@ -57,9 +57,7 @@ std::string Widget::getName() {
 // -----------------------------------------------------------------------------
 // connectEntity
 // -----------------------------------------------------------------------------
-void Widget::connectEntity(std::weak_ptr<Entity> in_entity) {
-  entity = in_entity;
-}
+void Widget::connectEntity(Entity *in_entity) { entity = in_entity; }
 
 // -----------------------------------------------------------------------------
 // releaseEntity
@@ -208,12 +206,12 @@ void Widget::sort() {
 // -----------------------------------------------------------------------------
 void Widget::onDragged(const Vector3 &diff) {
   // just pass off to entity
-  if (auto e = entity.lock()) {
-    e->onDragged(diff);
+  if (entity) {
+    entity->onDragged(diff);
     for (auto &child : children) {
       if (child) {
-        if (child->entity.lock()) {
-          child->entity.lock()->onDragged(diff);
+        if (child->entity) {
+          child->entity->onDragged(diff);
         }
       }
     }

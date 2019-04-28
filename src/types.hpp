@@ -34,7 +34,7 @@ class Keyboard;
 class Controller;
 
 using WidgetList = std::vector<std::weak_ptr<Widget>>;
-using EntityList = std::vector<std::weak_ptr<Entity>>;
+using EntityList = std::vector<Entity*>;
 
 typedef struct {
   Vector3 p1;

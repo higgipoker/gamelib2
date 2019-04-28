@@ -36,7 +36,7 @@ bool Diagnostic::inited = false;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-Diagnostic::Diagnostic(std::shared_ptr<Viewer> &v) : viewer(v) {
+Diagnostic::Diagnostic(Viewer &v) : viewer(v) {
   panel_dimensions.left = 0;
   panel_dimensions.top = 0;
   panel_dimensions.width = 0;
@@ -47,83 +47,81 @@ Diagnostic::Diagnostic(std::shared_ptr<Viewer> &v) : viewer(v) {
 //
 // -----------------------------------------------------------------------------
 void Diagnostic::update() {
-  if (auto view = viewer.lock()) {
-    inited = true;
-    ImGui::SFML::Update(view->getWindow(), ui_clock.restart());
-    // ImGui::ShowDemoWindow();
+  inited = true;
+  ImGui::SFML::Update(viewer.getWindow(), ui_clock.restart());
+  // ImGui::ShowDemoWindow();
 
-    // dimensions
-    panel_dimensions.width = view->getWindow().getSize().x / 2.98f;
-    panel_dimensions.height = view->getWindow().getSize().y / 4;
-    panel_dimensions.left =
-        view->getWindow().getSize().x - panel_dimensions.width;
-    panel_dimensions.top = 0;
+  // dimensions
+  panel_dimensions.width = viewer.getWindow().getSize().x / 2.98f;
+  panel_dimensions.height = viewer.getWindow().getSize().y / 4;
+  panel_dimensions.left =
+      viewer.getWindow().getSize().x - panel_dimensions.width;
+  panel_dimensions.top = 0;
 
-    ImGui::SetNextWindowSize(
-        sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
-    ImGui::SetNextWindowPos(
-        sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
+  ImGui::SetNextWindowSize(
+      sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
+  ImGui::SetNextWindowPos(
+      sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
-    if (auto e = selected_entity.lock()) {
-      selectEntity(e);
-    }
-
-    // global debug window
-    ImGui::Begin("Debug");
-
-    {  // fps
-      ImGui::Text("FPS (past 1000 frames)");
-      std::vector<float> values;
-      unsigned int cnt = 0;
-      fps_min = 1000;
-      fps_max = 0;
-      for (auto &val : fps_history) {
-        values.push_back(val);
-        cnt += val;
-        if (val < fps_min) {
-          fps_min = val;
-        }
-        if (val > fps_max) {
-          fps_max = val;
-        }
-      }
-      float avg = static_cast<float>(cnt / values.size());
-      std::ostringstream capt;
-      capt << "Min: " << static_cast<int>(fps_min)
-           << " Max: " << static_cast<int>(fps_max)
-           << " Avg: " << static_cast<int>(avg);
-      ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()),
-                       0, capt.str().c_str(), avg - 6, avg + 15,
-                       ImVec2(panel_dimensions.width, 50));
-    }  // end fps
-
-    {  // entities
-      int active_entity_index = 0;
-      std::vector<std::weak_ptr<Entity>> entity_pointers;
-      std::vector<const char *> entities;
-      process_entity_list(entities, entity_pointers, active_entity_index);
-      ImGui::Text("%i entities:", static_cast<unsigned int>(entities.size()));
-      std::ostringstream e_capt;
-      ImGui::Combo("##Entities", &active_entity_index, entities.data(),
-                   static_cast<int>(entities.size()));
-      if (auto e = selected_entity.lock()) {
-        if (e->name !=
-            entities[static_cast<unsigned long>(active_entity_index)]) {
-          selectEntity(
-              entity_pointers[static_cast<unsigned long>(active_entity_index)]);
-        }
-      }
-    }  // end entities
-
-    last_panel_dimensions = panel_dimensions;
-    ImGui::End();
+  if (selected_entity) {
+    selectEntity(selected_entity);
   }
+
+  // global debug window
+  ImGui::Begin("Debug");
+
+  {  // fps
+    ImGui::Text("FPS (past 1000 frames)");
+    std::vector<float> values;
+    unsigned int cnt = 0;
+    fps_min = 1000;
+    fps_max = 0;
+    for (auto &val : fps_history) {
+      values.push_back(val);
+      cnt += val;
+      if (val < fps_min) {
+        fps_min = val;
+      }
+      if (val > fps_max) {
+        fps_max = val;
+      }
+    }
+    float avg = static_cast<float>(cnt / values.size());
+    std::ostringstream capt;
+    capt << "Min: " << static_cast<int>(fps_min)
+         << " Max: " << static_cast<int>(fps_max)
+         << " Avg: " << static_cast<int>(avg);
+    ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()), 0,
+                     capt.str().c_str(), avg - 6, avg + 15,
+                     ImVec2(panel_dimensions.width, 50));
+  }  // end fps
+
+  {  // entities
+    int active_entity_index = 0;
+    std::vector<Entity *> entity_pointers;
+    std::vector<const char *> entities;
+    process_entity_list(entities, entity_pointers, active_entity_index);
+    ImGui::Text("%i entities:", static_cast<unsigned int>(entities.size()));
+    std::ostringstream e_capt;
+    ImGui::Combo("##Entities", &active_entity_index, entities.data(),
+                 static_cast<int>(entities.size()));
+    if (selected_entity) {
+      if (selected_entity->name !=
+          entities[static_cast<unsigned long>(active_entity_index)]) {
+        selectEntity(
+            entity_pointers[static_cast<unsigned long>(active_entity_index)]);
+      }
+    }
+  }  // end entities
+
+  last_panel_dimensions = panel_dimensions;
+  ImGui::End();
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Diagnostic::selectEntity(std::weak_ptr<Entity> e) { selected_entity = e; }
+void Diagnostic::selectEntity(Entity *e) { selected_entity = e; }
 
 // -----------------------------------------------------------------------------
 //
@@ -145,19 +143,17 @@ bool Diagnostic::active() { return on; }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Diagnostic::process_entity_list(
-    std::vector<const char *> &out_list,
-    std::vector<std::weak_ptr<Entity>> &out_pointers, int &out_active_index) {
-  if (auto view = viewer.lock()) {
-    int idx = 0;
-    for (auto &entity : view->engine.lock()->entities) {
-      out_list.emplace_back(entity.lock()->name.c_str());
-      out_pointers.emplace_back(entity);
-      if (selected_entity.lock() == entity.lock()) {
-        out_active_index = idx;
-      }
-      idx++;
+void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
+                                     std::vector<Entity *> &out_pointers,
+                                     int &out_active_index) {
+  int idx = 0;
+  for (auto &entity : viewer.engine.lock()->entities) {
+    out_list.emplace_back(entity->name.c_str());
+    out_pointers.emplace_back(entity);
+    if (selected_entity == entity) {
+      out_active_index = idx;
     }
+    idx++;
   }
 }
 
@@ -165,10 +161,8 @@ void Diagnostic::process_entity_list(
 //
 // -----------------------------------------------------------------------------
 void Diagnostic::render() {
-  if (auto view = viewer.lock()) {
-    if (inited) {
-      ImGui::SFML::Render(view->getWindow());
-    }
+  if (inited) {
+    ImGui::SFML::Render(viewer.getWindow());
   }
 }
 }  // namespace gamelib2
