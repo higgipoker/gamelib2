@@ -18,23 +18,19 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-
-#include "../camera/camera.hpp"
+#include "../game/entity.hpp"
 #include "../types.hpp"
-#include "../utils/timer.hpp"
+#include "../viewer/viewer.hpp"
+#include "../widgets/widget.hpp"
+#include "framerate.hpp"
 
 namespace gamelib2 {
+
 class Viewer;
 class Engine {
-public:
-  Engine();
-  ~Engine();
-
+ public:
   // do one frame
   void frame(float dt);
-
-  // connect to a viewer
-  void connectViewer(std::shared_ptr<Viewer> & in_viewer);
 
   // add an entity to the engine
   void addEntity(Entity *in_entity);
@@ -56,41 +52,5 @@ public:
 
   // track current fram count
   int frame_count = 0;
-
-  Camera camera;
-
-private:
-  // engine links to a viewer
-  std::weak_ptr<Viewer >viewer;
-
-  // fps stuff
-  struct FrameRateManager {
-    void calc_fps() {
-      ++frames_this_second;
-
-      float elapsed_time = gamestep_timer.GetLiveTime() - lastTime;
-
-      if (elapsed_time >= 1000) {
-        fps = frames_this_second + 1;
-        frames_this_second = 0;
-        lastTime = gamestep_timer.GetLiveTime();
-      }
-    }
-    void limit_framerate(float target_frame_time) {
-      float newnewtime = gamestep_timer.GetLiveTime();
-      float gametime = gamestep_timer.GetFrameTime();
-      float frame_time = newnewtime - gametime;
-      float target = (target_frame_time * 1000);
-      while (frame_time < target) {
-        newnewtime = gamestep_timer.GetLiveTime();
-        frame_time = newnewtime - gamestep_timer.GetFrameTime();
-      }
-    }
-    Timer gamestep_timer;
-    float fps = 0;
-    float frames_this_second = 0;
-    float lastTime = 0.0f;
-    float fps_timer = 0.0f;
-  } framerate_manager;
 };
-} // namespace gamelib2
+}  // namespace gamelib2

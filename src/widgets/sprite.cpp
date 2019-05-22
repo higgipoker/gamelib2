@@ -60,7 +60,7 @@ void Sprite::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 // setFrame
 // -----------------------------------------------------------------------------
-void Sprite::setFrame(unsigned int a_frame) {
+void Sprite::setFrame(int a_frame) {
   // no bounds check, crash on out-of-range, should never happen
   sprite.setTextureRect(rects[a_frame]);
 }
@@ -68,9 +68,8 @@ void Sprite::setFrame(unsigned int a_frame) {
 // -----------------------------------------------------------------------------
 // setFrame
 // -----------------------------------------------------------------------------
-unsigned int Sprite::getFrame() {
-  if (current_animation)
-    return current_animation->currentFrame();
+int Sprite::getFrame() {
+  if (current_animation) return current_animation->currentFrame();
 
   return 0;
 }
@@ -86,9 +85,8 @@ void Sprite::addAnimation(const SpriteAnimation &a_sprite_anim) {
 // ----------------------------------------------------------------------------------
 // AddAnimation
 // ----------------------------------------------------------------------------------
-void Sprite::addAnimation(const std::string &animname, unsigned int frametime,
-                          bool loopanim,
-                          const std::vector<unsigned int> &framelist) {
+void Sprite::addAnimation(const std::string &animname, int frametime,
+                          bool loopanim, const std::vector<int> &framelist) {
   SpriteAnimation anim(animname, frametime, loopanim, std::move(framelist));
   addAnimation(anim);
 }
@@ -137,8 +135,8 @@ void Sprite::setPosition(float x, float y) {
   float dx = this->position().x - x;
   float dy = this->position().y - y;
   sprite.setPosition(x, y);
-  if(shadow){
-      shadow->setPosition(x,y);
+  if (shadow) {
+    shadow->setPosition(x + 2, y + 2);
   }
 
   Widget::move(dx, dy);
@@ -152,22 +150,21 @@ sf::Vector2f Sprite::scale() { return sprite.getScale(); }
 // -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
-void Sprite::connectShadow(std::shared_ptr<gamelib2::Sprite> spr) {
+void Sprite::connectShadow(Sprite *spr) {
   has_shadow = true;
-  shadow = std::move(spr);
+  shadow = spr;
 }
 
 // -----------------------------------------------------------------------------
 // getShadow
 // -----------------------------------------------------------------------------
-std::shared_ptr<Sprite> Sprite::getShadow() { return shadow; }
+Sprite *Sprite::getShadow() { return shadow; }
 
 // -----------------------------------------------------------------------------
 // swapColors
 // -----------------------------------------------------------------------------
 void Sprite::swapColors(
     const std::vector<std::pair<sf::Color, sf::Color>> &palette) {
-
   // get a copy of the original texture
   sf::Image img = texture().copyToImage();
 
@@ -188,4 +185,4 @@ void Sprite::swapColors(
   // use the unique texture for the sprite
   sprite.setTexture(unique_texture);
 }
-} // namespace gamelib2
+}  // namespace gamelib2

@@ -5,9 +5,9 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 // SpriteAnimation
 // -----------------------------------------------------------------------------
-SpriteAnimation::SpriteAnimation(std::string a_id, unsigned int a_frametime,
+SpriteAnimation::SpriteAnimation(std::string a_id, int a_frametime,
                                  bool a_loop,
-                                 std::vector<unsigned int> a_frames)
+                                 std::vector<int> a_frames)
     : name(std::move(a_id)), frames(std::move(std::move(a_frames))),
       current_frame(frames.begin()), loop(a_loop), frame_time(a_frametime) {}
 
@@ -23,7 +23,7 @@ void SpriteAnimation::start() {
 // -----------------------------------------------------------------------------
 // step
 // -----------------------------------------------------------------------------
-unsigned int SpriteAnimation::update() {
+int SpriteAnimation::update() {
   if (running) {
     if (++ticks > frame_time) {
       ticks = 0;
@@ -49,12 +49,12 @@ void SpriteAnimation::stop() { running = false; }
 // -----------------------------------------------------------------------------
 // setStpeed
 // -----------------------------------------------------------------------------
-void SpriteAnimation::setStpeed(unsigned int a_speed) { frame_time = a_speed; }
+void SpriteAnimation::setStpeed(int a_speed) { frame_time = a_speed; }
 
 // -----------------------------------------------------------------------------
 // currentFrame
 // -----------------------------------------------------------------------------
-unsigned int SpriteAnimation::currentFrame() { return *current_frame; }
+int SpriteAnimation::currentFrame() { return *current_frame; }
 
 // -----------------------------------------------------------------------------
 // finished

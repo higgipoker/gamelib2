@@ -25,11 +25,11 @@ namespace gamelib2 {
 class Primitives {
 public:
   static void drawLine(sf::RenderTarget &target, const Vector3 &point1,
-                       const Vector3 &point2, unsigned int thickness);
+                       const Vector3 &point2, int thickness);
 
   static void arc(sf::RenderTarget &target, float x, float y, float radius,
-                  float start, float end, unsigned int segments,
-                  unsigned int thickness);
+                  float start, float end, int segments,
+                  int thickness);
 };
 
 } // namespace gamelib2

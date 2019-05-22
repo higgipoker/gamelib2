@@ -14,11 +14,11 @@ class FPS {
 
   /// @brief Get the current FPS count.
   /// @return FPS count.
-  static unsigned int getFPS() { return mFps; }
+  static int getFPS() { return mFps; }
 
  private:
-  static unsigned int mFrame;
-  static unsigned int mFps;
+  static int mFrame;
+  static int mFps;
   static sf::Clock mClock;
 
  public:
@@ -32,8 +32,8 @@ class FPS {
     ++mFrame;
   }
 };
-unsigned int FPS::mFrame = 0;
-unsigned int FPS::mFps = 0;
+int FPS::mFrame = 0;
+int FPS::mFps = 0;
 sf::Clock FPS::mClock;
 }  // namespace gamelib2
 #endif  // FPS_HPP

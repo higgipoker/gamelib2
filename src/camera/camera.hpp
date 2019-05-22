@@ -10,7 +10,6 @@ namespace gamelib2 {
  */
 class Camera : public Entity {
  public:
-  Camera(std::string in_name);
   virtual ~Camera() override = default;
   void init(int width, int height);
   void update(float dt) override;

@@ -18,14 +18,14 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-#include "../math/vector.hpp"
-#include "../types.hpp"
-#include "../widgets/spriteanimation.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <map>
+#include "../math/vector.hpp"
+#include "../types.hpp"
+#include "../widgets/spriteanimation.hpp"
 
 namespace gamelib2 {
 
@@ -33,7 +33,7 @@ enum AnchorType { ANCHOR_TOP_LEFT, ANCHOR_CENTER, ANCHOR_BASE_CENTER };
 
 class Entity;
 class Widget {
-public:
+ public:
   Widget();
   virtual ~Widget();
 
@@ -50,15 +50,14 @@ public:
   virtual void render(sf::RenderTarget &target);
 
   // add a child to the widget tree from here
-  virtual void addChild(std::weak_ptr<Widget >in_widget);
+  virtual void addChild(Widget *in_widget);
 
   // add an animation by pointer
   virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
 
   // add an animation by params
-  virtual void addAnimation(const std::string &animname, unsigned int frametime,
-                            bool loopanim,
-                            const std::vector< unsigned int > &framelist);
+  virtual void addAnimation(const std::string &animname, int frametime,
+                            bool loopanim, const std::vector<int> &framelist);
 
   // start an animation
   virtual void startAnimation(const std::string &a_name);
@@ -109,7 +108,7 @@ public:
   Widget *parent = nullptr;
 
   // my children in the tree struct
-  std::vector<Widget*> children;
+  std::vector<Widget *> children;
 
   // height for render order
   int z_order = 0;
@@ -118,7 +117,7 @@ public:
   bool clickable = false;
 
   // list of animations
-  std::map< std::string, SpriteAnimation > animations;
+  std::map<std::string, SpriteAnimation> animations;
 
   // is debugmode activated
   static bool debug;
@@ -127,18 +126,18 @@ public:
   bool grabbed = false;
 
   // every widget is associated with a game entity (controller)
-  Entity* entity;
+  Entity *entity = nullptr;
 
   // how the widget is displayed inrelation to x,y position
   AnchorType anchor_type = ANCHOR_CENTER;
 
   // a list of drawable primitives for debug
-  std::vector< sf::VertexArray > primitives;
+  std::vector<sf::VertexArray> primitives;
 
   // a list of drawable shapes for debug
-  std::vector< sf::Shape * > shapes;
+  std::vector<sf::Shape *> shapes;
 
-protected:
+ protected:
   // draw the bounds rect
   virtual void draw_bounds(sf::RenderTarget &target);
 
@@ -146,4 +145,4 @@ protected:
   SpriteAnimation *current_animation = nullptr;
 };
 
-} // namespace gamelib2
+}  // namespace gamelib2

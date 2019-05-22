@@ -50,7 +50,7 @@ public:
     bool Right();
 
 private:
-    unsigned int sf_joystick_index = 0;
+    int sf_joystick_index = 0;
     float trigger_threshold = 0;
     float thumbstick_threshold = 50.0f;
 };

@@ -18,32 +18,24 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "entity.hpp"
+#include <iostream>
 #include "../widgets/widget.hpp"
 
 namespace gamelib2 {
 
+Entity::Entity() {}
 // -----------------------------------------------------------------------------
-// Entity
+// create
 // -----------------------------------------------------------------------------
-Entity::Entity(std::string in_type, std::string in_name)
-    : type(std::move(in_type)), name(std::move(in_name)) {}
-
-// -----------------------------------------------------------------------------
-// ~Entity
-// -----------------------------------------------------------------------------
-Entity::~Entity() = default;
+void Entity::create(const std::string &in_type, const std::string &in_name) {
+  type = in_type;
+  name = in_name;
+}
 
 // -----------------------------------------------------------------------------
 // connectWidget
 // -----------------------------------------------------------------------------
-void Entity::connectWidget(std::shared_ptr<Widget> in_widget) {
-  widget = std::move(in_widget);
-}
-
-// -----------------------------------------------------------------------------
-// releaseWidget
-// -----------------------------------------------------------------------------
-void Entity::releaseWidget() {}
+void Entity::connectWidget(Widget *in_widget) { widget = in_widget; }
 
 // -----------------------------------------------------------------------------
 // update
@@ -52,15 +44,12 @@ void Entity::update(float dt) {
   // differnt types of enteties can override this to do movement physics or
   // whatever
 
-  // reset the debug primitives
-  widget->shapes.clear();
-  widget->primitives.clear();
+  if (widget) {
+    // reset the debug primitives
+    widget->shapes.clear();
+    widget->primitives.clear();
+  }
 }
-
-// -----------------------------------------------------------------------------
-// activate
-// -----------------------------------------------------------------------------
-void Entity::activate() {}
 
 // -----------------------------------------------------------------------------
 // perspectivize

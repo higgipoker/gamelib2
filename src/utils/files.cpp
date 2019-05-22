@@ -26,10 +26,11 @@ std::string Files::getWorkingDirectory() {
 // -----------------------------------------------------------------------------
 // getFilesInFolder
 // -----------------------------------------------------------------------------
-std::set<std::string> Files::getFilesInFolder(const std::string &folder) {
+std::set<std::string> Files::getFilesInFolder(std::string folder) {
   std::set<std::string> out;
 
-  for (auto &p : std::filesystem::directory_iterator(folder)) {
+  for (auto p : std::filesystem::directory_iterator(folder)) {
+    std::cout << p.path() << std::endl;
     out.insert(p.path());
   }
 

@@ -17,55 +17,28 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
-#pragma once
-
-#include "../game/entity.hpp"
-#include "../input/input.hpp"
-#include "../types.hpp"
-#include "../widgets/widget.hpp"
-
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/View.hpp>
-#include <SFML/System/Clock.hpp>
-
+#include "framerate.hpp"
+#include <iostream>
 namespace gamelib2 {
 
-class Diagnostic;
+void FrameRateManager::calc_fps() {
+  ++frames_this_second;
 
-class Viewer {
- public:
-  Viewer();
-  ~Viewer();
-  void startup();
-  void frame();
-  void close();
-  void addWidget(Widget *new_widget);
-  void remWidget(Widget *in_widget);
-  void onMessage(const std::string &in_message);
-  void connectDiagnostics(Diagnostic &d);
-  sf::RenderWindow &getWindow();
-  void setView(sf::View view);
-  bool running = true;
-  float fps = 0;
+  float elapsed_time = gamestep_timer.GetLiveTime() - lastTime;
 
- private:
-  void render();
-  void get_input();
-  void do_debug_ui();
-  void on_click(float x, float y, Widget &widget);
-  void sort_widgets();
-  bool mouse_pressed = false;
-  sf::RenderWindow window;
-  sf::VideoMode video_mode;
-  Vector3 mouse;
-  Widget root_widget;
-  Widget *grabbed_widget = nullptr;
-  bool widget_changed = false;
-  bool widget_grabbed = false;
-  sf::Clock fps_clock;
-  sf::Time time;
-  void calc_fps();
-
-  Diagnostic *debug = nullptr;
-};
+  if (elapsed_time >= 1000) {
+    fps = frames_this_second + 1;
+    frames_this_second = 0;
+    lastTime = gamestep_timer.GetLiveTime();
+  }
+}
+void FrameRateManager::limit_framerate(float target_frame_time) {
+  float newnewtime = gamestep_timer.GetLiveTime();
+  float gametime = gamestep_timer.GetFrameTime();
+  float frame_time = newnewtime - gametime;
+  float target = (target_frame_time * 1000);
+  while (frame_time < target - 1) {
+    frame_time = gamestep_timer.GetLiveTime() - gametime;
+  }
+}
 }  // namespace gamelib2

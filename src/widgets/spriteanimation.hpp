@@ -1,55 +1,55 @@
-#pragma	once
+#pragma once
 
-#include	<string>
-#include	<vector>
+#include <string>
+#include <vector>
 
-namespace	gamelib2	{
+namespace gamelib2 {
 
 /**
-	* @brief a sprite animatio is just a lst of frames and a speed
-	*/
-class	SpriteAnimation	{
-public:
-				SpriteAnimation(std::string	a_id,	unsigned	int	a_frametime,	bool	a_loop,
-				                std::vector<unsigned	int>	a_frames);
+ * @brief a sprite animatio is just a lst of frames and a speed
+ */
+class SpriteAnimation {
+ public:
+  SpriteAnimation(std::string a_id, int a_frametime, bool a_loop,
+                  std::vector<int> a_frames);
 
-				// start the animation
-				void	start();
+  // start the animation
+  void start();
 
-				// update anim
-				unsigned	int	update();
+  // update anim
+  int update();
 
-				// stop animation
-				void	stop();
+  // stop animation
+  void stop();
 
-				// set the frame update speed
-				void	setStpeed(unsigned	int	a_seped);
+  // set the frame update speed
+  void setStpeed(int a_seped);
 
-				// get the current frame
-				unsigned	int	currentFrame();
+  // get the current frame
+  int currentFrame();
 
-				// for non looping animations, is finished?
-				bool finished();
+  // for non looping animations, is finished?
+  bool finished();
 
-				std::string	name;
+  std::string name;
 
-private:
-				// list of frame numbers
-				std::vector<unsigned	int>	frames;
+ private:
+  // list of frame numbers
+  std::vector<int> frames;
 
-				// point to current frame
-				std::vector<unsigned	int>::iterator	current_frame;
+  // point to current frame
+  std::vector<int>::iterator current_frame;
 
-				// is a looping animation
-				bool	loop	=	false;
+  // is a looping animation
+  bool loop = false;
 
-				// animation is still running
-				bool	running	=	false;
+  // animation is still running
+  bool running = false;
 
-				// time of a frame
-				unsigned	int	frame_time	=	0;
+  // time of a frame
+  int frame_time = 0;
 
-				// frame timer
-				unsigned	int	ticks	=	0;
+  // frame timer
+  int ticks = 0;
 };
-}	// namespace gamelib2
+}  // namespace gamelib2

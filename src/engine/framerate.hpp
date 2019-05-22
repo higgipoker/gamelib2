@@ -18,54 +18,16 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-
-#include "../game/entity.hpp"
-#include "../input/input.hpp"
-#include "../types.hpp"
-#include "../widgets/widget.hpp"
-
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/View.hpp>
-#include <SFML/System/Clock.hpp>
-
+#include "../utils/timer.hpp"
 namespace gamelib2 {
-
-class Diagnostic;
-
-class Viewer {
+class FrameRateManager {
  public:
-  Viewer();
-  ~Viewer();
-  void startup();
-  void frame();
-  void close();
-  void addWidget(Widget *new_widget);
-  void remWidget(Widget *in_widget);
-  void onMessage(const std::string &in_message);
-  void connectDiagnostics(Diagnostic &d);
-  sf::RenderWindow &getWindow();
-  void setView(sf::View view);
-  bool running = true;
-  float fps = 0;
-
- private:
-  void render();
-  void get_input();
-  void do_debug_ui();
-  void on_click(float x, float y, Widget &widget);
-  void sort_widgets();
-  bool mouse_pressed = false;
-  sf::RenderWindow window;
-  sf::VideoMode video_mode;
-  Vector3 mouse;
-  Widget root_widget;
-  Widget *grabbed_widget = nullptr;
-  bool widget_changed = false;
-  bool widget_grabbed = false;
-  sf::Clock fps_clock;
-  sf::Time time;
   void calc_fps();
-
-  Diagnostic *debug = nullptr;
+  void limit_framerate(float target_frame_time);
+  Timer gamestep_timer;
+  float fps = 0;
+  float frames_this_second = 0;
+  float lastTime = 0.0f;
+  float fps_timer = 0.0f;
 };
 }  // namespace gamelib2

@@ -26,59 +26,36 @@
 namespace gamelib2 {
 
 // static float accumulator = 0.0f;
-static float target_frame_time = 1.f / 120.f;
-
-// -----------------------------------------------------------------------------
-// Engine
-// -----------------------------------------------------------------------------
-Engine::Engine() : camera("camera"){};
-
-// -----------------------------------------------------------------------------
-// ~Engine
-// -----------------------------------------------------------------------------
-Engine::~Engine() {
-  entities.clear();
-  viewer.reset();
-}
 
 // -----------------------------------------------------------------------------
 // run
 // -----------------------------------------------------------------------------
 void Engine::frame(float dt) {
   if (paused) dt = 0;
-  framerate_manager.gamestep_timer.Update();
-
-  camera.update(dt);
 
   for (auto &entity : entities) {
     entity->update(dt);
   }
 
   ++frame_count;
-  framerate_manager.calc_fps();
-  framerate_manager.limit_framerate(target_frame_time);
-  fps = framerate_manager.fps;
-}
-
-// -----------------------------------------------------------------------------
-// connectViewer
-// -----------------------------------------------------------------------------
-void Engine::connectViewer(std::shared_ptr<Viewer> &in_viewer) {
-  viewer = in_viewer;
-  if (auto view = viewer.lock()) {
-    view->onMessage("connected");
-  }
 }
 
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::addEntity(Entity *in_entity) { entities.emplace_back(in_entity); }
+void Engine::addEntity(Entity *in_entity) {
+  assert(in_entity->widget != nullptr);
+  entities.emplace_back(in_entity);
+}
 
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::remEntity(Entity *in_entity) {}
+void Engine::remEntity(Entity *in_entity) {
+  entities.erase(std::remove(entities.begin(), entities.end(), in_entity),
+                 entities.end());
+  ;
+}
 
 // -----------------------------------------------------------------------------
 // onMessage

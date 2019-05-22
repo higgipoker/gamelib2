@@ -1,13 +1,13 @@
 #pragma once
-#include <string>
 #include <set>
+#include <string>
 
 namespace gamelib2 {
 
 class Files {
  public:
   static std::string getWorkingDirectory();
-  static std::set<std::string> getFilesInFolder(const std::string &folder);
+  static std::set<std::string> getFilesInFolder(std::string folder);
 };
 
 }  // namespace gamelib2

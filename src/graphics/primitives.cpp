@@ -26,7 +26,7 @@ namespace gamelib2 {
 // drawLine
 // -----------------------------------------------------------------------------
 void Primitives::drawLine(sf::RenderTarget &target, const Vector3 &point1,
-                          const Vector3 &point2, unsigned int thickness) {
+                          const Vector3 &point2, int thickness) {
   sf::Vertex vertices[4];
   Vector3 direction = point2 - point1;
   Vector3 unit_direction = direction / std::sqrt(direction.x * direction.x +
@@ -63,8 +63,8 @@ void Primitives::drawLine(sf::RenderTarget &target, const Vector3 &point1,
 // Arc
 // -----------------------------------------------------------------------------
 void Primitives::arc(sf::RenderTarget &target, float x, float y, float radius,
-                     float start, float end, unsigned int segments,
-                     unsigned int thickness) {
+                     float start, float end, int segments,
+                     int thickness) {
 
   // construct the vertex list
   std::vector<sf::Vertex> vertices;
@@ -76,7 +76,7 @@ void Primitives::arc(sf::RenderTarget &target, float x, float y, float radius,
   float lastx = 0;
   float lasty = 0;
 
-  for (unsigned int i = 0; i < thickness; ++i) {
+  for (int i = 0; i < thickness; ++i) {
     float current = act_start;
     int segments_drawn = 0;
 

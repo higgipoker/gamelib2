@@ -17,8 +17,8 @@ public:
     void setText(std::string l);
     void setText(int a_number);
     void setColor(sf::Color c);
-    void setSize(unsigned int s);
-    void setCenter(unsigned int x, unsigned int y);
+    void setSize(int s);
+    void setCenter(int x, int y);
     sf::FloatRect bounds();
 
 protected:

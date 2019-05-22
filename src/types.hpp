@@ -33,7 +33,7 @@ class Viewer;
 class Keyboard;
 class Controller;
 
-using WidgetList = std::vector<std::weak_ptr<Widget>>;
+using WidgetList = std::vector<Widget*>;
 using EntityList = std::vector<Entity*>;
 
 typedef struct {

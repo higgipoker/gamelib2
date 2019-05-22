@@ -18,6 +18,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "viewer.hpp"
+#include "../debug/diagnostic.hpp"
 #include "../engine/engine.hpp"
 
 #include <imgui-SFML.h>
@@ -31,7 +32,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 // plain old function to find video modes
 // -----------------------------------------------------------------------------
-static bool valid_videomode(unsigned int width, unsigned int height) {
+static bool valid_videomode(int width, int height) {
   // get list of supported video modes
   std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
@@ -50,7 +51,6 @@ static bool valid_videomode(unsigned int width, unsigned int height) {
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer() {
-  root_widget->connectEntity(root_entity.get());
   video_mode.width = 800;
   video_mode.height = 600;
   //    if (valid_videomode(video_mode.width, video_mode.height)) {
@@ -66,8 +66,7 @@ Viewer::Viewer() {
   //    window.create(vm, "test", sf::Style::Default);
 
   //    }
-  view.reset(sf::FloatRect(0, 0, video_mode.width, video_mode.height));
-  // window.setView(view);
+  window.setVerticalSyncEnabled(true);
   ImGui::SFML::Init(window);
 }
 
@@ -77,7 +76,6 @@ Viewer::Viewer() {
 Viewer::~Viewer() {
   running = false;
   window.close();
-  engine.reset();
 }
 
 // -----------------------------------------------------------------------------
@@ -122,10 +120,7 @@ void Viewer::render() {
   window.clear();
   sort_widgets();
 
-  if (auto eng = engine.lock()) {
-    window.setView(eng->camera.view);
-  }
-  root_widget->render(window);
+  root_widget.render(window);
 
   if (debug->active()) {
     debug->render();
@@ -137,15 +132,21 @@ void Viewer::render() {
 // -----------------------------------------------------------------------------
 // addWidget
 // -----------------------------------------------------------------------------
-void Viewer::addWidget(std::weak_ptr<Widget> new_widget) {
-  root_widget->addChild(new_widget);
+void Viewer::addWidget(Widget *new_widget) {
+  assert(new_widget->entity != nullptr);
+  root_widget.addChild(new_widget);
 }
 
 // -----------------------------------------------------------------------------
 // remWidget
 // -----------------------------------------------------------------------------
-void Viewer::remWidget(std::weak_ptr<Widget> in_widget) {
-  // TODO
+void Viewer::remWidget(Widget *in_widget) {
+  if (in_widget->parent) {
+    in_widget->parent->children.erase(
+        std::remove(in_widget->parent->children.begin(),
+                    in_widget->parent->children.end(), in_widget),
+        in_widget->parent->children.end());
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -186,7 +187,9 @@ void Viewer::get_input() {
           Diagnostic::active(!Diagnostic::active());
 
           if (!Diagnostic::active()) {
-            debug->onClose();
+            if (debug) {
+              debug->onClose();
+            }
           }
         }
         break;
@@ -200,9 +203,9 @@ void Viewer::get_input() {
           running = false;
 
         } else if (event.key.code == sf::Keyboard::P) {
-          if (auto eng = engine.lock()) {
-            eng->paused = !engine.lock()->paused;
-          }
+          //          if (engine) {
+          //            engine->paused = !engine->paused;
+          //          }
         }
         break;
 
@@ -214,7 +217,7 @@ void Viewer::get_input() {
             // convert it to world coordinates
             sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
             mouse_pressed = true;
-            on_click(worldPos.x, worldPos.y, *root_widget);
+            on_click(worldPos.x, worldPos.y, root_widget);
             if (grabbed_widget) {
               if (grabbed_widget->clickable) {
                 debug->selectEntity(grabbed_widget->entity);
@@ -254,13 +257,6 @@ void Viewer::get_input() {
 }
 
 // -----------------------------------------------------------------------------
-// connectEngine
-// -----------------------------------------------------------------------------
-void Viewer::connectEngine(std::shared_ptr<Engine> &in_engine) {
-  engine = in_engine;
-}
-
-// -----------------------------------------------------------------------------
 // onMessage
 // -----------------------------------------------------------------------------
 void Viewer::onMessage(const std::string &in_message) {
@@ -271,7 +267,7 @@ void Viewer::onMessage(const std::string &in_message) {
 // sort_widgets
 // -----------------------------------------------------------------------------
 void Viewer::sort_widgets() {
-  auto parent = root_widget.get();
+  Widget *parent = &root_widget;
 
   while (!parent->children.empty()) {
     parent->sort();
@@ -302,4 +298,9 @@ void Viewer::connectDiagnostics(Diagnostic &d) {
   assert(debug == nullptr);
   debug = &d;
 }
+
+// -----------------------------------------------------------------------------
+// setView
+// -----------------------------------------------------------------------------
+void Viewer::setView(sf::View view) { window.setView(view); }
 }  // namespace gamelib2

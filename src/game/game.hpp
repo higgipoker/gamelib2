@@ -18,54 +18,45 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
-
-#include "../game/entity.hpp"
-#include "../input/input.hpp"
-#include "../types.hpp"
+#include "../camera/camera.hpp"
+#include "../engine/engine.hpp"
+#include "../viewer/viewer.hpp"
 #include "../widgets/widget.hpp"
-
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/View.hpp>
-#include <SFML/System/Clock.hpp>
+#include "entity.hpp"
 
 namespace gamelib2 {
 
-class Diagnostic;
-
-class Viewer {
+class GameSprite {
  public:
-  Viewer();
-  ~Viewer();
-  void startup();
-  void frame();
-  void close();
-  void addWidget(Widget *new_widget);
-  void remWidget(Widget *in_widget);
-  void onMessage(const std::string &in_message);
-  void connectDiagnostics(Diagnostic &d);
-  sf::RenderWindow &getWindow();
-  void setView(sf::View view);
-  bool running = true;
-  float fps = 0;
+  GameSprite(Widget *in_sprite, Widget *in_shadow)
+      : sprite(in_sprite), shadow(in_shadow) {}
 
- private:
-  void render();
-  void get_input();
-  void do_debug_ui();
-  void on_click(float x, float y, Widget &widget);
-  void sort_widgets();
-  bool mouse_pressed = false;
-  sf::RenderWindow window;
-  sf::VideoMode video_mode;
-  Vector3 mouse;
-  Widget root_widget;
-  Widget *grabbed_widget = nullptr;
-  bool widget_changed = false;
-  bool widget_grabbed = false;
-  sf::Clock fps_clock;
-  sf::Time time;
-  void calc_fps();
+  Widget *sprite = nullptr;
+  Widget *shadow = nullptr;
+};
 
-  Diagnostic *debug = nullptr;
+class Game {
+ public:
+  Game();
+
+  void addSprite(const GameSprite &in_gamesprite);
+
+  virtual void update();
+  Engine engine;
+  Viewer viewer;
+  Camera camera;
+
+  static void connect(Entity *entity, Widget *widget) {
+    entity->connectWidget(widget);
+    widget->connectEntity(entity);
+  }
+
+ protected:
+  void on_frame_start();
+  void on_frame_end();
+  const float timestep = 0.01f;  // optimal for semi-implicit euler
+  FrameRateManager framerate_manager;
+
+  friend class Diagnostic;
 };
 }  // namespace gamelib2

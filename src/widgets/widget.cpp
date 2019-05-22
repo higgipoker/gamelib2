@@ -51,7 +51,7 @@ std::string Widget::getName() {
   if (entity) {
     return entity->name;
   }
-  return "unknown widget";
+  return "no entity";
 }
 
 // -----------------------------------------------------------------------------
@@ -95,11 +95,9 @@ void Widget::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 // addChild
 // -----------------------------------------------------------------------------
-void Widget::addChild(std::weak_ptr<Widget> in_widget) {
-  if (auto child = in_widget.lock()) {
-    children.emplace_back(child.get());
-    in_widget.lock()->parent = this;
-  }
+void Widget::addChild(Widget *in_widget) {
+  children.emplace_back(in_widget);
+  in_widget->parent = this;
 }
 
 // -----------------------------------------------------------------------------
@@ -144,9 +142,8 @@ void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {}
 // -----------------------------------------------------------------------------
 // addAnimation
 // -----------------------------------------------------------------------------
-void Widget::addAnimation(const std::string &animname, unsigned int frametime,
-                          bool loopanim,
-                          const std::vector<unsigned int> &framelist) {}
+void Widget::addAnimation(const std::string &animname, int frametime,
+                          bool loopanim, const std::vector<int> &framelist) {}
 
 // -----------------------------------------------------------------------------
 // startAnimation
@@ -209,10 +206,8 @@ void Widget::onDragged(const Vector3 &diff) {
   if (entity) {
     entity->onDragged(diff);
     for (auto &child : children) {
-      if (child) {
-        if (child->entity) {
-          child->entity->onDragged(diff);
-        }
+      if (child->entity) {
+        child->entity->onDragged(diff);
       }
     }
   }

@@ -18,39 +18,35 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
+#include <map>
+#include <string>
 #include "../input/input.hpp"
 #include "../input/keyboard.hpp"
 #include "../math/vector.hpp"
 #include "../types.hpp"
-#include <map>
-#include <string>
 
 namespace gamelib2 {
+
 class Widget;
 
 // a debug interface that all entities must implement
 class EntityInterface {
-public:
+ public:
   // the entity was manually moved
   virtual void onDragged(const Vector3 &diff) = 0;
-
-protected:
 };
 
 class Entity : public EntityInterface {
-public:
-  // construct with a name id
-  Entity(std::string in_type, std::string in_name);
-  virtual ~Entity();
+ public:
+  // construct / destruct
+  Entity();
+  virtual ~Entity() = default;
+
+  // create with a name id
+  void create(const std::string &in_type, const std::string &in_name);
 
   // a game entity is associated with a widget
-  void connectWidget(std::shared_ptr<Widget> in_widget);
-
-  // release the widget
-  void releaseWidget();
-
-  // after any initiliazations are done (eg connect to widget)
-  virtual void activate();
+  void connectWidget(Widget *in_widget);
 
   // main update
   virtual void update(float dt);
@@ -77,10 +73,11 @@ public:
   std::string name;
 
   // entity is associated with a widget
-  std::shared_ptr<Widget> widget;
+  Widget *widget = nullptr;
 
-protected:
+ protected:
   // optionally add perspective
   virtual void perspectivize(float camera_height);
 };
-} // namespace gamelib2
+
+}  // namespace gamelib2

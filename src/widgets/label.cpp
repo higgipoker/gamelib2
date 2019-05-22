@@ -61,7 +61,7 @@ void Label::setColor(sf::Color c) {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Label::setSize(unsigned int s) {
+void Label::setSize(int s) {
     text.setCharacterSize(s);
 }
 
@@ -75,7 +75,7 @@ sf::FloatRect Label::bounds() {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Label::setCenter(unsigned int x, unsigned int y) {
+void Label::setCenter(int x, int y) {
     text.setPosition(x - text.getGlobalBounds().width / 2,
                      y - text.getGlobalBounds().height / 2);
 }

@@ -25,9 +25,11 @@ src/debug/diagnostic.cpp
 src/statemachine/state_machine.cpp
 src/statemachine/state.cpp
 src/engine/engine.cpp
+src/engine/framerate.cpp
 src/math/vector.cpp
 src/viewer/viewer.cpp
 src/widgets/widget.cpp
+src/game/game.cpp
 src/game/entity.cpp
 src/graphics/autotexture.cpp
 src/graphics/primitives.cpp

@@ -17,48 +17,37 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
-#pragma once
-
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Clock.hpp>
-#include <deque>
-#include "../game/entity.hpp"
-#include "../game/game.hpp"
+#include "game.hpp"
+#include <algorithm>
 
 namespace gamelib2 {
-class Diagnostic {
- public:
-  Diagnostic(Game &in_game);
-  virtual ~Diagnostic() = default;
-  static void active(bool status);
-  static bool active();
-  virtual void update();
-  void render();
-  virtual void selectEntity(Entity *e);
-  virtual void deSelect() = 0;
-  virtual void onClose() = 0;
 
-  std::deque<float> fps_history;
+static float target_frame_time = 1.f / 60.f;
 
- protected:
-  Game &game;
-  static bool on;
-  static bool inited;
-  Entity *selected_entity = nullptr;
-  int active_entity_index = 0;
+Game::Game() { camera.create("camera", "default camera"); }
 
-  void process_entity_list(std::vector<const char *> &out_list,
-                           std::vector<Entity *> &out_pointers,
-                           int &out_active_index);
+void Game::update() {
+  on_frame_start();
 
-  sf::FloatRect panel_dimensions;
-  sf::FloatRect last_panel_dimensions;
+  camera.update(timestep);
+  engine.frame(timestep);
 
-  float shown_fps = 0;
-  float fps_min = 1000;
-  float fps_max = 0;
-  int frame_count = 0;
-  sf::Clock ui_clock;
-};
+  viewer.setView(camera.view);
+  viewer.frame();
+
+  on_frame_end();
+}
+
+void Game::on_frame_start() { framerate_manager.gamestep_timer.Update(); }
+
+void Game::on_frame_end() {
+  framerate_manager.calc_fps();
+  framerate_manager.limit_framerate(target_frame_time);
+}
+
+void Game::addSprite(const GameSprite &in_gamesprite) {
+  viewer.addWidget(in_gamesprite.sprite);
+  viewer.addWidget(in_gamesprite.shadow);
+}
 
 }  // namespace gamelib2

@@ -18,9 +18,6 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #include "diagnostic.hpp"
-#include "../engine/engine.hpp"
-#include "../viewer/viewer.hpp"
-#include "../widgets/widget.hpp"
 
 #include <imgui-SFML.h>
 #include <imgui.h>
@@ -36,7 +33,7 @@ bool Diagnostic::inited = false;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-Diagnostic::Diagnostic(Viewer &v) : viewer(v) {
+Diagnostic::Diagnostic(Game &in_game) : game(in_game) {
   panel_dimensions.left = 0;
   panel_dimensions.top = 0;
   panel_dimensions.width = 0;
@@ -48,14 +45,14 @@ Diagnostic::Diagnostic(Viewer &v) : viewer(v) {
 // -----------------------------------------------------------------------------
 void Diagnostic::update() {
   inited = true;
-  ImGui::SFML::Update(viewer.getWindow(), ui_clock.restart());
+  ImGui::SFML::Update(game.viewer.getWindow(), ui_clock.restart());
   // ImGui::ShowDemoWindow();
 
   // dimensions
-  panel_dimensions.width = viewer.getWindow().getSize().x / 2.98f;
-  panel_dimensions.height = viewer.getWindow().getSize().y / 4;
+  panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
+  panel_dimensions.height = game.viewer.getWindow().getSize().y / 4;
   panel_dimensions.left =
-      viewer.getWindow().getSize().x - panel_dimensions.width;
+      game.viewer.getWindow().getSize().x - panel_dimensions.width;
   panel_dimensions.top = 0;
 
   ImGui::SetNextWindowSize(
@@ -73,7 +70,7 @@ void Diagnostic::update() {
   {  // fps
     ImGui::Text("FPS (past 1000 frames)");
     std::vector<float> values;
-    unsigned int cnt = 0;
+    int cnt = 0;
     fps_min = 1000;
     fps_max = 0;
     for (auto &val : fps_history) {
@@ -101,7 +98,7 @@ void Diagnostic::update() {
     std::vector<Entity *> entity_pointers;
     std::vector<const char *> entities;
     process_entity_list(entities, entity_pointers, active_entity_index);
-    ImGui::Text("%i entities:", static_cast<unsigned int>(entities.size()));
+    ImGui::Text("%i entities:", static_cast<int>(entities.size()));
     std::ostringstream e_capt;
     ImGui::Combo("##Entities", &active_entity_index, entities.data(),
                  static_cast<int>(entities.size()));
@@ -147,7 +144,7 @@ void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
                                      std::vector<Entity *> &out_pointers,
                                      int &out_active_index) {
   int idx = 0;
-  for (auto &entity : viewer.engine.lock()->entities) {
+  for (auto &entity : game.engine.entities) {
     out_list.emplace_back(entity->name.c_str());
     out_pointers.emplace_back(entity);
     if (selected_entity == entity) {
@@ -162,7 +159,7 @@ void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
 // -----------------------------------------------------------------------------
 void Diagnostic::render() {
   if (inited) {
-    ImGui::SFML::Render(viewer.getWindow());
+    ImGui::SFML::Render(game.viewer.getWindow());
   }
 }
 }  // namespace gamelib2
