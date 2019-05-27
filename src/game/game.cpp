@@ -19,32 +19,50 @@
  ****************************************************************************/
 #include "game.hpp"
 #include <algorithm>
+#include <iostream>
 
 namespace gamelib2 {
 
 static float target_frame_time = 1.f / 60.f;
 
-Game::Game() { camera.create("camera", "default camera"); }
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+Game::Game() {
+  framerate_manager.gamestep_timer.Start();
+  camera.create("camera", "default camera");
+}
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Game::update() {
   on_frame_start();
 
   camera.update(timestep);
   engine.frame(timestep);
-
   viewer.setView(camera.view);
   viewer.frame();
 
+  // fix framerate
+  while (framerate_manager.limit_framerate(target_frame_time))
+    ;
   on_frame_end();
 }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Game::on_frame_start() { framerate_manager.gamestep_timer.Update(); }
 
-void Game::on_frame_end() {
-  framerate_manager.calc_fps();
-  framerate_manager.limit_framerate(target_frame_time);
-}
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Game::on_frame_end() { framerate_manager.calc_fps(); }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Game::addSprite(const GameSprite &in_gamesprite) {
   viewer.addWidget(in_gamesprite.sprite);
   viewer.addWidget(in_gamesprite.shadow);

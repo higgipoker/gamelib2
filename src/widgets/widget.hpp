@@ -37,6 +37,9 @@ class Widget {
   Widget();
   virtual ~Widget();
 
+  // update
+  virtual void update();
+
   // a widget is associated with an entity
   virtual void connectEntity(Entity *in_entity);
 

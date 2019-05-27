@@ -68,7 +68,6 @@ void Diagnostic::update() {
   ImGui::Begin("Debug");
 
   {  // fps
-    ImGui::Text("FPS (past 1000 frames)");
     std::vector<float> values;
     int cnt = 0;
     fps_min = 1000;
@@ -83,13 +82,13 @@ void Diagnostic::update() {
         fps_max = val;
       }
     }
+    std::ostringstream title;
+    title << values.back() << "FPS (past 1000 frames)";
+    ImGui::Text("%i%s", static_cast<int>(values.back()), " FPS");
     float avg = static_cast<float>(cnt / values.size());
     std::ostringstream capt;
-    capt << "Min: " << static_cast<int>(fps_min)
-         << " Max: " << static_cast<int>(fps_max)
-         << " Avg: " << static_cast<int>(avg);
     ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()), 0,
-                     capt.str().c_str(), avg - 6, avg + 15,
+                     "(past 1000 frames)", avg - 6, avg + 15,
                      ImVec2(panel_dimensions.width, 50));
   }  // end fps
 

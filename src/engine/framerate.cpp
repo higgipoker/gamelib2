@@ -32,13 +32,11 @@ void FrameRateManager::calc_fps() {
     lastTime = gamestep_timer.GetLiveTime();
   }
 }
-void FrameRateManager::limit_framerate(float target_frame_time) {
+bool FrameRateManager::limit_framerate(float target_frame_time) {
   float newnewtime = gamestep_timer.GetLiveTime();
   float gametime = gamestep_timer.GetFrameTime();
   float frame_time = newnewtime - gametime;
-  float target = (target_frame_time * 1000);
-  while (frame_time < target - 1) {
-    frame_time = gamestep_timer.GetLiveTime() - gametime;
-  }
+  float target = target_frame_time * 1000;
+  return (frame_time < target - 1);
 }
 }  // namespace gamelib2

@@ -12,6 +12,8 @@ project (gamelib2)
 # library output folder
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
+set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+
 # ------------------------------------------------------------------------------
 # include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.0/include)
