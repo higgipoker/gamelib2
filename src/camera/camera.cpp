@@ -22,7 +22,7 @@ void Camera::setWorldRect(const sf::Rect<int> &world_rect) {
 // -----------------------------------------------------------------------------
 void Camera::follow(Entity *e) { target = e; }
 
-static const float camera_speed = 1.0f;
+static const float camera_speed = 2.0f;
 // -----------------------------------------------------------------------------
 // Update
 // -----------------------------------------------------------------------------
