@@ -1,6 +1,6 @@
 #include "files.hpp"
 
-// #define WINDOWS  // uncomment this line to use it for windows
+#define WINDOWS  // uncomment this line to use it for windows
 #ifdef WINDOWS
 #include <direct.h>
 #define GetCurrentDir _getcwd
@@ -31,7 +31,7 @@ std::set<std::string> Files::getFilesInFolder(std::string folder) {
 
   for (auto p : std::filesystem::directory_iterator(folder)) {
     std::cout << p.path() << std::endl;
-    out.insert(p.path());
+    out.insert(p.path().string());
   }
 
   // sort alphabetically by default
