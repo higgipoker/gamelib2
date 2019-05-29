@@ -85,8 +85,8 @@ int Grid::getSector(int _x, int _y) {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int Grid::getSector(const Vector3 &pos){
-    return getSector(pos.x, pos.y);
+int Grid::getSector(const Vector3 &pos) {
+  return getSector(static_cast<int>(pos.x), static_cast<int>(pos.y));
 }
 
 //  --------------------------------------------------
@@ -172,8 +172,8 @@ Vector3 Grid::getRandoPointInSector(int sector) {
   int min_y = sectors[sector].y;
 
   Vector3 p;
-  p.x = min_x + rand() % sector_width;
-  p.y = min_y + rand() % sector_height;
+  p.x = static_cast<float>(min_x + rand() % sector_width);
+  p.y = static_cast<float>(min_y + rand() % sector_height);
 
   return p;
 }
@@ -285,8 +285,8 @@ Vector3 Grid::getSectorCenter(int sector) {
   Vector3 center;
 
   if (sector < (int)sectors.size()) {
-    center.x = sectors[sector].x + (sector_width / 2);
-    center.y = sectors[sector].y + (sector_height / 2);
+    center.x = static_cast<float>(sectors[sector].x + (sector_width / 2));
+    center.y = static_cast<float>(sectors[sector].y + (sector_height / 2));
   }
 
   return center;

@@ -52,7 +52,9 @@ class Timer {
    * @brief gets actual time expired
    * @return
    */
-  float GetLiveTime() { return clock.getElapsedTime().asMilliseconds(); }
+  float GetLiveTime() {
+    return static_cast<float>(clock.getElapsedTime().asMilliseconds());
+  }
 
  protected:
   /// sfml implementation
@@ -62,4 +64,4 @@ class Timer {
   float ticks = 0;
 };
 
-}  // namespace GameLib
+}  // namespace gamelib2

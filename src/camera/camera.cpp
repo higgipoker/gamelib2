@@ -6,8 +6,8 @@ namespace gamelib2 {
 // Init
 // -----------------------------------------------------------------------------
 void Camera::init(int width, int height) {
-  view.setSize(width, height);
-  view.setCenter(width / 2, height / 2);
+  view.setSize(static_cast<float>(width), static_cast<float>(height));
+  view.setCenter(static_cast<float>(width / 2), static_cast<float>(height / 2));
 }
 
 // -----------------------------------------------------------------------------

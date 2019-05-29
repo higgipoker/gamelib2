@@ -43,7 +43,7 @@ void Entity::connectWidget(Widget *in_widget) { widget = in_widget; }
 void Entity::update(float dt) {
   // differnt types of enteties can override this to do movement physics or
   // whatever
-  widget->z_order = position.y;
+  widget->z_order = static_cast<int>(position.y);
 
   if (widget) {
     // reset the debug primitives

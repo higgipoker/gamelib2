@@ -34,15 +34,17 @@ void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
   image_height = texture().getSize().y / static_cast<float>(a_rows);
 
   // set up the coordinates of each frame
-  int sprite_width = static_cast<int>(texture().getSize().x) / a_cols;
-  int sprite_height = static_cast<int>(texture().getSize().y) / a_rows;
+  float sprite_width = static_cast<float>(texture().getSize().x / a_cols);
+  float sprite_height = static_cast<float>(texture().getSize().y / a_rows);
 
   sprite.setOrigin(sprite_width / 2, sprite_height / 2);
 
   for (int row = 0; row < a_rows; row++) {
     for (int col = 0; col < a_cols; col++) {
-      sf::IntRect rect(col * sprite_width, row * sprite_height, sprite_width,
-                       sprite_height);
+      sf::IntRect rect(static_cast<int>(col * sprite_width),
+                       static_cast<int>(row * sprite_height),
+                       static_cast<int>(sprite_width),
+                       static_cast<int>(sprite_height));
       rects.push_back(rect);
     }
   }
@@ -52,7 +54,7 @@ void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
 // -----------------------------------------------------------------------------
 // update
 // -----------------------------------------------------------------------------
-void Sprite::update() { }
+void Sprite::update() {}
 
 // -----------------------------------------------------------------------------
 // render
@@ -175,8 +177,8 @@ void Sprite::swapColors(
 
   // replace the colors in the copy
   for (auto &colours : palette) {
-    for (auto x = 0; x < img.getSize().x; ++x) {
-      for (auto y = 0; y < img.getSize().y; ++y) {
+    for (unsigned int x = 0; x < img.getSize().x; ++x) {
+      for (unsigned int y = 0; y < img.getSize().y; ++y) {
         if (img.getPixel(x, y) == colours.first) {
           img.setPixel(x, y, colours.second);
         }

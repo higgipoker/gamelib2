@@ -51,9 +51,9 @@ void TiledScrollingBackground::init(const std::string &a_filename) {
   tile_width = static_cast<unsigned int>(sprite.getTextureRect().width);
   tile_height = static_cast<unsigned int>(sprite.getTextureRect().height);
 
-  boundsrect.left = boundsrect.top = 0;
-  boundsrect.width = tiles_wide * tile_width;
-  boundsrect.height = tiles_high * tile_height;
+  boundsrect.left = static_cast<float>(boundsrect.top = 0);
+  boundsrect.width = static_cast<float>(tiles_wide * tile_width);
+  boundsrect.height = static_cast<float>(tiles_high * tile_height);
 }
 
 // -----------------------------------------------------------------------------
@@ -63,8 +63,10 @@ void TiledScrollingBackground::render(sf::RenderTarget &target) {
   for (unsigned int x = 0; x <= tiles_wide; x++) {
     for (unsigned int y = 0; y <= tiles_high; y++) {
       // get the absolute position of the tile
-      sf::Rect<float> tile_rect(x * tile_width, y * tile_height, tile_width,
-                                tile_height);
+      sf::Rect<float> tile_rect(static_cast<float>(x * tile_width),
+                                static_cast<float>(y * tile_height),
+                                static_cast<float>(tile_width),
+                                static_cast<float>(tile_height));
 
       sf::Rect<float> rect;
       rect.left = rect.top = 0;
