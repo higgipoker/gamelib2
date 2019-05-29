@@ -16,6 +16,7 @@ set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # ------------------------------------------------------------------------------
 # include dirs
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.0/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui-sfml)

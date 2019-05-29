@@ -40,6 +40,8 @@ class Diagnostic {
 
   std::deque<float> fps_history;
 
+  bool draw_bounds = true;
+
  protected:
   Game &game;
   static bool on;

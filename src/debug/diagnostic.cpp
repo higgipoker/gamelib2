@@ -49,16 +49,16 @@ void Diagnostic::update() {
   // ImGui::ShowDemoWindow();
 
   // dimensions
-  panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
-  panel_dimensions.height = game.viewer.getWindow().getSize().y / 4;
-  panel_dimensions.left =
-      game.viewer.getWindow().getSize().x - panel_dimensions.width;
-  panel_dimensions.top = 0;
-
-  ImGui::SetNextWindowSize(
-      sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
-  ImGui::SetNextWindowPos(
-      sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
+//   panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
+//   panel_dimensions.height = game.viewer.getWindow().getSize().y / 3;
+//   panel_dimensions.left =
+//       game.viewer.getWindow().getSize().x - panel_dimensions.width;
+//   panel_dimensions.top = 0;
+//
+//   ImGui::SetNextWindowSize(
+//       sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
+//   ImGui::SetNextWindowPos(
+//       sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
   if (selected_entity) {
     selectEntity(selected_entity);
@@ -66,6 +66,11 @@ void Diagnostic::update() {
 
   // global debug window
   ImGui::Begin("Debug");
+
+  {// draw bounds
+    ImGui::Checkbox("Draw Bounds", &draw_bounds);
+    Widget::debug = draw_bounds;
+  }
 
   {  // fps
     std::vector<float> values;
@@ -124,7 +129,6 @@ void Diagnostic::selectEntity(Entity *e) { selected_entity = e; }
 // -----------------------------------------------------------------------------
 void Diagnostic::active(bool status) {
   on = status;
-  Widget::debug = on;
 
   if (!on) {
     inited = false;
