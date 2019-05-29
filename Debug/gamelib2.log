@@ -1,0 +1,90 @@
+﻿  camera.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\camera\camera.cpp(9,23): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\camera\camera.cpp(9,16): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\camera\camera.cpp(10,36): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+  compass.cpp
+  diagnostic.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\camera\camera.cpp(10,24): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\timer.hpp(55,69): warning C4244:  'return': conversion from 'sf::Int32' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:  '=': conversion from 'T' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:             T=unsigned int
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         ]
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         and
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(53,65): warning C4244:         ]
+  engine.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\debug\diagnostic.cpp(77,17): warning C4244:  '+=': conversion from 'float' to 'int', possible loss of data
+  framerate.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\timer.hpp(55,69): warning C4244:  'return': conversion from 'sf::Int32' to 'float', possible loss of data
+  entity.cpp
+  game.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\timer.hpp(55,69): warning C4244:  'return': conversion from 'sf::Int32' to 'float', possible loss of data
+  autotexture.cpp
+  primitives.cpp
+  device.cpp
+  keyboard.cpp
+  xbox_gamepad.cpp
+  vector.cpp
+  collisions.cpp
+  state.cpp
+  state_machine.cpp
+  file.cpp
+  files.cpp
+  grid.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\timer.hpp(55,69): warning C4244:  'return': conversion from 'sf::Int32' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(89,32): warning C4244:  'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(89,25): warning C4244:  'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(175,15): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(176,15): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(288,34): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+  timer.cpp
+  Generating Code...
+  Compiling...
+  tree.cpp
+  viewer.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\grid.cpp(289,34): warning C4244:  '=': conversion from 'int' to 'float', possible loss of data
+  label.cpp
+  sprite.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\utils\timer.hpp(55,69): warning C4244:  'return': conversion from 'sf::Int32' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\sprite.cpp(40,52): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\sprite.cpp(40,33): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\sprite.cpp(178,24): warning C4018:  '<': signed/unsigned mismatch
+  spriteanimation.cpp
+  tiledscrollingbackground.cpp
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\sprite.cpp(179,26): warning C4018:  '<': signed/unsigned mismatch
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(55,33): warning C4244:  '=': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(55,33): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(55,33): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(55,33): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(55,33): warning C4244:         ]
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(56,34): warning C4244:  '=': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(56,34): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(56,34): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(56,34): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(56,34): warning C4244:         ]
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(67,33): warning C4244:  'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(67,33): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(67,33): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(67,33): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(67,33): warning C4244:         ]
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,66): warning C4244:  'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,66): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,66): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,66): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,66): warning C4244:         ]
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,51): warning C4244:  'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,51): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,51): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,51): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,51): warning C4244:         ]
+  widget.cpp
+  Generating Code...
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,35): warning C4244:  'argument': conversion from 'unsigned int' to 'T', possible loss of data
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,35): warning C4244:         with
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,35): warning C4244:         [
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,35): warning C4244:             T=float
+C:\Users\pauls\Desktop\gamedev\gamelib2\src\widgets\tiledscrollingbackground.cpp(66,35): warning C4244:         ]
+  gamelib2.vcxproj -> C:\Users\pauls\Desktop\gamedev\gamelib2\.\Debug\gamelib2.lib
