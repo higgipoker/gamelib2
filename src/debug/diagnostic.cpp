@@ -49,16 +49,16 @@ void Diagnostic::update() {
   // ImGui::ShowDemoWindow();
 
   // dimensions
-  panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
-  panel_dimensions.height = game.viewer.getWindow().getSize().y / 3;
-  panel_dimensions.left =
-      game.viewer.getWindow().getSize().x - panel_dimensions.width;
-  panel_dimensions.top = 0;
-
-  ImGui::SetNextWindowSize(
-      sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
-  ImGui::SetNextWindowPos(
-      sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
+//   panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
+//   panel_dimensions.height = game.viewer.getWindow().getSize().y / 3;
+//   panel_dimensions.left =
+//       game.viewer.getWindow().getSize().x - panel_dimensions.width;
+//   panel_dimensions.top = 0;
+//
+//   ImGui::SetNextWindowSize(
+//       sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
+//   ImGui::SetNextWindowPos(
+//       sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
   if (selected_entity) {
     selectEntity(selected_entity);
