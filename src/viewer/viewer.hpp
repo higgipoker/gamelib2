@@ -34,17 +34,20 @@ class Diagnostic;
 
 class Viewer {
  public:
-  Viewer();
+   Viewer();
   ~Viewer();
+  void configWindow(const std::string &in_title, int in_width, int in_height, bool in_fullscreen = false, int in_flags = sf::Style::Default);
   void startup();
   void frame();
   void close();
   void addWidget(Widget *new_widget);
   void remWidget(Widget *in_widget);
   void onMessage(const std::string &in_message);
+  void connectEngine(Engine &in_engine);
   void connectDiagnostics(Diagnostic &d);
   sf::RenderWindow &getWindow();
   void setView(sf::View view);
+  bool hasFocus();
   bool running = true;
   float fps = 0;
 
@@ -67,5 +70,8 @@ class Viewer {
   void calc_fps();
 
   Diagnostic *debug = nullptr;
+  Engine *engine = nullptr;
+
+  bool window_inited = false;
 };
 }  // namespace gamelib2

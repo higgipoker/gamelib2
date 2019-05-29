@@ -1,7 +1,6 @@
 #include "files.hpp"
 
-//#define WINDOWS  // uncomment this line to use it for windows
-#ifdef WINDOWS
+#ifdef _WIN32
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else

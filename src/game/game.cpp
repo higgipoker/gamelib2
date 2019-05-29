@@ -23,13 +23,15 @@
 
 namespace gamelib2 {
 
-static float target_frame_time = 1.f / 60.f;
+const float target_frame_time = 1.f / 60.f;
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 Game::Game() {
   framerate_manager.gamestep_timer.Start();
+  viewer.configWindow("Game", 800, 600);
+  viewer.connectEngine(engine);
   camera.create("camera", "default camera");
 }
 
@@ -39,7 +41,9 @@ Game::Game() {
 void Game::update() {
   on_frame_start();
 
-  camera.update(timestep);
+  if(!engine.paused){
+    camera.update(timestep);
+  }
   engine.frame(timestep);
   viewer.setView(camera.view);
   viewer.frame();

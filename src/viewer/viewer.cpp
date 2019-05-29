@@ -44,6 +44,7 @@ static bool valid_videomode(int width, int height) {
     }
   }
 
+  std::cout << "no valid fullscreen videomode for " << width << "x" << height << std::endl;
   return false;
 }
 
@@ -51,23 +52,24 @@ static bool valid_videomode(int width, int height) {
 // Viewer
 // -----------------------------------------------------------------------------
 Viewer::Viewer() {
-  video_mode.width = 800;
-  video_mode.height = 600;
-  //    if (valid_videomode(video_mode.width, video_mode.height)) {
-  //        window.create(video_mode, "test", sf::Style::Fullscreen);
-  //    } else {
-  //    std::cout << "no valid fullscreen videomode for " << video_mode.width
-  //    << "x"
-  //              << video_mode.height << std::endl;
-  window.create(video_mode, "test", sf::Style::Default);
-  // window.setPosition(sf::Vector2i(0, 0));
 
-  //    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
-  //    window.create(vm, "test", sf::Style::Default);
+}
 
-  //    }
+void Viewer::configWindow(const std::string &in_title, int in_width, int in_height, bool in_fullscreen, int in_flags){
+  assert(window_inited == false);
+  video_mode.width = in_width;
+  video_mode.height = in_height;
+  if (in_fullscreen && valid_videomode(video_mode.width, video_mode.height)) {
+      window.create(video_mode, in_title, sf::Style::Fullscreen);
+  } else {
+    sf::VideoMode vm = sf::VideoMode::getDesktopMode();
+    vm.width = in_width;
+    vm.height = in_height;
+    window.create(vm, in_title, in_flags);
+  }
   window.setVerticalSyncEnabled(true);
   ImGui::SFML::Init(window);
+  window_inited = true;
 }
 
 // -----------------------------------------------------------------------------
@@ -173,24 +175,28 @@ void Viewer::on_click(float x, float y, Widget &widget) {
 // get_input
 // -----------------------------------------------------------------------------
 void Viewer::get_input() {
+
   static sf::Event event;
   while (window.pollEvent(event)) {
-    if (debug->active()) {
-      ImGui::SFML::ProcessEvent(event);
-    }
+
     switch (event.type) {
       case sf::Event::Resized: {
       } break;
 
       case sf::Event::KeyReleased:
         if (event.key.code == sf::Keyboard::Tab) {
-          Diagnostic::active(!Diagnostic::active());
+          if(hasFocus()){
 
-          if (!Diagnostic::active()) {
-            if (debug) {
-              debug->onClose();
+            #ifndef NDEBUG
+            Diagnostic::active(!Diagnostic::active());
+
+            if (!Diagnostic::active()) {
+              if (debug) {
+                debug->onClose();
+              }
             }
-          }
+            #endif
+        }
         }
         break;
 
@@ -200,16 +206,26 @@ void Viewer::get_input() {
 
       case sf::Event::KeyPressed:
         if (event.key.code == sf::Keyboard::Escape) {
+          if(Diagnostic::active()){
+            if(hasFocus()){
+              Diagnostic::active(!Diagnostic::active());
+              if (debug) {
+                debug->onClose();
+              }
+              break;
+            }
+          }
           running = false;
 
         } else if (event.key.code == sf::Keyboard::P) {
-          //          if (engine) {
-          //            engine->paused = !engine->paused;
-          //          }
+          if (engine) {
+            engine->paused = !engine->paused;
+          }
         }
         break;
 
       case sf::Event::MouseButtonPressed: {
+
         if (event.mouseButton.button == sf::Mouse::Left) {
           if (!mouse_pressed) {
             // get the current mouse position in the window
@@ -253,6 +269,10 @@ void Viewer::get_input() {
       case sf::Event::MouseWheelScrolled:
         break;
     }
+
+    if (debug->active()) {
+      ImGui::SFML::ProcessEvent(event);
+    }
   }
 }
 
@@ -292,6 +312,14 @@ void Viewer::calc_fps() {
 }
 
 // -----------------------------------------------------------------------------
+// connectEngine
+// -----------------------------------------------------------------------------
+void Viewer::connectEngine(Engine &e) {
+  assert(engine == nullptr);
+  engine = &e;
+}
+
+// -----------------------------------------------------------------------------
 // connectDiagnostics
 // -----------------------------------------------------------------------------
 void Viewer::connectDiagnostics(Diagnostic &d) {
@@ -303,4 +331,11 @@ void Viewer::connectDiagnostics(Diagnostic &d) {
 // setView
 // -----------------------------------------------------------------------------
 void Viewer::setView(sf::View view) { window.setView(view); }
+
+// -----------------------------------------------------------------------------
+// hasFocus
+// -----------------------------------------------------------------------------
+bool Viewer::hasFocus(){
+  return window.hasFocus();
+}
 }  // namespace gamelib2
