@@ -44,23 +44,23 @@ static bool valid_videomode(int width, int height) {
     }
   }
 
-  std::cout << "no valid fullscreen videomode for " << width << "x" << height << std::endl;
+  std::cout << "no valid fullscreen videomode for " << width << "x" << height
+            << std::endl;
   return false;
 }
 
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer() {
+Viewer::Viewer() {}
 
-}
-
-void Viewer::configWindow(const std::string &in_title, int in_width, int in_height, bool in_fullscreen, int in_flags){
+void Viewer::configWindow(const std::string &in_title, int in_width,
+                          int in_height, bool in_fullscreen, int in_flags) {
   assert(window_inited == false);
   video_mode.width = in_width;
   video_mode.height = in_height;
   if (in_fullscreen && valid_videomode(video_mode.width, video_mode.height)) {
-      window.create(video_mode, in_title, sf::Style::Fullscreen);
+    window.create(video_mode, in_title, sf::Style::Fullscreen);
   } else {
     sf::VideoMode vm = sf::VideoMode::getDesktopMode();
     vm.width = in_width;
@@ -68,7 +68,6 @@ void Viewer::configWindow(const std::string &in_title, int in_width, int in_heig
     window.create(vm, in_title, in_flags);
   }
   window.setVerticalSyncEnabled(true);
-  ImGui::SFML::Init(window);
   window_inited = true;
 }
 
@@ -175,19 +174,16 @@ void Viewer::on_click(float x, float y, Widget &widget) {
 // get_input
 // -----------------------------------------------------------------------------
 void Viewer::get_input() {
-
   static sf::Event event;
   while (window.pollEvent(event)) {
-
     switch (event.type) {
       case sf::Event::Resized: {
       } break;
 
       case sf::Event::KeyReleased:
         if (event.key.code == sf::Keyboard::Tab) {
-          if(hasFocus()){
-
-            #ifndef NDEBUG
+          if (hasFocus()) {
+#ifndef NDEBUG
             Diagnostic::active(!Diagnostic::active());
 
             if (!Diagnostic::active()) {
@@ -195,27 +191,27 @@ void Viewer::get_input() {
                 debug->onClose();
               }
             }
-            #endif
-        }
+#endif
+          }
         }
         break;
 
       case sf::Event::Closed:
-        close();
+        running = false;
         break;
 
       case sf::Event::KeyPressed:
         if (event.key.code == sf::Keyboard::Escape) {
-          if(Diagnostic::active()){
-            if(hasFocus()){
+          if (hasFocus()) {
+            if (Diagnostic::active()) {
               Diagnostic::active(!Diagnostic::active());
               if (debug) {
                 debug->onClose();
               }
-              break;
+            } else {
+              running = false;
             }
           }
-          running = false;
 
         } else if (event.key.code == sf::Keyboard::P) {
           if (engine) {
@@ -225,19 +221,20 @@ void Viewer::get_input() {
         break;
 
       case sf::Event::MouseButtonPressed: {
-
         if (event.mouseButton.button == sf::Mouse::Left) {
-          if (!mouse_pressed) {
-            // get the current mouse position in the window
-            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
-            // convert it to world coordinates
-            sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
-            mouse_pressed = true;
-            on_click(worldPos.x, worldPos.y, root_widget);
-            if (grabbed_widget) {
-              if (grabbed_widget->clickable) {
-                debug->selectEntity(grabbed_widget->entity);
-                widget_grabbed = true;
+          if (Diagnostic::active()) {
+            if (!mouse_pressed) {
+              // get the current mouse position in the window
+              sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+              // convert it to world coordinates
+              sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+              mouse_pressed = true;
+              on_click(worldPos.x, worldPos.y, root_widget);
+              if (grabbed_widget) {
+                if (grabbed_widget->clickable) {
+                  debug->selectEntity(grabbed_widget->entity);
+                  widget_grabbed = true;
+                }
               }
             }
           }
@@ -335,7 +332,5 @@ void Viewer::setView(sf::View view) { window.setView(view); }
 // -----------------------------------------------------------------------------
 // hasFocus
 // -----------------------------------------------------------------------------
-bool Viewer::hasFocus(){
-  return window.hasFocus();
-}
+bool Viewer::hasFocus() { return window.hasFocus(); }
 }  // namespace gamelib2

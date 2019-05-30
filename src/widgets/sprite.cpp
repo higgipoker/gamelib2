@@ -69,43 +69,14 @@ void Sprite::render(sf::RenderTarget &target) {
 // -----------------------------------------------------------------------------
 void Sprite::setFrame(int a_frame) {
   // no bounds check, crash on out-of-range, should never happen
-  sprite.setTextureRect(rects[a_frame]);
+  current_frame = a_frame;
+  sprite.setTextureRect(rects[current_frame]);
 }
 
 // -----------------------------------------------------------------------------
 // setFrame
 // -----------------------------------------------------------------------------
-int Sprite::getFrame() {
-  if (current_animation) return current_animation->currentFrame();
-
-  return 0;
-}
-
-// -----------------------------------------------------------------------------
-// addAnimation
-// -----------------------------------------------------------------------------
-void Sprite::addAnimation(const SpriteAnimation &a_sprite_anim) {
-  animations.insert(
-      std::make_pair(a_sprite_anim.name, std::move(a_sprite_anim)));
-}
-
-// ----------------------------------------------------------------------------------
-// AddAnimation
-// ----------------------------------------------------------------------------------
-void Sprite::addAnimation(const std::string &animname, int frametime,
-                          bool loopanim, const std::vector<int> &framelist) {
-  SpriteAnimation anim(animname, frametime, loopanim, std::move(framelist));
-  addAnimation(anim);
-}
-
-// -----------------------------------------------------------------------------
-// animate
-// -----------------------------------------------------------------------------
-void Sprite::animate() {
-  if (current_animation) {
-    setFrame(current_animation->update());
-  }
-}
+int Sprite::getFrame() { return current_frame; }
 
 // -----------------------------------------------------------------------------
 // getBounds

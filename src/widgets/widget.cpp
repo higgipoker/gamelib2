@@ -142,47 +142,6 @@ sf::Vector2f Widget::position() {
 }
 
 // -----------------------------------------------------------------------------
-// addAnimation
-// -----------------------------------------------------------------------------
-void Widget::addAnimation(const SpriteAnimation &a_sprite_anim) {}
-
-// -----------------------------------------------------------------------------
-// addAnimation
-// -----------------------------------------------------------------------------
-void Widget::addAnimation(const std::string &animname, int frametime,
-                          bool loopanim, const std::vector<int> &framelist) {}
-
-// -----------------------------------------------------------------------------
-// startAnimation
-// -----------------------------------------------------------------------------
-void Widget::startAnimation(const std::string &a_name) {
-  if (animations.find(a_name) != animations.end()) {
-    current_animation = &(animations.find(a_name)->second);
-    current_animation->start();
-  }
-}
-
-// -----------------------------------------------------------------------------
-// stopAnimation
-// -----------------------------------------------------------------------------
-void Widget::stopAnimation() {
-  if (current_animation) {
-    current_animation->stop();
-    current_animation = nullptr;
-  }
-}
-
-// -----------------------------------------------------------------------------
-// stopAnimation
-// -----------------------------------------------------------------------------
-SpriteAnimation *Widget::currentAnimation() { return current_animation; }
-
-// -----------------------------------------------------------------------------
-// draw_animate
-// -----------------------------------------------------------------------------
-void Widget::animate() {}
-
-// -----------------------------------------------------------------------------
 // getScale
 // -----------------------------------------------------------------------------
 sf::Vector2f Widget::scale() { return sf::Vector2f(1.f, 1.f); }

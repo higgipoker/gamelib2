@@ -3,7 +3,6 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include "../graphics/autotexture.hpp"
 #include "../widgets/widget.hpp"
-#include "spriteanimation.hpp"
 
 namespace gamelib2 {
 
@@ -19,7 +18,6 @@ class Sprite : public Widget {
   void update() override;
   void render(sf::RenderTarget &target) override;
   void init(std::string a_filename, int a_rows, int a_cols);
-  void animate() override;
   void move(float dx, float dy) override;
   void setPosition(float x, float y) override;
   void scale(float x, float y) override;
@@ -27,9 +25,6 @@ class Sprite : public Widget {
   void connectShadow(Sprite *spr);
   void setFrame(int a_frame);
   int getFrame();
-  void addAnimation(const SpriteAnimation &a_sprite_anim) override;
-  void addAnimation(const std::string &animname, int frametime, bool loopanim,
-                    const std::vector<int> &framelist) override;
   sf::FloatRect bounds() override;
   sf::Vector2f position() override;
   void swapColors(const std::vector<std::pair<sf::Color, sf::Color>> &palette);
@@ -46,6 +41,7 @@ class Sprite : public Widget {
   sf::Texture unique_texture;
   std::vector<sf::IntRect> rects;
   sf::Sprite sprite;
+  int current_frame = 0;
 };
 
 }  // namespace gamelib2

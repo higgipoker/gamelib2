@@ -1,5 +1,7 @@
 #pragma once
 
+#include "sprite.hpp"
+
 #include <string>
 #include <vector>
 
@@ -10,14 +12,17 @@ namespace gamelib2 {
  */
 class SpriteAnimation {
  public:
-  SpriteAnimation(std::string a_id, int a_frametime, bool a_loop,
-                  std::vector<int> a_frames);
+  SpriteAnimation(std::string a_id, float a_frametime, bool a_loop,
+                  std::vector<int> a_frames, Sprite* in_widget = nullptr);
+
+  // set the sprite to operate on
+  void connectSprite(Sprite* in_sprite);
 
   // start the animation
   void start();
 
   // update anim
-  int update();
+  int update(float in_dt);
 
   // stop animation
   void stop();
@@ -34,6 +39,9 @@ class SpriteAnimation {
   std::string name;
 
  private:
+  // the sprite to operate on
+  Sprite* sprite = nullptr;
+
   // list of frame numbers
   std::vector<int> frames;
 
@@ -47,9 +55,9 @@ class SpriteAnimation {
   bool running = false;
 
   // time of a frame
-  int frame_time = 0;
+  float frame_time = 0;
 
   // frame timer
-  int ticks = 0;
+  float counter = 0;
 };
 }  // namespace gamelib2

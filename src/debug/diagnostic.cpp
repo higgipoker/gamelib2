@@ -38,7 +38,11 @@ Diagnostic::Diagnostic(Game &in_game) : game(in_game) {
   panel_dimensions.top = 0;
   panel_dimensions.width = 0;
   panel_dimensions.height = 0;
+
+  ImGui::SFML::Init(game.viewer.getWindow());
 }
+
+Diagnostic::~Diagnostic() { ImGui::SFML::Shutdown(); }
 
 // -----------------------------------------------------------------------------
 //
@@ -49,16 +53,16 @@ void Diagnostic::update() {
   // ImGui::ShowDemoWindow();
 
   // dimensions
-  //   panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
-  //   panel_dimensions.height = game.viewer.getWindow().getSize().y / 3;
-  //   panel_dimensions.left =
-  //       game.viewer.getWindow().getSize().x - panel_dimensions.width;
-  //   panel_dimensions.top = 0;
-  //
-  //   ImGui::SetNextWindowSize(
-  //       sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
-  //   ImGui::SetNextWindowPos(
-  //       sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
+  panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
+  panel_dimensions.height = game.viewer.getWindow().getSize().y / 3.6f;
+  panel_dimensions.left =
+      game.viewer.getWindow().getSize().x - panel_dimensions.width;
+  panel_dimensions.top = 0;
+
+  ImGui::SetNextWindowSize(
+      sf::Vector2f(panel_dimensions.width, panel_dimensions.height));
+  ImGui::SetNextWindowPos(
+      sf::Vector2f(panel_dimensions.left, panel_dimensions.top));
 
   if (selected_entity) {
     selectEntity(selected_entity);
@@ -68,8 +72,7 @@ void Diagnostic::update() {
   ImGui::Begin("Debug");
 
   {  // draw bounds
-    ImGui::Checkbox("Draw Bounds", &draw_bounds);
-    Widget::debug = draw_bounds;
+    ImGui::Checkbox("Draw Bounds", &Widget::debug);
   }
 
   {  // fps
@@ -164,5 +167,13 @@ void Diagnostic::render() {
   if (inited) {
     ImGui::SFML::Render(game.viewer.getWindow());
   }
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void Diagnostic::onClose() {
+  ImGui::SFML::Render(game.viewer.getWindow());
+  Widget::debug = false;
 }
 }  // namespace gamelib2

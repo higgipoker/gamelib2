@@ -25,7 +25,6 @@
 #include <map>
 #include "../math/vector.hpp"
 #include "../types.hpp"
-#include "../widgets/spriteanimation.hpp"
 
 namespace gamelib2 {
 
@@ -54,25 +53,6 @@ class Widget {
 
   // add a child to the widget tree from here
   virtual void addChild(Widget *in_widget);
-
-  // add an animation by pointer
-  virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
-
-  // add an animation by params
-  virtual void addAnimation(const std::string &animname, int frametime,
-                            bool loopanim, const std::vector<int> &framelist);
-
-  // start an animation
-  virtual void startAnimation(const std::string &a_name);
-
-  // stop an animation
-  virtual void stopAnimation();
-
-  // update the animation
-  virtual void animate();
-
-  // get currently active animation
-  SpriteAnimation *currentAnimation();
 
   // move by an offset
   virtual void move(float dx, float dy);
@@ -119,9 +99,6 @@ class Widget {
   // handle or ignore clicks
   bool clickable = false;
 
-  // list of animations
-  std::map<std::string, SpriteAnimation> animations;
-
   // is debugmode activated
   static bool debug;
 
@@ -143,9 +120,6 @@ class Widget {
  protected:
   // draw the bounds rect
   virtual void draw_bounds(sf::RenderTarget &target);
-
-  // current running animation
-  SpriteAnimation *current_animation = nullptr;
 };
 
 }  // namespace gamelib2

@@ -19,6 +19,7 @@
  ****************************************************************************/
 #include "entity.hpp"
 #include <iostream>
+#include "../widgets/spriteanimation.hpp"
 #include "../widgets/widget.hpp"
 
 namespace gamelib2 {
@@ -50,6 +51,8 @@ void Entity::update(float dt) {
     widget->shapes.clear();
     widget->primitives.clear();
   }
+
+  animate(dt);
 }
 
 // -----------------------------------------------------------------------------
@@ -74,4 +77,64 @@ void Entity::setPosition(float x, float y) {
 //
 // -----------------------------------------------------------------------------
 void Entity::setPosition(const Vector3 &pos) { position = pos; }
+
+// -----------------------------------------------------------------------------
+// addAnimation
+// -----------------------------------------------------------------------------
+void Entity::addAnimation(const SpriteAnimation &a_sprite_anim) {
+  animations.insert(
+      std::make_pair(a_sprite_anim.name, std::move(a_sprite_anim)));
+}
+
+// ----------------------------------------------------------------------------------
+// AddAnimation
+// ----------------------------------------------------------------------------------
+void Entity::addAnimation(const std::string &animname, const float frametime,
+                          bool loopanim, const std::vector<int> &framelist) {
+  Sprite *sprite = static_cast<Sprite *>(widget);
+  SpriteAnimation anim(animname, frametime, loopanim, std::move(framelist),
+                       sprite);
+  addAnimation(anim);
+}
+
+// -----------------------------------------------------------------------------
+// animate
+// -----------------------------------------------------------------------------
+void Entity::animate(float in_dt) {
+  if (current_animation) {
+    current_animation->update(in_dt);
+  }
+}
+// -----------------------------------------------------------------------------
+// startAnimation
+// -----------------------------------------------------------------------------
+void Entity::startAnimation(const std::string &a_name) {
+  if (animations.find(a_name) != animations.end()) {
+    current_animation = &(animations.find(a_name)->second);
+    current_animation->start();
+  }
+}
+
+// -----------------------------------------------------------------------------
+// stopAnimation
+// -----------------------------------------------------------------------------
+void Entity::stopAnimation() {
+  if (current_animation) {
+    current_animation->stop();
+    current_animation = nullptr;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// stopAnimation
+// -----------------------------------------------------------------------------
+SpriteAnimation *Entity::currentAnimation() { return current_animation; }
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+const std::map<std::string, SpriteAnimation> &Entity::getAnimationList() {
+  return animations;
+}
+
 }  // namespace gamelib2

@@ -24,6 +24,7 @@
 #include "../input/keyboard.hpp"
 #include "../math/vector.hpp"
 #include "../types.hpp"
+#include "../widgets/spriteanimation.hpp"
 
 namespace gamelib2 {
 
@@ -51,6 +52,28 @@ class Entity : public EntityInterface {
   // main update
   virtual void update(float dt);
 
+  // add an animation by pointer
+  virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
+
+  // add an animation by params
+  virtual void addAnimation(const std::string &animname, const float frametime,
+                            bool loopanim, const std::vector<int> &framelist);
+
+  // start an animation
+  virtual void startAnimation(const std::string &a_name);
+
+  // stop an animation
+  virtual void stopAnimation();
+
+  // update the animation
+  virtual void animate(float in_dt);
+
+  // get currently active animation
+  SpriteAnimation *currentAnimation();
+
+  // get animation list
+  const std::map<std::string, SpriteAnimation> &getAnimationList();
+
   // debug interface
   void onDragged(const Vector3 &diff) override;
 
@@ -76,6 +99,12 @@ class Entity : public EntityInterface {
   Widget *widget = nullptr;
 
  protected:
+  // entity can animate its widget
+  std::map<std::string, SpriteAnimation> animations;
+
+  // current running animation
+  SpriteAnimation *current_animation = nullptr;
+
   // optionally add perspective
   virtual void perspectivize(float camera_height);
 };

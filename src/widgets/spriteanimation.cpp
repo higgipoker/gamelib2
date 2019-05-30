@@ -1,32 +1,44 @@
 #include "spriteanimation.hpp"
 
+#include <iostream>
+
 namespace gamelib2 {
 
 // -----------------------------------------------------------------------------
 // SpriteAnimation
 // -----------------------------------------------------------------------------
-SpriteAnimation::SpriteAnimation(std::string a_id, int a_frametime,
-                                 bool a_loop,
-                                 std::vector<int> a_frames)
-    : name(std::move(a_id)), frames(std::move(std::move(a_frames))),
-      current_frame(frames.begin()), loop(a_loop), frame_time(a_frametime) {}
+SpriteAnimation::SpriteAnimation(std::string a_id, float a_frametime,
+                                 bool a_loop, std::vector<int> a_frames,
+                                 Sprite *in_widget)
+    : name(std::move(a_id)),
+      frames(std::move(std::move(a_frames))),
+      current_frame(frames.begin()),
+      loop(a_loop),
+      frame_time(a_frametime),
+      sprite(in_widget) {}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+void SpriteAnimation::connectSprite(Sprite *in_sprite) { sprite = in_sprite; }
 
 // -----------------------------------------------------------------------------
 // start
 // -----------------------------------------------------------------------------
 void SpriteAnimation::start() {
   current_frame = frames.begin();
-  ticks = 0;
+  counter = 0;
   running = true;
 }
 
 // -----------------------------------------------------------------------------
 // step
 // -----------------------------------------------------------------------------
-int SpriteAnimation::update() {
+int SpriteAnimation::update(float in_dt) {
   if (running) {
-    if (++ticks > frame_time) {
-      ticks = 0;
+    counter += in_dt;
+    if (counter > frame_time) {
+      counter = 0;
 
       if (++current_frame == frames.end()) {
         if (loop) {
@@ -36,6 +48,9 @@ int SpriteAnimation::update() {
           --current_frame;
         }
       }
+    }
+    if (sprite) {
+      sprite->setFrame(*current_frame);
     }
   }
   return *current_frame;
@@ -66,4 +81,4 @@ bool SpriteAnimation::finished() {
   return false;
 }
 
-} // namespace gamelib2
+}  // namespace gamelib2

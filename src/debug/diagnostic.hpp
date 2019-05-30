@@ -29,18 +29,16 @@ namespace gamelib2 {
 class Diagnostic {
  public:
   Diagnostic(Game &in_game);
-  virtual ~Diagnostic() = default;
+  virtual ~Diagnostic();
   static void active(bool status);
   static bool active();
   virtual void update();
   void render();
   virtual void selectEntity(Entity *e);
   virtual void deSelect() = 0;
-  virtual void onClose() = 0;
+  virtual void onClose();
 
   std::deque<float> fps_history;
-
-  bool draw_bounds = true;
 
  protected:
   Game &game;
