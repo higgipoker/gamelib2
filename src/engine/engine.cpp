@@ -44,7 +44,7 @@ void Engine::frame(float dt) {
 // addEntity
 // -----------------------------------------------------------------------------
 void Engine::addEntity(Entity *in_entity) {
-  assert(in_entity->widget != nullptr);
+ // assert(in_entity->widget != nullptr);
   entities.emplace_back(in_entity);
 }
 

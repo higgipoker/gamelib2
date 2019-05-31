@@ -95,10 +95,10 @@ class Entity : public EntityInterface {
   // identifier name
   std::string name;
 
+ protected:
   // entity is associated with a widget
   Widget *widget = nullptr;
 
- protected:
   // entity can animate its widget
   std::map<std::string, SpriteAnimation> animations;
 
