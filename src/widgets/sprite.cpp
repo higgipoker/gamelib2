@@ -163,4 +163,8 @@ void Sprite::swapColors(
   // use the unique texture for the sprite
   sprite.setTexture(unique_texture);
 }
+
+void Sprite::setOrigin(float in_x, float in_y){
+  sprite.setOrigin(in_x, in_y);
+}
 }  // namespace gamelib2

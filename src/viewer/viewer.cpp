@@ -128,6 +128,9 @@ void Viewer::render() {
 
   root_widget.render(window);
 
+  window.setView(hud_view);
+  root_hud.render(window);
+
   if (debug->active()) {
     debug->render();
   }
@@ -138,16 +141,19 @@ void Viewer::render() {
 // -----------------------------------------------------------------------------
 // addWidget
 // -----------------------------------------------------------------------------
-void Viewer::addWidget(Widget *new_widget) {
-  // assert(new_widget->entity != nullptr);
-  root_widget.addChild(new_widget);
+void Viewer::addWidget(Widget *new_widget, bool is_hud) {
+  if(is_hud){
+    root_hud.addChild(new_widget);
+  }else{
+    root_widget.addChild(new_widget);
+  }
 }
 
 // -----------------------------------------------------------------------------
 // remWidget
 // -----------------------------------------------------------------------------
-void Viewer::remWidget(Widget *in_widget) {
-  if (in_widget->parent) {
+void Viewer::remWidget(Widget *in_widget, bool is_hud) {
+   if (in_widget->parent) {
     in_widget->parent->children.erase(std::remove(in_widget->parent->children.begin(),
                                                   in_widget->parent->children.end(), in_widget),
                                       in_widget->parent->children.end());
@@ -333,6 +339,8 @@ void Viewer::connectDiagnostics(Diagnostic &d) {
 // -----------------------------------------------------------------------------
 void Viewer::setView(sf::View view) {
   window.setView(view);
+
+  hud_view.reset(sf::FloatRect(0,0,view.getSize().x, view.getSize().y));
 }
 
 // -----------------------------------------------------------------------------

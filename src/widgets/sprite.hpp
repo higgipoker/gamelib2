@@ -29,6 +29,8 @@ class Sprite : public Widget {
   sf::Vector2f position() override;
   void swapColors(const std::vector<std::pair<sf::Color, sf::Color>> &palette);
 
+  void setOrigin(float in_x, float in_y);
+
   float image_width = 0;
   float image_height = 0;
   bool has_shadow = false;

@@ -103,8 +103,10 @@ void Widget::render(sf::RenderTarget &target) {
 // addChild
 // -----------------------------------------------------------------------------
 void Widget::addChild(Widget *in_widget) {
-  children.emplace_back(in_widget);
-  in_widget->parent = this;
+  if(std::find(children.begin(), children.end(), in_widget)==children.end()){
+    children.emplace_back(in_widget);
+    in_widget->parent = this;
+  }
 }
 
 // -----------------------------------------------------------------------------

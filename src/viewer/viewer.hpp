@@ -40,8 +40,8 @@ class Viewer {
   void startup();
   void frame();
   void close();
-  void addWidget(Widget *new_widget);
-  void remWidget(Widget *in_widget);
+  void addWidget(Widget *new_widget, bool is_hud = false);
+  void remWidget(Widget *in_widget , bool is_hud = false);
   void onMessage(const std::string &in_message);
   void connectEngine(Engine &in_engine);
   void connectDiagnostics(Diagnostic &d);
@@ -60,8 +60,10 @@ class Viewer {
   bool mouse_pressed = false;
   sf::RenderWindow window;
   sf::VideoMode video_mode;
+  sf::View hud_view;
   Vector3 mouse;
   Widget root_widget;
+  Widget root_hud;
   Widget *grabbed_widget = nullptr;
   bool widget_changed = false;
   bool widget_grabbed = false;

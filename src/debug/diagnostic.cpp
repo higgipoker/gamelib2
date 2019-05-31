@@ -30,6 +30,11 @@ namespace gamelib2 {
 bool Diagnostic::on = false;
 bool Diagnostic::inited = false;
 
+// just a helper to toggle bools
+void toggle(bool& b){
+  b = !b;
+}
+
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -74,6 +79,10 @@ void Diagnostic::update() {
   {  // draw bounds
     ImGui::Checkbox("Draw Bounds", &Widget::debug);
   }
+
+  {// pause
+    ImGui::Checkbox("Pause", &game.engine.paused);
+  }// end pause
 
   {  // fps
     std::vector<float> values;

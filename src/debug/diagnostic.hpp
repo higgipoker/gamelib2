@@ -19,11 +19,14 @@
  ****************************************************************************/
 #pragma once
 
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Clock.hpp>
-#include <deque>
+#include "joystick.hpp"
 #include "../game/entity.hpp"
 #include "../game/game.hpp"
+
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Clock.hpp>
+
+#include <deque>
 
 namespace gamelib2 {
 class Diagnostic {
@@ -39,6 +42,8 @@ class Diagnostic {
   virtual void onClose();
 
   std::deque<float> fps_history;
+
+  Joystick joystick1;
 
  protected:
   Game &game;

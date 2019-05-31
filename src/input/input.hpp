@@ -26,6 +26,7 @@ enum InputState {
     Down,
     Left,
     Right,
+
     FireDown,
     FireUp,
     FireLength,
@@ -33,6 +34,31 @@ enum InputState {
     SingleTap,
     DoubleTap,
     FirePress,
+
+    FireDown2,
+    FireUp2,
+    FireLength2,
+    FireLengthCached2,
+    SingleTap2,
+    DoubleTap2,
+    FirePress2,
+
+    FireDown3,
+    FireUp3,
+    FireLength3,
+    FireLengthCached3,
+    SingleTap3,
+    DoubleTap3,
+    FirePress3,
+
+    FireDown4,
+    FireUp4,
+    FireLength4,
+    FireLengthCached4,
+    SingleTap4,
+    DoubleTap4,
+    FirePress4,
+
     Totalevents
 };
 
