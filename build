@@ -2,5 +2,6 @@
 cd Debug;
 make -j8;
 cd ..;
+mkdir -p include/gamelib2
 rsync -av --exclude='*.cpp' src/* include/gamelib2
 
