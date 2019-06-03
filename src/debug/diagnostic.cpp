@@ -59,7 +59,7 @@ void Diagnostic::update() {
 
   // dimensions
   panel_dimensions.width = game.viewer.getWindow().getSize().x / 2.98f;
-  panel_dimensions.height = game.viewer.getWindow().getSize().y / 3.6f;
+  panel_dimensions.height = game.viewer.getWindow().getSize().y / 3.2f;
   panel_dimensions.left =
       game.viewer.getWindow().getSize().x - panel_dimensions.width;
   panel_dimensions.top = 0;
@@ -79,7 +79,7 @@ void Diagnostic::update() {
   {  // draw bounds
     ImGui::Checkbox("Draw Bounds", &Widget::debug);
   }
-
+  ImGui::SameLine();
   {// pause
     ImGui::Checkbox("Pause", &game.engine.paused);
   }// end pause
