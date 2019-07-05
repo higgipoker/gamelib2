@@ -41,16 +41,16 @@ Game::Game() {
 void Game::update() {
   on_frame_start();
 
+  // physics frame
+  do{engine.frame(timestep);
+  }while (framerate_manager.limit_framerate(target_frame_time));
+
+  // render frame
   if(!engine.paused){
     camera.update(timestep);
   }
-  engine.frame(timestep);
   viewer.setView(camera.view);
   viewer.frame();
-
-  // fix framerate
-  while (framerate_manager.limit_framerate(target_frame_time))
-    ;
   on_frame_end();
 }
 

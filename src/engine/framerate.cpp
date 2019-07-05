@@ -37,6 +37,6 @@ bool FrameRateManager::limit_framerate(float target_frame_time) {
   float gametime = gamestep_timer.GetFrameTime();
   float frame_time = newnewtime - gametime;
   float target = target_frame_time * 1000;
-  return (frame_time < target - 1);
+  return (frame_time < target);
 }
 }  // namespace gamelib2
