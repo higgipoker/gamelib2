@@ -64,7 +64,7 @@ void SpriteAnimation::stop() { running = false; }
 // -----------------------------------------------------------------------------
 // setStpeed
 // -----------------------------------------------------------------------------
-void SpriteAnimation::setStpeed(int a_speed) { frame_time = a_speed; }
+void SpriteAnimation::setStpeed(int a_speed) { frame_time = static_cast<float>(a_speed); }
 
 // -----------------------------------------------------------------------------
 // currentFrame

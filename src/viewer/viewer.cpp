@@ -67,7 +67,8 @@ void Viewer::configWindow(const std::string &in_title, int in_width, int in_heig
     vm.height = in_height;
     window.create(vm, in_title, in_flags);
   }
-  window.setVerticalSyncEnabled(true);
+  //window.setVerticalSyncEnabled(false);
+  //window.setFramerateLimit(60);
   window_inited = true;
 }
 

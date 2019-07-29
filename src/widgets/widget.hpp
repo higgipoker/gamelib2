@@ -18,11 +18,12 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
 #pragma once
+#include <string>
+#include <map>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
-#include <map>
 #include "../math/vector.hpp"
 #include "../types.hpp"
 

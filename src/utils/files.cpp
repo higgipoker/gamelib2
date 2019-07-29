@@ -17,7 +17,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 std::string Files::getWorkingDirectory() {
   char buff[FILENAME_MAX];
-  GetCurrentDir(static_cast<char *>(buff), FILENAME_MAX);
+  auto ret = GetCurrentDir(static_cast<char *>(buff), FILENAME_MAX);
   std::string current_working_dir(static_cast<char *>(buff));
   return current_working_dir;
 }
