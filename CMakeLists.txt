@@ -2,8 +2,13 @@ cmake_minimum_required (VERSION 2.6)
 
 # ------------------------------------------------------------------------------
 # use c++11
-#add_definitions(-std=c++17)
-add_definitions(-std:c++latest)
+if (WIN32)
+	add_definitions(-std:c++latest)
+endif (WIN32)
+
+if (UNIX)
+	add_definitions(-std=c++17)
+endif (UNIX)
 
 # ------------------------------------------------------------------------------
 # project name
