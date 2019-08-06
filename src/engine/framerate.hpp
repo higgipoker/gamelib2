@@ -23,7 +23,7 @@ namespace gamelib2 {
 class FrameRateManager {
  public:
   void calc_fps();
-  bool limit_framerate(float target_frame_time);
+  float TimeLeft(float target_frame_time);
   Timer gamestep_timer;
   float fps = 0;
   float frames_this_second = 0;

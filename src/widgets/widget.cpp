@@ -45,11 +45,6 @@ Widget::Widget() = default;
 Widget::~Widget() = default;
 
 // -----------------------------------------------------------------------------
-// update
-// -----------------------------------------------------------------------------
-void Widget::update() {}
-
-// -----------------------------------------------------------------------------
 // getName
 // -----------------------------------------------------------------------------
 std::string Widget::getName() {
@@ -73,7 +68,7 @@ void Widget::releaseEntity() {}
 // render
 // -----------------------------------------------------------------------------
 void Widget::render(sf::RenderTarget &target) {
-  update();
+  sort();
 
   // draw all children
   for (auto &widget : children) {
@@ -103,7 +98,8 @@ void Widget::render(sf::RenderTarget &target) {
 // addChild
 // -----------------------------------------------------------------------------
 void Widget::addChild(Widget *in_widget) {
-  if(std::find(children.begin(), children.end(), in_widget)==children.end()){
+  if (std::find(children.begin(), children.end(), in_widget) ==
+      children.end()) {
     children.emplace_back(in_widget);
     in_widget->parent = this;
   }
@@ -233,7 +229,7 @@ void Widget::draw_bounds(sf::RenderTarget &target) {
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));
 
-  // kline 4
+  // line 4
   vertices.emplace_back(
       sf::Vertex(sf::Vector2f(rect.left, rect.top + rect.height),
                  grabbed ? sf::Color::White : sf::Color::Magenta));

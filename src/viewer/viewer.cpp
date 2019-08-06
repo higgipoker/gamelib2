@@ -34,7 +34,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 static bool valid_videomode(int width, int height) {
   // get list of supported video modes
-  std::vector< sf::VideoMode > modes = sf::VideoMode::getFullscreenModes();
+  std::vector<sf::VideoMode> modes = sf::VideoMode::getFullscreenModes();
 
   // search for one that matched the requested width and height
   for (auto &mode : modes) {
@@ -44,18 +44,18 @@ static bool valid_videomode(int width, int height) {
     }
   }
 
-  std::cout << "no valid fullscreen videomode for " << width << "x" << height << std::endl;
+  std::cout << "no valid fullscreen videomode for " << width << "x" << height
+            << std::endl;
   return false;
 }
 
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer() {
-}
+Viewer::Viewer() {}
 
-void Viewer::configWindow(const std::string &in_title, int in_width, int in_height,
-                          bool in_fullscreen, int in_flags) {
+void Viewer::configWindow(const std::string &in_title, int in_width,
+                          int in_height, bool in_fullscreen, int in_flags) {
   assert(window_inited == false);
   video_mode.width = in_width;
   video_mode.height = in_height;
@@ -67,8 +67,8 @@ void Viewer::configWindow(const std::string &in_title, int in_width, int in_heig
     vm.height = in_height;
     window.create(vm, in_title, in_flags);
   }
-  //window.setVerticalSyncEnabled(false);
-  //window.setFramerateLimit(60);
+  // window.setVerticalSyncEnabled(false);
+  // window.setFramerateLimit(60);
   window_inited = true;
 }
 
@@ -83,22 +83,17 @@ Viewer::~Viewer() {
 // -----------------------------------------------------------------------------
 // getWindow
 // -----------------------------------------------------------------------------
-sf::RenderWindow &Viewer::getWindow() {
-  return window;
-}
+sf::RenderWindow &Viewer::getWindow() { return window; }
 
 // -----------------------------------------------------------------------------
 // startup
 // -----------------------------------------------------------------------------
-void Viewer::startup() {
-}
+void Viewer::startup() {}
 
 // -----------------------------------------------------------------------------
 // close
 // -----------------------------------------------------------------------------
-void Viewer::close() {
-  window.close();
-}
+void Viewer::close() { window.close(); }
 
 // -----------------------------------------------------------------------------
 // run
@@ -125,10 +120,7 @@ void Viewer::frame() {
 // -----------------------------------------------------------------------------
 void Viewer::render() {
   window.clear();
-  sort_widgets();
-
   root_widget.render(window);
-
   window.setView(hud_view);
   root_hud.render(window);
 
@@ -143,9 +135,9 @@ void Viewer::render() {
 // addWidget
 // -----------------------------------------------------------------------------
 void Viewer::addWidget(Widget *new_widget, bool is_hud) {
-  if(is_hud){
+  if (is_hud) {
     root_hud.addChild(new_widget);
-  }else{
+  } else {
     root_widget.addChild(new_widget);
   }
 }
@@ -154,10 +146,11 @@ void Viewer::addWidget(Widget *new_widget, bool is_hud) {
 // remWidget
 // -----------------------------------------------------------------------------
 void Viewer::remWidget(Widget *in_widget, bool is_hud) {
-   if (in_widget->parent) {
-    in_widget->parent->children.erase(std::remove(in_widget->parent->children.begin(),
-                                                  in_widget->parent->children.end(), in_widget),
-                                      in_widget->parent->children.end());
+  if (in_widget->parent) {
+    in_widget->parent->children.erase(
+        std::remove(in_widget->parent->children.begin(),
+                    in_widget->parent->children.end(), in_widget),
+        in_widget->parent->children.end());
   }
 }
 
@@ -292,18 +285,6 @@ void Viewer::onMessage(const std::string &in_message) {
 }
 
 // -----------------------------------------------------------------------------
-// sort_widgets
-// -----------------------------------------------------------------------------
-void Viewer::sort_widgets() {
-  Widget *parent = &root_widget;
-
-  while (!parent->children.empty()) {
-    parent->sort();
-    parent = parent->children[0];
-  }
-}
-
-// -----------------------------------------------------------------------------
 // calc_fps
 // -----------------------------------------------------------------------------
 void Viewer::calc_fps() {
@@ -341,13 +322,11 @@ void Viewer::connectDiagnostics(Diagnostic &d) {
 void Viewer::setView(sf::View view) {
   window.setView(view);
 
-  hud_view.reset(sf::FloatRect(0,0,view.getSize().x, view.getSize().y));
+  hud_view.reset(sf::FloatRect(0, 0, view.getSize().x, view.getSize().y));
 }
 
 // -----------------------------------------------------------------------------
 // hasFocus
 // -----------------------------------------------------------------------------
-bool Viewer::hasFocus() {
-  return window.hasFocus();
-}
-} // namespace gamelib2
+bool Viewer::hasFocus() { return window.hasFocus(); }
+}  // namespace gamelib2

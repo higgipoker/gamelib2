@@ -34,14 +34,16 @@ class Diagnostic;
 
 class Viewer {
  public:
-   Viewer();
+  Viewer();
   ~Viewer();
-  void configWindow(const std::string &in_title, int in_width, int in_height, bool in_fullscreen = false, int in_flags = sf::Style::Default);
+  void configWindow(const std::string &in_title, int in_width, int in_height,
+                    bool in_fullscreen = false,
+                    int in_flags = sf::Style::Default);
   void startup();
   void frame();
   void close();
   void addWidget(Widget *new_widget, bool is_hud = false);
-  void remWidget(Widget *in_widget , bool is_hud = false);
+  void remWidget(Widget *in_widget, bool is_hud = false);
   void onMessage(const std::string &in_message);
   void connectEngine(Engine &in_engine);
   void connectDiagnostics(Diagnostic &d);
@@ -56,7 +58,6 @@ class Viewer {
   void get_input();
   void do_debug_ui();
   void on_click(float x, float y, Widget &widget);
-  void sort_widgets();
   bool mouse_pressed = false;
   sf::RenderWindow window;
   sf::VideoMode video_mode;
