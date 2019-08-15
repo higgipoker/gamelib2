@@ -1,13 +1,16 @@
 cmake_minimum_required (VERSION 2.6)
 
+# This line will export your dependency's symbols and make them available to your project on Windows. Without this your code will compile but it won't run on Windows!
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 # ------------------------------------------------------------------------------
 # use c++11
 if (WIN32)
-	add_definitions(-std:c++latest)
+    add_definitions(-std:c++latest)
 endif (WIN32)
 
 if (UNIX)
-	add_definitions(-std=c++17)
+    add_definitions(-std=c++17)
 endif (UNIX)
 
 # ------------------------------------------------------------------------------
@@ -18,17 +21,20 @@ project (gamelib2)
 # library output folder
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # ------------------------------------------------------------------------------
 # include dirs
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.1/include)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../imgui-sfml)
+
+# --------------------------------------------------
+# lib dirs
+# --------------------------------------------------
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.1/lib) # self built sfml
 
 # ------------------------------------------------------------------------------
 # project build
-add_library(gamelib2 STATIC
+add_library(gamelib2 SHARED
 src/debug/diagnostic.cpp
 src/debug/joystick.cpp
 src/statemachine/state_machine.cpp
@@ -59,6 +65,11 @@ src/compass/compass.cpp
 src/physics/collisions.cpp
 src/camera/camera.cpp
 src/types.hpp
+src/imgui/imgui.cpp
+src/imgui/imgui_draw.cpp
+src/imgui/imgui_widgets.cpp
+src/imgui/imgui_demo.cpp
+src/imgui/imgui-SFML.cpp
 )
 
 target_link_libraries (gamelib2 sfml-graphics-d)
