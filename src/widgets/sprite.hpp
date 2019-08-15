@@ -15,7 +15,6 @@ class Sprite : public Widget {
   Sprite(const std::string &a_filename, int a_rows, int a_cols);
   ~Sprite() override;
 
-  void update() override;
   void render(sf::RenderTarget &target) override;
   void init(std::string a_filename, int a_rows, int a_cols);
   void move(float dx, float dy) override;

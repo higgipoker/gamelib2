@@ -21,8 +21,8 @@
 #include "../debug/diagnostic.hpp"
 #include "../engine/engine.hpp"
 
-#include <imgui-SFML.h>
-#include <imgui.h>
+#include "../imgui/imgui-SFML.h"
+#include "../imgui/imgui.h"
 
 #include <SFML/Window/Event.hpp>
 #include <iostream>
@@ -84,11 +84,6 @@ Viewer::~Viewer() {
 // getWindow
 // -----------------------------------------------------------------------------
 sf::RenderWindow &Viewer::getWindow() { return window; }
-
-// -----------------------------------------------------------------------------
-// startup
-// -----------------------------------------------------------------------------
-void Viewer::startup() {}
 
 // -----------------------------------------------------------------------------
 // close

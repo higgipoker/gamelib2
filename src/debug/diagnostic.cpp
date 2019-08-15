@@ -19,8 +19,8 @@
  ****************************************************************************/
 #include "diagnostic.hpp"
 
-#include <imgui-SFML.h>
-#include <imgui.h>
+#include "../imgui/imgui-SFML.h"
+#include "../imgui/imgui.h"
 
 #include <iostream>
 #include <sstream>
@@ -29,11 +29,6 @@ namespace gamelib2 {
 
 bool Diagnostic::on = false;
 bool Diagnostic::inited = false;
-
-// just a helper to toggle bools
-void toggle(bool& b){
-  b = !b;
-}
 
 // -----------------------------------------------------------------------------
 //
@@ -80,9 +75,9 @@ void Diagnostic::update() {
     ImGui::Checkbox("Draw Bounds", &Widget::debug);
   }
   ImGui::SameLine();
-  {// pause
+  {  // pause
     ImGui::Checkbox("Pause", &game.engine.paused);
-  }// end pause
+  }  // end pause
 
   {  // fps
     std::vector<float> values;

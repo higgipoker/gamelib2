@@ -39,7 +39,6 @@ class Viewer {
   void configWindow(const std::string &in_title, int in_width, int in_height,
                     bool in_fullscreen = false,
                     int in_flags = sf::Style::Default);
-  void startup();
   void frame();
   void close();
   void addWidget(Widget *new_widget, bool is_hud = false);

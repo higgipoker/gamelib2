@@ -39,7 +39,6 @@ Game::Game() {
 //
 // -----------------------------------------------------------------------------
 void Game::update() {
-  std::cout << "start" << std::endl;
   on_frame_start();
 
   // render frame
@@ -56,7 +55,6 @@ void Game::update() {
   } while (framerate_manager.TimeLeft(target_frame_time) > 0);
 
   on_frame_end();
-  std::cout << "end" << std::endl;
 }
 
 // -----------------------------------------------------------------------------

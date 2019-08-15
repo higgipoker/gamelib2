@@ -52,11 +52,6 @@ void Sprite::init(std::string a_filename, int a_rows, int a_cols) {
 }
 
 // -----------------------------------------------------------------------------
-// update
-// -----------------------------------------------------------------------------
-void Sprite::update() {}
-
-// -----------------------------------------------------------------------------
 // render
 // -----------------------------------------------------------------------------
 void Sprite::render(sf::RenderTarget &target) {
@@ -164,7 +159,5 @@ void Sprite::swapColors(
   sprite.setTexture(unique_texture);
 }
 
-void Sprite::setOrigin(float in_x, float in_y){
-  sprite.setOrigin(in_x, in_y);
-}
+void Sprite::setOrigin(float in_x, float in_y) { sprite.setOrigin(in_x, in_y); }
 }  // namespace gamelib2
