@@ -75,3 +75,4 @@ src/imgui/imgui-SFML.cpp
 target_link_libraries (gamelib2 sfml-graphics-d)
 target_link_libraries (gamelib2 sfml-window-d)
 target_link_libraries (gamelib2 sfml-system-d)
+target_link_libraries (gamelib2 Opengl32)
