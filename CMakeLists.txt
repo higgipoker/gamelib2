@@ -34,7 +34,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.1/lib) # self built sfm
 
 # ------------------------------------------------------------------------------
 # project build
-add_library(gamelib2 SHARED
+add_library(gamelib2 STATIC
 src/debug/diagnostic.cpp
 src/debug/joystick.cpp
 src/statemachine/state_machine.cpp

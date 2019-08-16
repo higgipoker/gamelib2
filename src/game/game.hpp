@@ -54,7 +54,7 @@ class Game {
  protected:
   void on_frame_start();
   void on_frame_end();
-  const float timestep = 0.01f;
+  const float timestep = 0.001f;
   FrameRateManager framerate_manager;
 
   friend class Diagnostic;

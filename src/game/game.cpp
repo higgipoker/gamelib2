@@ -49,9 +49,9 @@ void Game::update() {
   viewer.frame();
 
   // physics frame (keep updatig until we run out of frame time)
-  // do {
+  do {
   engine.frame(timestep);
-  //} while (framerate_manager.TimeLeft(target_frame_time) > 0);
+  } while (framerate_manager.TimeLeft(target_frame_time) > 0);
 
   on_frame_end();
 }
