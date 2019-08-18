@@ -34,7 +34,7 @@ void Engine::frame(float dt) {
   if (paused) dt = 0;
 
   for (auto &entity : entities) {
-    entity->update(dt);
+    entity->step(dt);
   }
 
   ++frame_count;

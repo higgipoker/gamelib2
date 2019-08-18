@@ -67,7 +67,7 @@ class Entity : public EntityInterface {
    * @brief update
    * @param dt
    */
-  virtual void update(float dt);
+  virtual void step(float dt);
 
   /**
    * @brief addAnimation

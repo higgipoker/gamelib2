@@ -22,7 +22,7 @@ class Camera : public Entity {
    * @brief update
    * @param dt
    */
-  void update(float dt) override;
+  void step(float dt) override;
 
   /**
    * @brief setWorldRect

@@ -41,7 +41,7 @@ void Entity::connectWidget(Widget *in_widget) { widget = in_widget; }
 // -----------------------------------------------------------------------------
 // update
 // -----------------------------------------------------------------------------
-void Entity::update(float dt) {
+void Entity::step(float dt) {
   // differnt types of enteties can override this to do movement physics or
   // whatever
   widget->z_order = static_cast<int>(position.y);

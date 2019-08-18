@@ -26,7 +26,7 @@ static const float camera_speed = 2.0f;
 // -----------------------------------------------------------------------------
 // Update
 // -----------------------------------------------------------------------------
-void Camera::update(float dt) {
+void Camera::step(float dt) {
   if (target) {
     Vector3 distance =
         target->position - Vector3(view.getCenter().x, view.getCenter().y);
