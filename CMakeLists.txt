@@ -19,7 +19,7 @@ project (gamelib2)
 
 # ------------------------------------------------------------------------------
 # library output folder
-set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/..//lib)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
@@ -34,7 +34,7 @@ link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SFML-2.5.1/lib) # self built sfm
 
 # ------------------------------------------------------------------------------
 # project build
-add_library(gamelib2 STATIC
+add_library(gamelib2 SHARED
 src/debug/diagnostic.cpp
 src/debug/joystick.cpp
 src/statemachine/state_machine.cpp
@@ -75,4 +75,4 @@ src/imgui/imgui-SFML.cpp
 target_link_libraries (gamelib2 sfml-graphics-d)
 target_link_libraries (gamelib2 sfml-window-d)
 target_link_libraries (gamelib2 sfml-system-d)
-target_link_libraries (gamelib2 Opengl32)
+#target_link_libraries (gamelib2 Opengl32)
