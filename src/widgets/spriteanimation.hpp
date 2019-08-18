@@ -12,28 +12,56 @@ namespace gamelib2 {
  */
 class SpriteAnimation {
  public:
+  /**
+   * @brief SpriteAnimation
+   * @param a_id
+   * @param a_frametime
+   * @param a_loop
+   * @param a_frames
+   * @param in_widget
+   */
   SpriteAnimation(std::string a_id, float a_frametime, bool a_loop,
                   std::vector<int> a_frames, Sprite* in_widget = nullptr);
 
-  // set the sprite to operate on
+  /**
+   * @brief connectSprite
+   * @param in_sprite
+   */
   void connectSprite(Sprite* in_sprite);
 
-  // start the animation
+  /**
+   * @brief start
+   */
   void start();
 
-  // update anim
+  /**
+   * @brief update
+   * @param in_dt
+   * @return
+   */
   int update(float in_dt);
 
-  // stop animation
+  /**
+   * @brief stop
+   */
   void stop();
 
-  // set the frame update speed
+  /**
+   * @brief setStpeed
+   * @param a_seped
+   */
   void setStpeed(int a_seped);
 
-  // get the current frame
+  /**
+   * @brief currentFrame
+   * @return
+   */
   int currentFrame();
 
-  // for non looping animations, is finished?
+  /**
+   * @brief finished
+   * @return
+   */
   bool finished();
 
   std::string name;

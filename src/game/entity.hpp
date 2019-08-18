@@ -30,64 +30,118 @@ namespace gamelib2 {
 
 class Widget;
 
-// a debug interface that all entities must implement
+/**
+ * @brief The EntityInterface class
+ */
 class EntityInterface {
  public:
-  // the entity was manually moved
+  /**
+   * @brief onDragged
+   * @param diff
+   */
   virtual void onDragged(const Vector3 &diff) = 0;
 };
 
 class Entity : public EntityInterface {
  public:
-  // construct / destruct
+  /**
+   * @brief Entity
+   */
   Entity();
   virtual ~Entity() = default;
 
-  // create with a name id
+  /**
+   * @brief create
+   * @param in_type
+   * @param in_name
+   */
   void create(const std::string &in_type, const std::string &in_name);
 
-  // a game entity is associated with a widget
+  /**
+   * @brief connectWidget
+   * @param in_widget
+   */
   void connectWidget(Widget *in_widget);
 
-  // main update
+  /**
+   * @brief update
+   * @param dt
+   */
   virtual void update(float dt);
 
-  // add an animation by pointer
+  /**
+   * @brief addAnimation
+   * @param a_sprite_anim
+   */
   virtual void addAnimation(const SpriteAnimation &a_sprite_anim);
 
-  // add an animation by params
+  /**
+   * @brief addAnimation
+   * @param animname
+   * @param frametime
+   * @param loopanim
+   * @param framelist
+   */
   virtual void addAnimation(const std::string &animname, const float frametime,
                             bool loopanim, const std::vector<int> &framelist);
 
-  // start an animation
+  /**
+   * @brief startAnimation
+   * @param a_name
+   */
   virtual void startAnimation(const std::string &a_name);
 
-  // stop an animation
+  /**
+   * @brief stopAnimation
+   */
   virtual void stopAnimation();
 
-  // update the animation
+  /**
+   * @brief animate
+   * @param in_dt
+   */
   virtual void animate(float in_dt);
 
-  // get currently active animation
+  /**
+   * @brief currentAnimation
+   * @return
+   */
   SpriteAnimation *currentAnimation();
 
-  // get animation list
+  /**
+   * @brief getAnimationList
+   * @return
+   */
   const std::map<std::string, SpriteAnimation> &getAnimationList();
 
-  // debug interface
+  /**
+   * @brief onDragged
+   * @param diff
+   */
   void onDragged(const Vector3 &diff) override;
 
   // movement speed
   float speed = 100.0f;
 
-  // helper to set position through a function
+  /**
+   * @brief setPosition
+   * @param x
+   * @param y
+   */
   void setPosition(float x, float y);
+
+  /**
+   * @brief setPosition
+   * @param pos
+   */
   void setPosition(const Vector3 &pos);
 
   // physical aspects
   Vector3 position;
   Vector3 velocity;
   Vector3 acceleration;
+  Vector3 force;
+  float mass = 1.0f;
 
   // type id
   std::string type;
@@ -99,14 +153,16 @@ class Entity : public EntityInterface {
   Widget *widget = nullptr;
 
  protected:
-
   // entity can animate its widget
   std::map<std::string, SpriteAnimation> animations;
 
   // current running animation
   SpriteAnimation *current_animation = nullptr;
 
-  // optionally add perspective
+  /**
+   * @brief perspectivize
+   * @param camera_height
+   */
   virtual void perspectivize(float camera_height);
 };
 

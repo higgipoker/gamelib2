@@ -26,15 +26,51 @@
 
 namespace gamelib2 {
 
+/**
+ * @brief The File class
+ */
 class File {
  public:
+  /**
+   * @brief File
+   * @param f
+   */
   File(std::string f);
   ~File();
+
+  /**
+   * @brief clearContents
+   */
   void clearContents();
+
+  /**
+   * @brief writeLine
+   * @param line
+   */
   void writeLine(const std::string& line);
+
+  /**
+   * @brief writeLine
+   * @param line
+   */
   void writeLine(int line);
+
+  /**
+   * @brief close
+   */
   void close();
+
+  /**
+   * @brief getLines
+   * @return
+   */
   std::vector<std::string> getLines();
+
+  /**
+   * @brief getLines
+   * @param _ignore
+   * @return
+   */
   std::vector<std::string> getLines(const std::string& _ignore);
 
  protected:
@@ -42,11 +78,18 @@ class File {
   std::ofstream out_file;
   std::ifstream in_file;
 
-  bool open_for_read = false;
-  bool open_for_write = false;
+  bool opened_for_read = false;
+  bool opened_for_write = false;
 
-  void openForWrite();
-  void openForRead();
+  /**
+   * @brief openForWrite
+   */
+  void open_for_write();
+
+  /**
+   * @brief openForRead
+   */
+  void open_for_read();
 
   std::vector<std::string> lines;
 };

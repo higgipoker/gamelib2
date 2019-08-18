@@ -21,59 +21,74 @@
 #include <cstring>
 namespace gamelib2 {
 
+/**
+ * @brief The InputState enum
+ */
 enum InputState {
-    Up = 0,
-    Down,
-    Left,
-    Right,
+  Up = 0,
+  Down,
+  Left,
+  Right,
 
-    FireDown,
-    FireUp,
-    FireLength,
-    FireLengthCached,
-    SingleTap,
-    DoubleTap,
-    FirePress,
+  FireDown,
+  FireUp,
+  FireLength,
+  FireLengthCached,
+  SingleTap,
+  DoubleTap,
+  FirePress,
 
-    FireDown2,
-    FireUp2,
-    FireLength2,
-    FireLengthCached2,
-    SingleTap2,
-    DoubleTap2,
-    FirePress2,
+  FireDown2,
+  FireUp2,
+  FireLength2,
+  FireLengthCached2,
+  SingleTap2,
+  DoubleTap2,
+  FirePress2,
 
-    FireDown3,
-    FireUp3,
-    FireLength3,
-    FireLengthCached3,
-    SingleTap3,
-    DoubleTap3,
-    FirePress3,
+  FireDown3,
+  FireUp3,
+  FireLength3,
+  FireLengthCached3,
+  SingleTap3,
+  DoubleTap3,
+  FirePress3,
 
-    FireDown4,
-    FireUp4,
-    FireLength4,
-    FireLengthCached4,
-    SingleTap4,
-    DoubleTap4,
-    FirePress4,
+  FireDown4,
+  FireUp4,
+  FireLength4,
+  FireLengthCached4,
+  SingleTap4,
+  DoubleTap4,
+  FirePress4,
 
-    Totalevents
+  Totalevents
 };
 
+/**
+ * @brief The InputDevice class
+ */
 class InputDevice {
-public:
-    InputDevice() = default;
-    virtual ~InputDevice() = default;
-    virtual void update() = 0;
-    void reset() {
-        memset(states, 0, sizeof(states));
-    }
-    int states[InputState::Totalevents]{};
+ public:
+  InputDevice() = default;
+  virtual ~InputDevice() = default;
 
-protected:
-    int fire_ticks = 0;
+  /**
+   * @brief update
+   */
+  virtual void update() = 0;
+
+  /**
+   * @brief reset
+   */
+  void reset() { memset(states, 0, sizeof(states)); }
+
+  /// input states
+  int states[InputState::Totalevents]{};
+
+ protected:
+  /// count fire ticks
+  int fire_ticks = 0;
 };
 
-} // namespace gamelib2
+}  // namespace gamelib2

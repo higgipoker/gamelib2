@@ -52,11 +52,13 @@ static bool valid_videomode(int width, int height) {
 // -----------------------------------------------------------------------------
 // Viewer
 // -----------------------------------------------------------------------------
-Viewer::Viewer() {}
+Viewer::Viewer() : root_widget("root"), root_hud("root_hud") {}
 
 void Viewer::configWindow(const std::string &in_title, int in_width,
-                          int in_height, bool in_fullscreen, int in_flags) {
+                          int in_height, Camera *in_cam, bool in_fullscreen,
+                          int in_flags) {
   assert(window_inited == false);
+  camera = in_cam;
   video_mode.width = in_width;
   video_mode.height = in_height;
   if (in_fullscreen && valid_videomode(video_mode.width, video_mode.height)) {
@@ -114,15 +116,27 @@ void Viewer::frame() {
 // render
 // -----------------------------------------------------------------------------
 void Viewer::render() {
+  // clear back buffer
   window.clear();
+
+  // update views accordig to camera
+  main_view = camera->view;
+  hud_view = main_view;
+  hud_view.reset(
+      sf::FloatRect(0, 0, main_view.getSize().x, main_view.getSize().y));
+
+  // render main view
+  window.setView(main_view);
   root_widget.render(window);
+
+  // render hud view
   window.setView(hud_view);
   root_hud.render(window);
 
-  if (debug->active()) {
-    debug->render();
-  }
+  // render debug gui
+  debug->render();
 
+  // flip back buffer
   window.display();
 }
 
@@ -283,15 +297,17 @@ void Viewer::onMessage(const std::string &in_message) {
 // calc_fps
 // -----------------------------------------------------------------------------
 void Viewer::calc_fps() {
-  time = fps_clock.getElapsedTime();
-  fps = 1.0f / time.asSeconds();
-  fps_clock.restart().asSeconds();
+  ++frames;
 
-  if (debug) {
-    debug->fps_history.push_back(fps);
-    if (debug->fps_history.size() > 1000) {
-      debug->fps_history.pop_front();
+  if (fps_clock.getElapsedTime().asSeconds() >= 1) {
+    if (debug) {
+      debug->fps_history.push_back(frames);
+      if (debug->fps_history.size() > 10) {
+        debug->fps_history.pop_front();
+      }
     }
+    fps_clock.restart();
+    frames = 0;
   }
 }
 
@@ -309,15 +325,6 @@ void Viewer::connectEngine(Engine &e) {
 void Viewer::connectDiagnostics(Diagnostic &d) {
   assert(debug == nullptr);
   debug = &d;
-}
-
-// -----------------------------------------------------------------------------
-// setView
-// -----------------------------------------------------------------------------
-void Viewer::setView(sf::View view) {
-  window.setView(view);
-
-  hud_view.reset(sf::FloatRect(0, 0, view.getSize().x, view.getSize().y));
 }
 
 // -----------------------------------------------------------------------------

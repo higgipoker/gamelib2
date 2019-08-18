@@ -37,13 +37,13 @@ File::~File() { close(); }
 //
 // -----------------------------------------------------------------------------
 void File::close() {
-  if (open_for_read) {
+  if (opened_for_read) {
     in_file.close();
-    open_for_read = false;
+    opened_for_read = false;
   }
-  if (open_for_write) {
+  if (opened_for_write) {
     out_file.close();
-    open_for_write = false;
+    opened_for_write = false;
   }
 }
 
@@ -51,7 +51,7 @@ void File::close() {
 //
 // -----------------------------------------------------------------------------
 void File::writeLine(const std::string &line) {
-  openForWrite();
+  open_for_write();
 
   if (out_file.is_open()) {
     out_file << line.c_str() << "\n";
@@ -73,40 +73,40 @@ void File::writeLine(int line) {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void File::openForWrite() {
-  if (open_for_write) {
+void File::open_for_write() {
+  if (opened_for_write) {
     return;
   }
 
-  if (open_for_read) {
+  if (opened_for_read) {
     in_file.close();
   }
 
   out_file.open(file_name.c_str(), std::ios::out);
-  open_for_write = true;
+  opened_for_write = true;
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void File::openForRead() {
-  if (open_for_read) {
+void File::open_for_read() {
+  if (opened_for_read) {
     return;
   }
 
-  if (open_for_write) {
+  if (opened_for_write) {
     out_file.close();
   }
 
   in_file.open(file_name.c_str(), std::ios::in);
-  open_for_read = true;
+  opened_for_read = true;
 }
 
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 std::vector<std::string> File::getLines() {
-  openForRead();
+  open_for_read();
 
   // temp
   std::string line;
@@ -121,7 +121,7 @@ std::vector<std::string> File::getLines() {
 //
 // -----------------------------------------------------------------------------
 std::vector<std::string> File::getLines(const std::string &_ignore) {
-  openForRead();
+  open_for_read();
 
   // temp
   std::string line;
@@ -139,7 +139,7 @@ std::vector<std::string> File::getLines(const std::string &_ignore) {
 void File::clearContents() {
   close();
   out_file.open(file_name.c_str(), std::ios::out | std::ios::trunc);
-  open_for_write = true;
+  opened_for_write = true;
   close();
 }
 

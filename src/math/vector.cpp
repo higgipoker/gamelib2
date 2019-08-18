@@ -244,6 +244,13 @@ Vector3 Vector3::rotate(float a, float x_origin, float y_origin) const {
 }
 
 // -----------------------------------------------------------------------------
+// multiply
+// -----------------------------------------------------------------------------
+Vector3 Vector3::multiply(const Vector3 &rhs) const {
+  return Vector3(x * rhs.x, y * rhs.y, z * rhs.z);
+}
+
+// -----------------------------------------------------------------------------
 //   test for equality
 // -----------------------------------------------------------------------------
 bool Vector3::equals(const Vector3 &v) {

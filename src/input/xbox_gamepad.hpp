@@ -1,58 +1,60 @@
 #pragma once
 
-#include "input.hpp"
 #include <SFML/Window.hpp>
 #include <iostream>
+#include "input.hpp"
 
 namespace gamelib2 {
 
+/**
+ * @brief The XboxController class
+ */
 class XboxController : public InputDevice {
+ public:
+  void update() override;
+  bool isConnected();
 
-public:
-    void update() override;
-    bool isConnected();
+  bool A();
+  bool B();
+  bool X();
+  bool Y();
 
-    bool A();
-    bool B();
-    bool X();
-    bool Y();
+  bool RightBumper();
+  bool LeftBumper();
 
-    bool RightBumper();
-    bool LeftBumper();
+  bool LeftThumbstickClick();
+  bool RightThumbstickClick();
 
-    bool LeftThumbstickClick();
-    bool RightThumbstickClick();
+  bool Start();
+  bool Back();
+  bool XboxButton();
 
-    bool Start();
-    bool Back();
-    bool XboxButton();
+  bool DpadUp();
+  bool DpadDown();
+  bool DpadLeft();
+  bool DpadRight();
 
-    bool DpadUp();
-    bool DpadDown();
-    bool DpadLeft();
-    bool DpadRight();
+  bool LeftTriggerPressed();
+  bool RightTriggerPressed();
 
-    bool LeftTriggerPressed();
-    bool RightTriggerPressed();
+  float LeftTriggerValue();
+  float RightTriggerValue();
 
-    float LeftTriggerValue();
-    float RightTriggerValue();
+  bool LeftTrigger();
+  bool RightTrigger();
 
-    bool LeftTrigger();
-    bool RightTrigger();
+  sf::Vector2f LeftThumbstick();
+  sf::Vector2f RightThumbstick();
 
-    sf::Vector2f LeftThumbstick();
-    sf::Vector2f RightThumbstick();
+  bool Up();
+  bool Down();
+  bool Left();
+  bool Right();
 
-    bool Up();
-    bool Down();
-    bool Left();
-    bool Right();
-
-private:
-    int sf_joystick_index = 0;
-    float trigger_threshold = 0;
-    float thumbstick_threshold = 50.0f;
+ private:
+  int sf_joystick_index = 0;
+  float trigger_threshold = 0;
+  float thumbstick_threshold = 50.0f;
 };
 
-} // namespace gamelib2
+}  // namespace gamelib2

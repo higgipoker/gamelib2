@@ -23,55 +23,40 @@
 
 namespace gamelib2 {
 
-const float target_frame_time = 1.f / 60.f;
+const float target_frame_time = 1.0f / 60.0f;
 
 // -----------------------------------------------------------------------------
-//
+// Game
 // -----------------------------------------------------------------------------
 Game::Game() {
-  framerate_manager.gamestep_timer.Start();
-  viewer.configWindow("Game", 800, 600);
+  framerate_manager.OnFrameStarted();
   viewer.connectEngine(engine);
   camera.create("camera", "default camera");
+  engine.addEntity(&camera);
+  viewer.configWindow("Game", 800, 600, &camera);
 }
 
 // -----------------------------------------------------------------------------
-//
+// update
 // -----------------------------------------------------------------------------
 void Game::update() {
-  on_frame_start();
+  framerate_manager.OnFrameStarted();
 
   // render frame
-  if (!engine.paused) {
-    camera.update(timestep);
-  }
-  viewer.setView(camera.view);
   viewer.frame();
 
-  // physics frame (keep updatig until we run out of frame time)
-  do {
-  engine.frame(timestep);
-  } while (framerate_manager.TimeLeft(target_frame_time) > 0);
-
-  on_frame_end();
+  // physics frame
+  while (framerate_manager.TimeLeft(target_frame_time) >= 0) {
+    engine.frame(timestep);
+  }
 }
 
 // -----------------------------------------------------------------------------
-//
+// connect
 // -----------------------------------------------------------------------------
-void Game::on_frame_start() { framerate_manager.gamestep_timer.Update(); }
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-void Game::on_frame_end() { framerate_manager.calc_fps(); }
-
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-void Game::addSprite(const GameSprite &in_gamesprite) {
-  viewer.addWidget(in_gamesprite.sprite);
-  viewer.addWidget(in_gamesprite.shadow);
+void Game::connect(Entity *entity, Widget *widget) {
+  entity->connectWidget(widget);
+  widget->connectEntity(entity);
 }
 
 }  // namespace gamelib2

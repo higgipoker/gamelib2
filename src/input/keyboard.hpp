@@ -2,9 +2,15 @@
 #include "input.hpp"
 
 namespace gamelib2 {
+/**
+ * @brief The Keyboard class
+ */
 class Keyboard : public InputDevice {
-public:
-    void update() override;
+ public:
+  /**
+   * @brief update
+   */
+  void update() override;
 };
 
-} // namespace gamelib2
+}  // namespace gamelib2

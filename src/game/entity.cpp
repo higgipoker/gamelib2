@@ -17,11 +17,11 @@
  *    misrepresented as being the original software.
  * 3. This notice may not be removed or altered from any source distribution.
  ****************************************************************************/
-#include "entity.hpp"
-#include <iostream>
 #include "../widgets/spriteanimation.hpp"
 #include "../widgets/widget.hpp"
 
+#include <iostream>
+#include "entity.hpp"
 namespace gamelib2 {
 
 Entity::Entity() {}

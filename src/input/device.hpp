@@ -1,65 +1,110 @@
 #pragma once
 
-#include "input.hpp"
 #include <SFML/System/Clock.hpp>
 #include <cstring>
-#include <set>
 #include <memory>
+#include <set>
+#include "input.hpp"
 
 namespace gamelib2 {
 
+/**
+ * @brief The ControllerEventID enum
+ */
 enum ControllerEventID {
-    NoEvent = 0,
-    Fire,
-    FireTap,
-    DPadLeft,
-    DPadRight,
-    DPadUp,
-    DPadDown
+  NoEvent = 0,
+  Fire,
+  FireTap,
+  DPadLeft,
+  DPadRight,
+  DPadUp,
+  DPadDown
 };
 
+/**
+ * @brief The ControllerEventStatus enum
+ */
 enum ControllerEventStatus { Released = 0, Pressed };
 
+/**
+ * @brief The ControllerEvent struct
+ */
 struct ControllerEvent {
-    ControllerEvent() {
-        id = NoEvent;
-        status = Released;
-        param = 0;
-    }
+  /**
+   * @brief ControllerEvent
+   */
+  ControllerEvent() {
+    id = NoEvent;
+    status = Released;
+    param = 0;
+  }
 
-    ControllerEvent(ControllerEventID i, ControllerEventStatus s, int p = 0) {
-        id = i;
-        status = s;
-        param = p;
-    }
+  /**
+   * @brief ControllerEvent
+   * @param i
+   * @param s
+   * @param p
+   */
+  ControllerEvent(ControllerEventID i, ControllerEventStatus s, int p = 0) {
+    id = i;
+    status = s;
+    param = p;
+  }
 
-    ControllerEventID id;
-    ControllerEventStatus status;
-    int param;
+  ControllerEventID id;
+  ControllerEventStatus status;
+  int param;
 };
 
+/**
+ * @brief The ControllerListener class
+ */
 class ControllerListener {
-public:
-    virtual ~ControllerListener() = default;
-    virtual void onControllerEvent(ControllerEvent event) = 0;
+ public:
+  virtual ~ControllerListener() = default;
+
+  /**
+   * @brief onControllerEvent
+   * @param event
+   */
+  virtual void onControllerEvent(ControllerEvent event) = 0;
 };
 
+/**
+ * @brief The Controller class
+ */
 class Controller {
+ public:
+  /**
+   * @brief Controller
+   * @param i
+   */
+  Controller(InputDevice &i);
+  virtual ~Controller() = default;
 
-public:
-    Controller(InputDevice &i);
-    virtual ~Controller() = default;
-    virtual void update();
+  /**
+   * @brief update
+   */
+  virtual void update();
 
-    void setListener(ControllerListener *l);
-    int fire_ticks = 0;
-    InputDevice &input;
+  /**
+   * @brief setListener
+   * @param l
+   */
+  void setListener(ControllerListener *l);
+  int fire_ticks = 0;
+  InputDevice &input;
 
-protected:
-    ControllerListener *listener = nullptr;
-    bool wait_for_release = false;
-    void notify(ControllerEvent event);
+ protected:
+  ControllerListener *listener = nullptr;
+  bool wait_for_release = false;
 
-    static const int fire_tap_length = 15;
+  /**
+   * @brief notify
+   * @param event
+   */
+  void notify(ControllerEvent event);
+
+  static const int fire_tap_length = 15;
 };
-} // namespace gamelib2
+}  // namespace gamelib2

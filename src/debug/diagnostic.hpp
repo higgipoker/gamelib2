@@ -19,9 +19,9 @@
  ****************************************************************************/
 #pragma once
 
-#include "joystick.hpp"
 #include "../game/entity.hpp"
 #include "../game/game.hpp"
+#include "joystick.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Clock.hpp>
@@ -31,34 +31,91 @@
 namespace gamelib2 {
 class Diagnostic {
  public:
+  /**
+   * @brief Diagnostic
+   * @param in_game
+   */
   Diagnostic(Game &in_game);
+
+  /**
+   * @brief ~Diagnostic
+   */
   virtual ~Diagnostic();
+
+  /**
+   * @brief active
+   * @param status
+   */
   static void active(bool status);
+
+  /**
+   * @brief active
+   * @return
+   */
   static bool active();
+
+  /**
+   * @brief update
+   */
   virtual void update();
+
+  /**
+   * @brief render
+   */
   void render();
+
+  /**
+   * @brief selectEntity
+   * @param e
+   */
   virtual void selectEntity(Entity *e);
+
+  /**
+   * @brief deSelect
+   */
   virtual void deSelect() = 0;
+
+  /**
+   * @brief onClose
+   */
   virtual void onClose();
 
+  // data for fps display
   std::deque<float> fps_history;
 
+  // a debug joystick display
   Joystick joystick1;
 
  protected:
+  // reference to game to access entities
   Game &game;
+
+  // status
   static bool on;
+
+  // inited flag
   static bool inited;
+
+  // selected entity
   Entity *selected_entity = nullptr;
+
+  // save index for list item
   int active_entity_index = 0;
 
+  /**
+   * @brief process_entity_list
+   * @param out_list
+   * @param out_pointers
+   * @param out_active_index
+   */
   void process_entity_list(std::vector<const char *> &out_list,
                            std::vector<Entity *> &out_pointers,
                            int &out_active_index);
 
+  // dimensions
   sf::FloatRect panel_dimensions;
-  sf::FloatRect last_panel_dimensions;
 
+  // widget data
   float shown_fps = 0;
   float fps_min = 1000;
   float fps_max = 0;

@@ -19,6 +19,7 @@
  ****************************************************************************/
 #pragma once
 
+#include "../camera/camera.hpp"
 #include "../game/entity.hpp"
 #include "../input/input.hpp"
 #include "../types.hpp"
@@ -32,38 +33,118 @@ namespace gamelib2 {
 
 class Diagnostic;
 
+/**
+ * @brief The Viewer class
+ */
 class Viewer {
  public:
+  /**
+   * @brief Viewer
+   */
   Viewer();
   ~Viewer();
+
+  /**
+   * @brief configWindow
+   * @param in_title
+   * @param in_width
+   * @param in_height
+   * @param in_fullscreen
+   * @param in_flags
+   */
   void configWindow(const std::string &in_title, int in_width, int in_height,
-                    bool in_fullscreen = false,
+                    Camera *in_cam, bool in_fullscreen = false,
                     int in_flags = sf::Style::Default);
+
+  /**
+   * @brief frame
+   */
   void frame();
+
+  /**
+   * @brief close
+   */
   void close();
+
+  /**
+   * @brief addWidget
+   * @param new_widget
+   * @param is_hud
+   */
   void addWidget(Widget *new_widget, bool is_hud = false);
+
+  /**
+   * @brief remWidget
+   * @param in_widget
+   * @param is_hud
+   */
   void remWidget(Widget *in_widget, bool is_hud = false);
+
+  /**
+   * @brief onMessage
+   * @param in_message
+   */
   void onMessage(const std::string &in_message);
+
+  /**
+   * @brief connectEngine
+   * @param in_engine
+   */
   void connectEngine(Engine &in_engine);
+
+  /**
+   * @brief connectDiagnostics
+   * @param d
+   */
   void connectDiagnostics(Diagnostic &d);
+
+  /**
+   * @brief getWindow
+   * @return
+   */
   sf::RenderWindow &getWindow();
-  void setView(sf::View view);
+
+  /**
+   * @brief hasFocus
+   * @return
+   */
   bool hasFocus();
   bool running = true;
   float fps = 0;
 
  private:
+  /**
+   * @brief render
+   */
   void render();
+
+  /**
+   * @brief get_input
+   */
   void get_input();
+
+  /**
+   * @brief do_debug_ui
+   */
   void do_debug_ui();
+
+  /**
+   * @brief on_click
+   * @param x
+   * @param y
+   * @param widget
+   */
   void on_click(float x, float y, Widget &widget);
+
   bool mouse_pressed = false;
   sf::RenderWindow window;
   sf::VideoMode video_mode;
+  sf::View main_view;
   sf::View hud_view;
   Vector3 mouse;
   Widget root_widget;
   Widget root_hud;
+  Camera *camera = nullptr;
   Widget *grabbed_widget = nullptr;
   bool widget_changed = false;
   bool widget_grabbed = false;
@@ -75,5 +156,6 @@ class Viewer {
   Engine *engine = nullptr;
 
   bool window_inited = false;
+  int frames = 0;
 };
 }  // namespace gamelib2

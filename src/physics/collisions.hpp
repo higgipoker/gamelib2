@@ -7,13 +7,28 @@ namespace gamelib2 {
 
 class Collision {
  public:
-  // circle and circle
+  /**
+   * @brief circle and circle
+   * @param c1
+   * @param c2
+   * @return
+   */
   static bool collides(const sf::CircleShape &c1, const sf::CircleShape &c2);
 
-  // point and circle
+  /**
+   * @brief point and circle
+   * @param point
+   * @param circle
+   * @return
+   */
   static bool collides(const Vector3 &point, const sf::CircleShape &circle);
 
-  // point and triangle
+  /**
+   * @brief point and triangle
+   * @param point
+   * @param triangle
+   * @return
+   */
   static bool collides(const Vector3 &point, const Triangle &triangle);
 };
 

@@ -33,7 +33,7 @@ bool Diagnostic::inited = false;
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-Diagnostic::Diagnostic(Game &in_game) : game(in_game) {
+Diagnostic::Diagnostic(Game &in_game) : game(in_game), joystick1("joystick") {
   panel_dimensions.left = 0;
   panel_dimensions.top = 0;
   panel_dimensions.width = 0;
@@ -95,13 +95,19 @@ void Diagnostic::update() {
       }
     }
     std::ostringstream title;
-    title << values.back() << "FPS (past 1000 frames)";
-    ImGui::Text("%i%s", static_cast<int>(values.back()), " FPS");
-    float avg = static_cast<float>(cnt / values.size());
-    std::ostringstream capt;
-    ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()), 0,
-                     "(past 1000 frames)", avg - 6, avg + 15,
-                     ImVec2(panel_dimensions.width, 50));
+    title << "(past " << fps_history.size() << " seconds)";
+    if (values.size()) {
+      if (fabsf(values.back() - shown_fps) > 1) {
+        shown_fps = values.back();
+      }
+
+      ImGui::Text("%i%s", static_cast<int>(shown_fps), " FPS");
+      float avg = static_cast<float>(cnt / values.size());
+      std::ostringstream capt;
+      ImGui::PlotLines("##fps", values.data(), static_cast<int>(values.size()),
+                       0, title.str().c_str(), avg - 6, avg + 15,
+                       ImVec2(panel_dimensions.width, 50));
+    }
   }  // end fps
 
   {  // entities
@@ -122,7 +128,6 @@ void Diagnostic::update() {
     }
   }  // end entities
 
-  last_panel_dimensions = panel_dimensions;
   ImGui::End();
 }
 
@@ -168,7 +173,7 @@ void Diagnostic::process_entity_list(std::vector<const char *> &out_list,
 //
 // -----------------------------------------------------------------------------
 void Diagnostic::render() {
-  if (inited) {
+  if (inited && on) {
     ImGui::SFML::Render(game.viewer.getWindow());
   }
 }

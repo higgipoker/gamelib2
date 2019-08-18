@@ -28,7 +28,7 @@ namespace gamelib2 {
 // static float accumulator = 0.0f;
 
 // -----------------------------------------------------------------------------
-// run
+// frame
 // -----------------------------------------------------------------------------
 void Engine::frame(float dt) {
   if (paused) dt = 0;
@@ -43,10 +43,7 @@ void Engine::frame(float dt) {
 // -----------------------------------------------------------------------------
 // addEntity
 // -----------------------------------------------------------------------------
-void Engine::addEntity(Entity *in_entity) {
- // assert(in_entity->widget != nullptr);
-  entities.emplace_back(in_entity);
-}
+void Engine::addEntity(Entity *in_entity) { entities.emplace_back(in_entity); }
 
 // -----------------------------------------------------------------------------
 // addEntity
@@ -54,14 +51,5 @@ void Engine::addEntity(Entity *in_entity) {
 void Engine::remEntity(Entity *in_entity) {
   entities.erase(std::remove(entities.begin(), entities.end(), in_entity),
                  entities.end());
-  ;
 }
-
-// -----------------------------------------------------------------------------
-// onMessage
-// -----------------------------------------------------------------------------
-void Engine::onMessage(const std::string &in_msg) {
-  std::cout << "Message from viewer: " << in_msg << std::endl;
-}
-
 }  // namespace gamelib2

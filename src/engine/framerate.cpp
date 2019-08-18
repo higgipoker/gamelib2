@@ -21,17 +21,9 @@
 #include <iostream>
 namespace gamelib2 {
 
-void FrameRateManager::calc_fps() {
-  ++frames_this_second;
-
-  float elapsed_time = gamestep_timer.GetLiveTime() - lastTime;
-
-  if (elapsed_time >= 1000) {
-    fps = frames_this_second + 1;
-    frames_this_second = 0;
-    lastTime = gamestep_timer.GetLiveTime();
-  }
-}
+// -----------------------------------------------------------------------------
+// TimeLeft
+// -----------------------------------------------------------------------------
 float FrameRateManager::TimeLeft(float target_frame_time) {
   float newnewtime = gamestep_timer.GetLiveTime();
   float gametime = gamestep_timer.GetFrameTime();
@@ -39,4 +31,9 @@ float FrameRateManager::TimeLeft(float target_frame_time) {
   float target = target_frame_time * 1000;
   return target - frame_time;
 }
+
+// -----------------------------------------------------------------------------
+// OnFrameStarted
+// -----------------------------------------------------------------------------
+void FrameRateManager::OnFrameStarted() { gamestep_timer.Update(); }
 }  // namespace gamelib2

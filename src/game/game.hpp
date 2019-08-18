@@ -25,38 +25,45 @@
 #include "entity.hpp"
 
 namespace gamelib2 {
-
-class GameSprite {
- public:
-  GameSprite(Widget *in_sprite, Widget *in_shadow)
-      : sprite(in_sprite), shadow(in_shadow) {}
-
-  Widget *sprite = nullptr;
-  Widget *shadow = nullptr;
-};
-
+/**
+ * @brief The Game class
+ */
 class Game {
  public:
+  /**
+   * @brief Game
+   */
   Game();
 
-  void addSprite(const GameSprite &in_gamesprite);
-
+  /**
+   * @brief update
+   */
   virtual void update();
+
+  /**
+   * @brief connect
+   * @param entity
+   * @param widget
+   */
+  static void connect(Entity *entity, Widget *widget);
+
+  // game engine
   Engine engine;
+
+  // game viewer
   Viewer viewer;
+
+  // game camera
   Camera camera;
 
-  static void connect(Entity *entity, Widget *widget) {
-    entity->connectWidget(widget);
-    widget->connectEntity(entity);
-  }
-
  protected:
-  void on_frame_start();
-  void on_frame_end();
+  // physics time delta
   const float timestep = 0.001f;
+
+  // a frame rate manager
   FrameRateManager framerate_manager;
 
+  // friend for debug
   friend class Diagnostic;
 };
 }  // namespace gamelib2

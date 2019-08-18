@@ -45,6 +45,10 @@ static bool less_than(float a, float b, float epsilon = TOL) {
   return (b - a) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
 }
 
+static bool abs_less_than(float a, float b, float epsilon = TOL) {
+  return (b - fabs(a)) > ((fabs(a) < fabs(b) ? fabs(b) : fabs(a)) * epsilon);
+}
+
 }  // namespace Floats
 
 //  ----------------------------------------------------------------------------
@@ -107,6 +111,7 @@ class Vector3 {
   Vector3 reverse(void);
   Vector3 normalizeToUnits();
   Vector3 rotate(float a, float x_origin = 0, float y_origin = 0) const;
+  Vector3 multiply(const Vector3 &rhs) const;
 
   // -------------------------------------------------------------------------
   // scaler operations

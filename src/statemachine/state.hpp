@@ -1,36 +1,59 @@
-#pragma	once
+#pragma once
 
-#include	"../input/device.hpp"
-#include	<string>
+#include <string>
+#include "../input/device.hpp"
 
-namespace	gamelib2	{
+namespace gamelib2 {
 
-// base class for states
-class	State	{
-public:
-				// construct / destruct
-				State();
-				virtual	~State();
+/**
+ * @brief The State class
+ */
+class State {
+ public:
+  /**
+   * @brief State
+   */
+  State();
 
-				// state started
-				virtual	void	start()	=	0;
+  /**
+   * @brief ~State
+   */
+  virtual ~State();
 
-				// main update
-				virtual	void	update(const	float	dt)	=	0;
+  /**
+   * @brief start
+   */
+  virtual void start() = 0;
 
-				// end
-				virtual	void	end()	=	0;
+  /**
+   * @brief update
+   * @param dt
+   */
+  virtual void update(const float dt) = 0;
 
-				// check for end state
-				virtual	bool	finished()	=	0;
+  /**
+   * @brief end
+   */
+  virtual void end() = 0;
 
-				// change to next state
-				virtual	void	changeToNextState()	=	0;
+  /**
+   * @brief finished
+   * @return
+   */
+  virtual bool finished() = 0;
 
-				// event handler
-				virtual	void	handle_input(const	ControllerEvent	&event)	=	0;
+  /**
+   * @brief changeToNextState
+   */
+  virtual void changeToNextState() = 0;
 
-				// identifier
-				std::string	name;
+  /**
+   * @brief handle_input
+   * @param event
+   */
+  virtual void handle_input(const ControllerEvent &event) = 0;
+
+  // identifier
+  std::string name;
 };
-}	// namespace gamelib2
+}  // namespace gamelib2

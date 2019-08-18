@@ -10,12 +10,14 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 // Sprite
 // -----------------------------------------------------------------------------
-Sprite::Sprite() = default;
+Sprite::Sprite(const std::string &_name) : Widget(_name){};
 
 // -----------------------------------------------------------------------------
 // Sprite
 // -----------------------------------------------------------------------------
-Sprite::Sprite(const std::string &a_filename, int a_rows, int a_cols) {
+Sprite::Sprite(const std::string &_name, const std::string &a_filename,
+               int a_rows, int a_cols)
+    : Widget(_name) {
   init(a_filename, a_rows, a_cols);
 }
 

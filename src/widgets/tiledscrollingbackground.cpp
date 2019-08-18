@@ -27,7 +27,7 @@ namespace gamelib2 {
 // -----------------------------------------------------------------------------
 TiledScrollingBackground::TiledScrollingBackground(const std::string &in_file,
                                                    Camera &c)
-    : camera(c) {
+    : Widget(in_file), camera(c) {
   init(in_file);
   clickable = true;
 }

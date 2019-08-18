@@ -20,11 +20,29 @@
 #pragma once
 #include "../utils/timer.hpp"
 namespace gamelib2 {
+/**
+ * @brief The FrameRateManager class
+ */
 class FrameRateManager {
  public:
-  void calc_fps();
+  /**
+   * @brief TimeLeft
+   * @param target_frame_time
+   * @return
+   */
   float TimeLeft(float target_frame_time);
+
+  /**
+   * @brief OnFrameStarted
+   */
+  void OnFrameStarted();
+
+ private:
+  /**
+   * @brief gamestep_timer
+   */
   Timer gamestep_timer;
+
   float fps = 0;
   float frames_this_second = 0;
   float lastTime = 0.0f;

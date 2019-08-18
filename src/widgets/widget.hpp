@@ -29,60 +29,125 @@
 
 namespace gamelib2 {
 
+/**
+ * @brief The AnchorType enum
+ */
 enum AnchorType { ANCHOR_TOP_LEFT, ANCHOR_CENTER, ANCHOR_BASE_CENTER };
 
 class Entity;
+
+/**
+ * @brief The Widget class
+ */
 class Widget {
  public:
-  Widget();
+  /**
+   * @brief Widget
+   */
+  Widget(const std::string &_name);
+
+  /**
+   * @brief ~Widget
+   */
   virtual ~Widget();
 
-  // a widget is associated with an entity
+  /**
+   * @brief connectEntity
+   * @param in_entity
+   */
   virtual void connectEntity(Entity *in_entity);
 
-  // release the entity
+  /**
+   * @brief releaseEntity
+   */
   virtual void releaseEntity();
 
-  // safely get the associated name
+  /**
+   * @brief getName
+   * @return
+   */
   std::string getName();
 
-  // renders itself with sfml
+  /**
+   * @brief render
+   * @param target
+   */
   virtual void render(sf::RenderTarget &target);
 
-  // add a child to the widget tree from here
+  /**
+   * @brief addChild
+   * @param in_widget
+   */
   virtual void addChild(Widget *in_widget);
 
-  // move by an offset
+  /**
+   * @brief move
+   * @param dx
+   * @param dy
+   */
   virtual void move(float dx, float dy);
 
-  // move to an absolute position
+  /**
+   * @brief setPosition
+   * @param x
+   * @param y
+   */
   virtual void setPosition(float x, float y);
 
-  // set scale
+  /**
+   * @brief scale
+   * @param x
+   * @param y
+   */
   virtual void scale(float x, float y);
 
-  // get scale
+  /**
+   * @brief scale
+   * @return
+   */
   virtual sf::Vector2f scale();
 
-  // check if point is in bounds
+  /**
+   * @brief hit
+   * @param x
+   * @param y
+   * @return
+   */
   virtual bool hit(float x, float y);
 
-  // handle a click
+  /**
+   * @brief click
+   * @param x
+   * @param y
+   */
   virtual void click(float x, float y);
 
-  // get the bounds
+  /**
+   * @brief bounds
+   * @return
+   */
   virtual sf::FloatRect bounds();
 
-  // get position
+  /**
+   * @brief position
+   * @return
+   */
   virtual sf::Vector2f position();
 
-  // sort children based on z order
+  /**
+   * @brief sort
+   */
   void sort();
 
-  // dragged by debug gui
+  /**
+   * @brief onDragged
+   * @param diff
+   */
   virtual void onDragged(const Vector3 &diff);
 
-  // position according to anchor
+  /**
+   * @brief anchor
+   */
   void anchor();
 
   // my parent widget in the tree struct
@@ -115,8 +180,14 @@ class Widget {
   // a list of drawable shapes for debug
   std::vector<sf::Shape *> shapes;
 
+  // fordebug
+  std::string name;
+
  protected:
-  // draw the bounds rect
+  /**
+   * @brief draw_bounds
+   * @param target
+   */
   virtual void draw_bounds(sf::RenderTarget &target);
 };
 

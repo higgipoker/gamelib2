@@ -3,6 +3,9 @@
 #include <map>
 namespace gamelib2 {
 
+/**
+ * @brief The Direction enum
+ */
 enum class Direction {
   NORTH,
   NORTH_EAST,
@@ -28,36 +31,69 @@ static std::map<Direction, std::string> direction_to_string = {
 };
 
 class Vector3;
+
+/**
+ * @brief The Compass class
+ */
 class Compass {
  public:
-  // construct default, with direction, or from vector
+  /**
+   * @brief Compass
+   */
   Compass();
+
+  /**
+   * @brief Compass
+   * @param dir
+   */
   Compass(Direction dir);
+
+  /**
+   * @brief Compass
+   * @param vec
+   */
   Compass(const Vector3 &vec);
 
-  // get a vector equivalent
+  /**
+   * @brief toVector
+   * @return
+   */
   Vector3 toVector();
 
-  // set from vector
+  /**
+   * @brief fromVector
+   * @param v
+   */
   void fromVector(const Vector3 &v);
 
-  // a compass direction
+  /**
+   * @brief direction
+   */
   Direction direction = Direction::NONE;
 
-  // operator ==
+  /**
+   * @brief operator ==
+   * @param rhs
+   * @return
+   */
   inline bool operator==(const Compass &rhs) {
     return direction == rhs.direction;
   }
 
-  // operator !=
+  /**
+   * @brief operator !=
+   * @param rhs
+   * @return
+   */
   inline bool operator!=(const Compass &rhs) {
     return direction != rhs.direction;
   }
 
-  // output as string
-  inline std::string print() {
-   return direction_to_string[direction];
-  }
+  /**
+   * @brief print
+   * @return
+   */
+  inline std::string print() { return direction_to_string[direction]; }
 };
 
 }  // namespace gamelib2

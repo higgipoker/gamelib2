@@ -29,25 +29,37 @@ namespace gamelib2 {
 class Viewer;
 class Engine {
  public:
-  // do one frame
+  /**
+   * @brief frame
+   * @param dt
+   */
   void frame(float dt);
 
-  // add an entity to the engine
+  /**
+   * @brief addEntity
+   * @param in_entity
+   */
   void addEntity(Entity *in_entity);
 
-  // remove an entity from the engine
+  /**
+   * @brief remEntity
+   * @param in_entity
+   */
   void remEntity(Entity *in_entity);
 
-  // handle a message from the viewer (or anyone else actually)
-  void onMessage(const std::string &in_msg);
-
-  // we can pause the sim
+  /**
+   * @brief paused
+   */
   bool paused = false;
 
-  // outside access to fps
+  /**
+   * @brief fps
+   */
   float fps = 0;
 
-  // list of entities
+  /**
+   * @brief entities
+   */
   EntityList entities;
 
   // track current fram count
