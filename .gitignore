@@ -1,0 +1,8 @@
+*.swp
+*.vimrc
+*.txt.user
+Debug/
+bin/
+*.ini
+run
+cp_headers
