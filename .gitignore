@@ -7,3 +7,4 @@ bin/
 *.ini
 run
 cp_headers
+lib/
