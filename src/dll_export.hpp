@@ -1,4 +1,7 @@
-#ifndef DLL_EXPORT_HPP
-#define DLL_EXPORT_HPP
+#pragma once
 
-#endif // DLL_EXPORT_HPP
+#ifdef _WIN32
+#  define DLL_EXPORT __declspec( dllexport )
+#else
+#  define DLL_EXPORT
+#endif
