@@ -80,10 +80,52 @@ src/imgui/imgui-SFML.cpp
 # --------------------------------------------------
 # compiler specific
 # --------------------------------------------------
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+if(MSVC)
     # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(gamelib2 PRIVATE WIN_EXPORT)
 endif()
+
+set(HEADERS
+    src/debug/diagnostic.hpp
+    src/debug/joystick.hpp
+    src/statemachine/state_machine.hpp
+    src/statemachine/state.hpp
+    src/engine/engine.hpp
+    src/engine/framerate.hpp
+    src/math/vector.hpp
+    src/viewer/viewer.hpp
+    src/widgets/widget.hpp
+    src/game/game.hpp
+    src/game/entity.hpp
+    src/graphics/autotexture.hpp
+    src/graphics/primitives.hpp
+    src/widgets/spriteanimation.hpp
+    src/widgets/sprite.hpp
+    src/widgets/label.hpp
+    src/widgets/tiledscrollingbackground.hpp
+    src/math/vector.hpp
+    src/utils/file.hpp
+    src/utils/files.hpp
+    src/utils/tree.hpp
+    src/utils/timer.hpp
+    src/utils/grid.hpp
+    src/input/device.hpp
+    src/input/keyboard.hpp
+    src/input/xbox_gamepad.hpp
+    src/compass/compass.hpp
+    src/physics/collisions.hpp
+    src/camera/camera.hpp
+    src/types.hpp
+    src/imgui/imgui.hpp
+    src/imgui/imgui_draw.hpp
+    src/imgui/imgui_widgets.hpp
+    src/imgui/imgui_demo.hpp
+    src/imgui/imgui-SFML.hpp
+    )
+INSTALL ( DIRECTORY src/
+  DESTINATION ${CMAKE_BINARY_DIR}/../../include/gamelib2
+  FILES_MATCHING PATTERN "*.hpp"
+  )
 
 find_package(OpenGL)
 target_link_libraries (gamelib2 sfml-graphics-d)
