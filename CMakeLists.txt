@@ -73,8 +73,8 @@ src/imgui/imgui_widgets.cpp
 src/imgui/imgui_demo.cpp
 src/imgui/imgui-SFML.cpp
 )
-
+find_package(OpenGL)
 target_link_libraries (gamelib2 sfml-graphics-d)
 target_link_libraries (gamelib2 sfml-window-d)
 target_link_libraries (gamelib2 sfml-system-d)
-#target_link_libraries (gamelib2 Opengl32)
+target_link_libraries (gamelib2 ${OPENGL_gl_LIBRARY})
