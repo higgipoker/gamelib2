@@ -58,7 +58,7 @@ class Game {
 
  protected:
   // physics time delta
-  const float timestep = 0.001f;
+  const float timestep = 0.01f;
 
   // a frame rate manager
   FrameRateManager framerate_manager;

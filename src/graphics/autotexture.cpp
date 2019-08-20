@@ -30,6 +30,7 @@ void AutoTexture::Initialize(std::string a_filename) {
     texture = std::make_shared<sf::Texture>();
     texture->loadFromFile(filename);
     textures.insert(std::make_pair(filename, CountedTexture(texture, 1)));
+    std::cout << "load texture from " << filename << std::endl;
   }
 }
-} // namespace gamelib2
+}  // namespace gamelib2

@@ -156,6 +156,7 @@ void Sprite::swapColors(
 
   // load the copy into the unique texture
   unique_texture.loadFromImage(img);
+  std::cout << "load from image: " << this->name << std::endl;
 
   // use the unique texture for the sprite
   sprite.setTexture(unique_texture);
