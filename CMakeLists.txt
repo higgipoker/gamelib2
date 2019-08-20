@@ -73,6 +73,15 @@ src/imgui/imgui_widgets.cpp
 src/imgui/imgui_demo.cpp
 src/imgui/imgui-SFML.cpp
 )
+
+# --------------------------------------------------
+# compiler specific
+# --------------------------------------------------
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    # Set the DLLEXPORT variable to export symbols
+    target_compile_definitions(gamelib2 PRIVATE WIN_EXPORT)
+endif()
+
 find_package(OpenGL)
 target_link_libraries (gamelib2 sfml-graphics-d)
 target_link_libraries (gamelib2 sfml-window-d)

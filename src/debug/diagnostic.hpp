@@ -19,6 +19,7 @@
  ****************************************************************************/
 #pragma once
 
+#include "../dll_export.hpp"
 #include "../game/entity.hpp"
 #include "../game/game.hpp"
 #include "joystick.hpp"
@@ -91,7 +92,7 @@ class Diagnostic {
   Game &game;
 
   // status
-  static bool on;
+  EXPORTED static bool on;
 
   // inited flag
   static bool inited;
