@@ -21,6 +21,8 @@ project (gamelib2)
 # library output folder
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/..//lib)
 
+# ------------------------------------------------------------------------------
+# export for windows
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 # ------------------------------------------------------------------------------
