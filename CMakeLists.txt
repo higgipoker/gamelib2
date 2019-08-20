@@ -78,20 +78,30 @@ src/imgui/imgui_demo.cpp
 src/imgui/imgui-SFML.cpp
 )
 
-# --------------------------------------------------
-# compiler specific
-# --------------------------------------------------
+# ------------------------------------------------------------------------------
+# dll export for windows
 if(MSVC)
-    # Set the DLLEXPORT variable to export symbols
     target_compile_definitions(gamelib2 PRIVATE WIN_EXPORT)
 endif()
+
+# ------------------------------------------------------------------------------
+# install headers
 INSTALL ( DIRECTORY src/
   DESTINATION ${CMAKE_BINARY_DIR}/../../include/gamelib2
-  FILES_MATCHING PATTERN "*.hpp"
+  FILES_MATCHING PATTERN "*.h*"
   )
 
+# ------------------------------------------------------------------------------
+# link SFML DEBUG
+target_link_libraries (gamelib2 debug sfml-graphics-d)
+target_link_libraries (gamelib2 debug sfml-window-d)
+target_link_libraries (gamelib2 debug sfml-system-d)
+
+# ------------------------------------------------------------------------------
+# link SFML RELEASE
+target_link_libraries (gamelib2 optimized sfml-graphics)
+target_link_libraries (gamelib2 optimized sfml-window)
+target_link_libraries (gamelib2 optimized sfml-system)
+
 find_package(OpenGL)
-target_link_libraries (gamelib2 sfml-graphics-d)
-target_link_libraries (gamelib2 sfml-window-d)
-target_link_libraries (gamelib2 sfml-system-d)
 target_link_libraries (gamelib2 ${OPENGL_gl_LIBRARY})
